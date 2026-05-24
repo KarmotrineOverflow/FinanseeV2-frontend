@@ -1,22 +1,55 @@
+import { Mail, RectangleEllipsis } from 'lucide-react'
+import InputField from "../../components/forms/InputField";
+import InputSubmit from "../../components/forms/InputSubmit";
+
 export default function SignIn() {
 
     return (
-        <div className="flex flex-col justify-between relative">
+        <div className="w-screen h-screen flex flex-col justify-between relative">
 
             {/* Spans for rendering the colored corner designs */}
-            <span className="absolute top-0 right-0 overflow-hidden">
-                
+            {/* Top corner flag */}
+            {/* Main box */}
+            <span className="absolute z-50 w-96 h-96 rotate-45 -top-56 -right-56 overflow-hidden">                
+                <div className="w-full h-full bg-[#FF9F1C] overflow-hidden" />                                
             </span>
-            <span className="absolute top-0 right-0 overflow-hidden">
-
+            {/* Box shade */}
+            <span className="absolute z-40 w-96 h-96 rotate-45 -top-52 -right-52 overflow-hidden">                
+                <div className="w-full h-full bg-[#FFBF69]  overflow-hidden" />                                
             </span>
 
-            <header>
-                <img src="/finansee-logo-light.png" />
+            {/* Bottom corner flag */}
+            {/* Main box */}
+            <span className="absolute z-50 w-96 rotate-45 h-96 -bottom-56 -left-56 overflow-hidden">                
+                <div className="w-full h-full bg-[#2EC4B6]  overflow-hidden" />                                
+            </span>
+            {/* Box shade */}
+            <span className="absolute z-40 w-96 h-96 rotate-45 -bottom-52 -left-52 overflow-hidden">                
+                <div className="w-full h-full bg-[#CBF3F0] overflow-hidden" />                                
+            </span>
+
+            <header className="py-4 mx-36 bg-amber-200">
+                <img src="/resources/finansee-logo-light.png" className="w-4 h-4"/>
+                <p>Test</p>
             </header>
 
-            <main>
-                
+            <main className="mx-36 flex align-middle gap-4">
+                <div className="flex flex-col justify-center">
+                    
+                    <h1 className='my-32 text-[28px]'>Personal finance made easy and accessible any time, anywhere.</h1>
+                    <p>Easily track your financial standing, make better financial decisions, and be alerted with financial obligations. </p>
+                    <p>Have the riches you have always dreamed of!</p>
+                </div>
+                <div className="px-8 py-12 mx-4 bg-white shadow-md rounded-md border border-[#FFBF69]">                    
+                    <p className="text-start text-[32px] text-black font-medium">Login</p>
+                    <form className="mt-8 flex flex-col justify-start gap-2">                        
+                        <InputField label="Email Address" type="email" icon={<Mail size={18} strokeWidth={2} className='h-auto'/>}/>
+                        <InputField label="Password" type="password" icon={<RectangleEllipsis size={18} className='h-auto' />}/>
+                        <InputSubmit label={"Login"} />
+                    </form>
+
+                    <p className="text-[16px] pt-8">No account yet? <button className="underline text-[#FFBF69] cursor-pointer">Sign up.</button></p>
+                </div>
             </main>
 
             <footer>
