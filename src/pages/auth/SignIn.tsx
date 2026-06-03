@@ -4,39 +4,44 @@ import InputSubmit from "../../components/forms/InputSubmit";
 
 export default function SignIn() {
 
+    // NEXT STEPS:
+    // - Custom appropriate error messages for input field type
+    // - When invalid data is received, show red error message (check proto)
+    // - Get sign in vector
+    // - Get platform logo
+
     return (
-        <div className="w-screen h-screen flex flex-col justify-between relative">
+        <div className="w-screen h-full min-h-screen flex flex-col justify-between relative">
 
             {/* Spans for rendering the colored corner designs */}
             {/* Top corner flag */}
             {/* Main box */}
-            <span className="absolute z-50 w-96 h-96 rotate-45 -top-56 -right-56 overflow-hidden">                
+            <span className="absolute z-20 w-96 h-96 rotate-45 -top-56 -right-56 overflow-hidden">                
                 <div className="w-full h-full bg-[#FF9F1C] overflow-hidden" />                                
             </span>
             {/* Box shade */}
-            <span className="absolute z-40 w-96 h-96 rotate-45 -top-52 -right-52 overflow-hidden">                
+            <span className="absolute z-10 w-96 h-96 rotate-45 -top-52 -right-52 overflow-hidden">                
                 <div className="w-full h-full bg-[#FFBF69]  overflow-hidden" />                                
             </span>
 
             {/* Bottom corner flag */}
             {/* Main box */}
-            <span className="absolute z-50 w-96 rotate-45 h-96 -bottom-56 -left-56 overflow-hidden">                
+            <span className="absolute z-20 w-96 rotate-45 h-96 -bottom-56 -left-56 overflow-hidden">                
                 <div className="w-full h-full bg-[#2EC4B6]  overflow-hidden" />                                
             </span>
             {/* Box shade */}
-            <span className="absolute z-40 w-96 h-96 rotate-45 -bottom-52 -left-52 overflow-hidden">                
+            <span className="absolute z-10 w-96 h-96 rotate-45 -bottom-52 -left-52 overflow-hidden">                
                 <div className="w-full h-full bg-[#CBF3F0] overflow-hidden" />                                
             </span>
 
-            <header className="py-4 mx-36 bg-amber-200">
-                <img src="/resources/finansee-logo-light.png" className="w-4 h-4"/>
-                <p>Test</p>
+            <header className="py-4 mx-36">
+                <img src="/resources/finansee-logo-light.png" className="w-4 h-4"/>                
             </header>
 
-            <main className="mx-36 flex align-middle gap-4">
+            <main className="mx-36 z-50 flex sm:flex-col justify-self-end lg:flex-row align-middle gap-4">
                 <div className="flex flex-col justify-center">
                     
-                    <h1 className='my-32 text-[28px]'>Personal finance made easy and accessible any time, anywhere.</h1>
+                    <h1 className='my-8 text-black font-bold text-[38px]'>Personal finance made easy and accessible any time, anywhere.</h1>
                     <p>Easily track your financial standing, make better financial decisions, and be alerted with financial obligations. </p>
                     <p>Have the riches you have always dreamed of!</p>
                 </div>

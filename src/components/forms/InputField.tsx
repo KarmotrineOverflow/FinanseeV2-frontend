@@ -12,7 +12,7 @@ export default function InputField({ label, icon, type, ...props } : InputFieldP
 
     return (
         <div className="flex flex-col">
-            <label className="text-start text-[16px]">{label}</label>
+            <label className="mb-1 text-start font-light text-[16px]">{label}</label>
             <span className="bg-(--bg) px-2 rounded-sm shadow-md flex gap-2 justify-items-start align-middle">
                 {icon && (
                     icon
