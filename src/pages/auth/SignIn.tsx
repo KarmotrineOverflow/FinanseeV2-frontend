@@ -9,6 +9,7 @@ export default function SignIn() {
     // - When invalid data is received, show red error message (check proto)
     // - Get sign in vector
     // - Get platform logo
+    // - Separate the Login form card to its own component with goldenBorder property (reuse it for the Sign in and Dashboard elements)
 
     return (
         <div className="w-screen h-full min-h-screen flex flex-col justify-between relative">
