@@ -1,14 +1,15 @@
-import type { HTMLAttributes } from "react"
+import { useState, useMemo } from 'react'
 import type React from "react"
 
 type InputFieldProps = {
 
     label: string,
-    icon?: React.ReactNode    
-    type: string
-} & HTMLAttributes<HTMLInputElement>
+    icon?: React.ReactNode,
+    errorMessage?: string,
+    isValid: boolean
+} & React.InputHTMLAttributes<HTMLInputElement>
 
-export default function InputField({ label, icon, type, ...props } : InputFieldProps) {
+export default function InputField({ label, icon, errorMessage, isValid, ...props } : InputFieldProps) {
 
     return (
         <div className="flex flex-col">
@@ -17,8 +18,15 @@ export default function InputField({ label, icon, type, ...props } : InputFieldP
                 {icon && (
                     icon
                 )}
-                <input type={type} className="px-2 py-1 lg: min-w-96 text-[16px] bg-(--bg) rounded-md border-0 focus:outline-0"/>
+                <input                     
+                    {...props} 
+                    className="px-2 py-1 lg: w-full text-[16px] bg-(--bg) rounded-md border-0 focus:outline-0"
+                />                
             </span>
+
+            {!isValid && (
+                <p className='self-start text-left text-red-600 text-[12px] font-light'>{errorMessage}</p>
+            )}
         </div>
     )
 }
