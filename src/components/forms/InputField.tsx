@@ -1,4 +1,3 @@
-import { useState, useMemo } from 'react'
 import type React from "react"
 
 type InputFieldProps = {
@@ -13,14 +12,14 @@ export default function InputField({ label, icon, errorMessage, isValid, ...prop
 
     return (
         <div className="flex flex-col">
-            <label className="mb-1 text-start font-light text-[16px]">{label}</label>
+            <label className="mb-1 text-start font-regular text-gray-700 text-[16px]">{label}</label>
             <span className="bg-(--bg) px-2 rounded-sm shadow-md flex gap-2 justify-items-start align-middle">
                 {icon && (
                     icon
                 )}
                 <input                     
                     {...props} 
-                    className="px-2 py-1 lg: w-full text-[16px] bg-(--bg) rounded-md border-0 focus:outline-0"
+                    className="border-l border-gray-300 px-2 py-1 lg: w-full text-[16px] bg-(--bg) border-0 focus:outline-0"
                 />                
             </span>
 

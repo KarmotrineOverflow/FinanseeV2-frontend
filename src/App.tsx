@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import SignIn from './pages/auth/SignIn'
 import { userContext } from './contexts/UserContext'
 import './App.css'
+import SignUp from './pages/auth/SignUp'
 
 const routes = [
   {
@@ -13,6 +14,10 @@ const routes = [
     path: "/sign-in",
     element: <SignIn />
   },
+  {
+    path: "/sign-up",
+    element: <SignUp />
+  }
 ]
 
 function LandingPicker() {

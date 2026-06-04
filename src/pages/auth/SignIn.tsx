@@ -3,25 +3,13 @@ import { Mail, RectangleEllipsis } from 'lucide-react'
 import InputField from "../../components/forms/InputField";
 import InputSubmit from "../../components/forms/InputSubmit";
 import Card from '../../components/composites/Card';
+import { Link } from 'react-router-dom';
+
+import { validateField } from '../../utils/form-utils';
 
 type SignInFormData = {
     email: string,
     password: string
-}
-
-function validateField(type: string, value: string) {
-
-    switch (type) {
-
-        case "email":
-            if (value.match(/^[a-z0-9]+@[a-z0-9]+\.[a-z]+$/i)) return true
-            break
-        case "password":
-            if (value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/)) return true
-            break
-        default:
-            return false
-    }
 }
 
 export default function SignIn() {
@@ -96,7 +84,7 @@ export default function SignIn() {
                 <img src="/finansee_logo.png" className="w-36  h-16 "/>                
             </header>
 
-            <main className="mx-36 z-50 flex flex-col lg:flex-row justify-self-end align-middle gap-4">
+            <main className="mx-36 z-50 flex flex-col-reverse my-12 lg:flex-row lg:my-0 justify-self-end align-middle gap-4">
                 <div className="lg:w-[50vw] px-4 flex flex-col justify-center">
                     <img src="/resources/pf_vector.png" className='p-0 m-0 w-96 h-56 self-center' />
                     <h1 className='p-0 mb-8 text-black font-bold text-[28px]'>Personal finance made easy and accessible any time, anywhere.</h1>
@@ -105,28 +93,33 @@ export default function SignIn() {
                 </div>
                 <div className="mx-4 lg:w-[50vw]">     
                     <Card hasBorders>
-                        <p className="text-start text-[32px] text-black font-medium">Login</p>
-                        <form onSubmit={onSubmit} className="mt-8 flex flex-col justify-start gap-2">                        
-                            <InputField 
-                                label="Email Address" 
-                                type="email" 
-                                errorMessage={emailErrorMessage.current} 
-                                isValid={isEmailValid}
-                                onChange={(e) => { onChange(e); setIsEmailValid(true) }}
-                                icon={<Mail size={18} strokeWidth={2} className='h-auto'/>}
-                            />
-                            <InputField 
-                                label="Password" 
-                                type="password" 
-                                errorMessage={passwordErrorMessage.current} 
-                                isValid={isPasswordValid}
-                                onChange={(e) => { onChange(e); setIsPasswordValid(true) }}
-                                icon={<RectangleEllipsis size={18} className='h-auto' />}
-                            />
-                            <InputSubmit label={"Login"} />
-                        </form>
+                        <div className='px-8 py-12'>
+                            <p className="text-start text-[32px] text-black font-medium">Login</p>
+                            <form onSubmit={onSubmit} className="mt-8 flex flex-col justify-start gap-2">                        
+                                <InputField 
+                                    label="Email Address" 
+                                    type="email" 
+                                    errorMessage={emailErrorMessage.current} 
+                                    isValid={isEmailValid}
+                                    onChange={(e) => { onChange(e); setIsEmailValid(true) }}
+                                    icon={<Mail size={18} strokeWidth={2} className='h-auto'/>}
+                                />
+                                <InputField 
+                                    label="Password" 
+                                    type="password" 
+                                    errorMessage={passwordErrorMessage.current} 
+                                    isValid={isPasswordValid}
+                                    onChange={(e) => { onChange(e); setIsPasswordValid(true) }}
+                                    icon={<RectangleEllipsis size={18} className='h-auto' />}
+                                />
 
-                        <p className="text-[16px] pt-8">No account yet? <button className="underline text-[#FFBF69] cursor-pointer">Sign up.</button></p>
+                                <span>
+                                    <InputSubmit label={"Login"} />
+                                </span>                                
+                            </form>
+
+                            <p className="text-[16px] pt-8">No account yet? <Link to="/sign-up" className="underline text-[#FFBF69] cursor-pointer">Sign up.</Link></p>
+                        </div>
                     </Card>                                   
                 </div>
             </main>
