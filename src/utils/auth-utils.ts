@@ -1,10 +1,16 @@
 import type { SignInFormData, SignUpFormData } from "../types/FormDataTypes";
+import type { User } from "../types/UserTypes";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 type UserCreationResponse = {
     statusCode: number,
     message: string
+}
+
+type UserAuthenticationResponse = {
+    statusCode: number,
+    userData?: User
 }
 
 export async function createUser(userData: SignUpFormData) {
@@ -33,5 +39,17 @@ export async function createUser(userData: SignUpFormData) {
 
 export async function authenticate(credentials: SignInFormData) {
 
-    
+    console.log("authenticating..")
+
+    // Using setTimeout for now to simulate async process
+    // Replace isActionSuccess value to simulate success/error results
+    const isActionSuccess = false
+    const result: UserAuthenticationResponse = (isActionSuccess)
+        ? { statusCode: 302}
+        : { statusCode: 400}
+
+    return new Promise((resolve: (value: UserAuthenticationResponse) => void) => {
+
+        setTimeout(() => { resolve(result) }, 5000)
+    })
 }
