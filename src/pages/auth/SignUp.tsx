@@ -4,15 +4,15 @@ import { Asterisk, Calendar, Mail, Phone, User } from "lucide-react";
 import Card from "../../components/composites/Card";
 import InputField from "../../components/forms/InputField";
 import InputSubmit from "../../components/forms/InputSubmit";
+import Modal from '../../components/composites/Modal';
 
 import { validateField } from '../../utils/form-utils';
+import { createUser } from '../../utils/auth-utils';
 
 import type { SignUpFormData } from '../../types/FormDataTypes';
 
 // NEXT STEPS:
 // - Simulate an async process with setTimeout then design the loading visuals for SignIn/SignUp pages
-// - Create FE auth utils
-// - Create API endpoints for auth
 
 export default function SignUp() {
 
@@ -26,6 +26,7 @@ export default function SignUp() {
         confirmPassword: ""
     } as SignUpFormData)
 
+    // Form data refs
     const firstNameErrMsg = useRef("")
     const lastNameErrMsg = useRef("")
     const dateOfBirthErrMsg = useRef("")
@@ -33,6 +34,12 @@ export default function SignUp() {
     const emailErrMsg = useRef("")
     const passwordErrMsg = useRef("")
     const confirmPasswordErrMsg = useRef("")
+    
+    // Modal content refs
+    const modalHeader = useRef<string | null>(null)
+    const modalMessage = useRef("")
+    const modalIcon = useRef<React.ReactNode | null>(null)
+    const modalAction = useRef<() => void>(() => { setIsModalShown(false) })
 
     const [isFirstNameValid, setIsFirstNameValid] = useState(true)
     const [isLastNameValid, setIsLastNameValid] = useState(true)
@@ -41,6 +48,8 @@ export default function SignUp() {
     const [isEmailValid, setIsEmailValid] = useState(true)
     const [isPasswordValid, setIsPasswordValid] = useState(true)
     const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true)
+    const [isProcessing, setIsProcessing] = useState(false)
+    const [isModalShown, setIsModalShown] = useState(false)
 
     const onChange = (e?: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -74,7 +83,7 @@ export default function SignUp() {
         }
     }
 
-    const onSubmit = (e: React.SubmitEvent) => {
+    const onSubmit = async (e: React.SubmitEvent) => {
     
         e.preventDefault()
 
@@ -86,8 +95,6 @@ export default function SignUp() {
         const emailValid = validateField("email", formData.current.email)
         const passwordValid = validateField("password", formData.current.password)
         const confirmPasswordValid = validateField("confirm-password", formData.current.confirmPassword)
-
-        console.log(firstNameValid)
 
         if (!firstNameValid) {
             firstNameErrMsg.current = "This field cannot be empty."
@@ -114,19 +121,46 @@ export default function SignUp() {
             setIsPasswordValid(false)            
         }
 
+        if (!confirmPasswordValid) {
+            confirmPasswordErrMsg.current = "Your password must be at least 8 characters long and must consist of at least 1 uppercase and lowercase letters, number, and special character."
+            setIsConfirmPasswordValid(false)            
+        }
+
         // Now for implementing additional conditions here
         if (formData.current.phoneNumber.length < 11) {
             phoneNumberErrMsg.current = "Your phone number must consist of 11 digits."
             setIsPhoneNumberValid(false)
         }
 
-        if (formData.current.password != formData.current.confirmPassword) {
+        if (formData.current.password != formData.current.confirmPassword || formData.current.confirmPassword === "") {
             confirmPasswordErrMsg.current = "Your password must match the one above."
             setIsConfirmPasswordValid(false)
         }
 
         // API call here to authenticate user and retrieve user data once initial checks pass
-        
+        if (
+            firstNameValid && lastNameValid &&
+            dateOfBirthValid && phoneNumberValid &&
+            emailValid && passwordValid &&
+            confirmPasswordValid
+        ) {
+            console.log("All checks passed")
+            
+            const result = await createUser(formData.current)
+
+            if (result.statusCode === 201) {
+
+                modalMessage.current = "Your account has been created successfully! Please enter your credentials in the login page."
+                setIsProcessing(false)
+            } else if (result.statusCode === 500) {
+
+                modalMessage.current = "Something went wrong. Please try again."
+                setIsProcessing(false)
+            }
+
+            setIsProcessing(true)
+            setIsModalShown(true)
+        }
     }
 
     return (
@@ -157,7 +191,7 @@ export default function SignUp() {
                 <img src="/finansee_logo.png" className="w-36  h-16 "/>                
             </header>
 
-            <main className="mx-36 z-50">
+            <main className="mx-36 py-8 z-50">
                 <Card hasBorders>                  
                     <div className="py-12 px-8 flex flex-col">
                         <h1 className="mb-6 text-start text-[32px] font-bold text-black">Create New Account</h1>

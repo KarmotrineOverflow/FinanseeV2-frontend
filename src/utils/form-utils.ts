@@ -20,6 +20,9 @@ export function validateField(type: string, value: string) {
         case "password":
             if (value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/)) return true
             break
+        case "confirm-password":
+            if (value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/)) return true
+            break
         default:
             return false
     }
