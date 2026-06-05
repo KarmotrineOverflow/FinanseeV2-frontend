@@ -7,21 +7,12 @@ import InputSubmit from "../../components/forms/InputSubmit";
 
 import { validateField } from '../../utils/form-utils';
 
+import type { SignUpFormData } from '../../types/FormDataTypes';
+
 // NEXT STEPS:
 // - Simulate an async process with setTimeout then design the loading visuals for SignIn/SignUp pages
 // - Create FE auth utils
 // - Create API endpoints for auth
-
-type SignUpFormData = {
-
-    firstName: string,
-    lastName: string,
-    dateOfBirth: string,
-    phoneNumber: string,
-    email: string,
-    password: string,
-    confirmPassword: string
-}
 
 export default function SignUp() {
 
@@ -65,6 +56,7 @@ export default function SignUp() {
                 formData.current.lastName = value
                 break
             case "date-of-birth":
+                console.log(value)
                 formData.current.dateOfBirth = value
                 break
             case "phone-number":
@@ -134,6 +126,7 @@ export default function SignUp() {
         }
 
         // API call here to authenticate user and retrieve user data once initial checks pass
+        
     }
 
     return (

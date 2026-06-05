@@ -5,6 +5,15 @@ export function validateField(type: string, value: string) {
         case "first-name":
             if (value != "") return true
             break
+        case "last-name":
+            if (value != "") return true
+            break
+        case "date-of-birth":
+            if (value.match(/^\d{4}-\d{2}-\d{2}$/)) return true
+            break
+        case "phone-number":
+            if (value.match(/^\d{11}$/)) return true
+            break
         case "email":
             if (value.match(/^[a-z0-9]+@[a-z0-9]+\.[a-z]+$/i)) return true
             break

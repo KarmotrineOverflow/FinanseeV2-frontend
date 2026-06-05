@@ -1,16 +1,13 @@
 import { useRef, useState } from 'react'
+import { Link } from 'react-router-dom';
 import { Mail, RectangleEllipsis } from 'lucide-react'
 import InputField from "../../components/forms/InputField";
 import InputSubmit from "../../components/forms/InputSubmit";
 import Card from '../../components/composites/Card';
-import { Link } from 'react-router-dom';
 
 import { validateField } from '../../utils/form-utils';
 
-type SignInFormData = {
-    email: string,
-    password: string
-}
+import type { SignInFormData } from '../../types/FormDataTypes';
 
 export default function SignIn() {
 
