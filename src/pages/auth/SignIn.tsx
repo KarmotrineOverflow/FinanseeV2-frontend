@@ -9,8 +9,11 @@ import { validateField } from '../../utils/form-utils';
 import { authenticate } from '../../utils/auth-utils';
 
 import type { SignInFormData } from '../../types/FormDataTypes';
+import { userContext } from '../../contexts/UserContext';
 
 export default function SignIn() {
+
+    const { setUser } = useContext(userContext)
 
     const formData = useRef({ email: "", password: "" } as SignInFormData)
     const emailErrorMessage = useRef("")
@@ -65,7 +68,9 @@ export default function SignIn() {
 
                 console.log("Result success")
                 // Set user details in the context and store in session storage
+                setUser(result.userData!)
                 // Navigate to /dashboard
+                navigate("/dashboard")
 
                 // Next step - Create RequireAuth component to ensure auth is checked in selected pages before rendering
             } else if (result.statusCode === 400) {
