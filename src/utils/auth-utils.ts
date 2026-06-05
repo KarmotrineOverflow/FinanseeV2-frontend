@@ -22,7 +22,7 @@ export async function createUser(userData: SignUpFormData) {
     // Replace isActionSuccess value to simulate success/error results
     const isActionSuccess = true
     const result: UserCreationResponse = (isActionSuccess)
-        ? { statusCode: 200, message: "User created successfully." }
+        ? { statusCode: 201, message: "User created successfully." }
         : { statusCode: 500, message: "Something went wrong. Please try again." }
 
     return new Promise((resolve: (value: UserCreationResponse) => void) => {

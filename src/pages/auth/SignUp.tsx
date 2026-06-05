@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react'
-import { Link } from "react-router-dom";
-import { Asterisk, Calendar, Mail, Phone, User } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Asterisk, Calendar, CheckCircle2, Mail, Phone, User } from "lucide-react";
 import Card from "../../components/composites/Card";
 import InputField from "../../components/forms/InputField";
 import InputSubmit from "../../components/forms/InputSubmit";
 import Modal from '../../components/composites/Modal';
+import Loading from '../../components/reusables/Loading';
 
 import { validateField } from '../../utils/form-utils';
 import { createUser } from '../../utils/auth-utils';
@@ -39,7 +40,7 @@ export default function SignUp() {
     const modalHeader = useRef<string | null>(null)
     const modalMessage = useRef("")
     const modalIcon = useRef<React.ReactNode | null>(null)
-    const modalAction = useRef<() => void>(() => { setIsModalShown(false) })
+    const modalAction = useRef(() => { setIsModalShown(false) })
 
     const [isFirstNameValid, setIsFirstNameValid] = useState(true)
     const [isLastNameValid, setIsLastNameValid] = useState(true)
@@ -50,6 +51,8 @@ export default function SignUp() {
     const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true)
     const [isProcessing, setIsProcessing] = useState(false)
     const [isModalShown, setIsModalShown] = useState(false)
+
+    const navigate = useNavigate()
 
     const onChange = (e?: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -146,25 +149,27 @@ export default function SignUp() {
         ) {
             console.log("All checks passed")
             
+            setIsProcessing(true)
+            setIsModalShown(true)
+
             const result = await createUser(formData.current)
 
             if (result.statusCode === 201) {
 
+                modalIcon.current = <CheckCircle2 size={78} color='#2EC4B6' className='m-auto mb-2' />
                 modalMessage.current = "Your account has been created successfully! Please enter your credentials in the login page."
                 setIsProcessing(false)
             } else if (result.statusCode === 500) {
 
+                console.log("Result has arrived")
                 modalMessage.current = "Something went wrong. Please try again."
                 setIsProcessing(false)
-            }
-
-            setIsProcessing(true)
-            setIsModalShown(true)
+            }            
         }
     }
 
     return (
-        <div className="w-screen h-full min-h-screen flex flex-col justify-between relative">
+        <div className="w-full h-full flex flex-col justify-between relative">
 
             {/* Spans for rendering the colored corner designs */}
             {/* Top corner flag */}
@@ -286,6 +291,28 @@ export default function SignUp() {
                     </div>                                  
                 </Card>
             </main>
+
+            {isModalShown && (
+                <Modal onClose={() => setIsModalShown(false)}>
+                    {(isProcessing)
+                        ?   <div className='py-8 px-18'>
+                                <Loading />
+                            </div>
+                        :   <div className='px-8 py-4 flex flex-col'>
+                                {modalIcon.current}
+                                <h1 className='text-center'>{modalHeader.current}</h1>
+                                <p className='text-center text-[16px]'>{modalMessage.current}</p>
+
+                                <button 
+                                    onClick={() => navigate("/sign-in")}
+                                    className='w-fit m-auto mt-8 px-6 py-1 text-[14px] text-white bg-[#FF9F1C] rounded-md cursor-pointer'
+                                >
+                                    Back to Login
+                                </button>
+                            </div>  
+                    }
+                </Modal>
+            )}
 
             <footer>
 

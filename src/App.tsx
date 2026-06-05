@@ -40,10 +40,10 @@ function LandingPicker() {
 export default function App() {
 
   return (
-    <>      
+    <div className='w-full h-full'>      
       <Routes>
         { routes.map((r) => <Route key={r.path} path={r.path} element={r.element} />) }
       </Routes>
-    </>
+    </div>
   )
 }
