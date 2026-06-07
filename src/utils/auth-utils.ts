@@ -39,7 +39,15 @@ export async function createUser(userData: SignUpFormData) {
 
 export async function authenticate(credentials: SignInFormData) {
 
-    console.log("authenticating..")
+    // TODO: Update authentication process to use JWT
+    // Add this code block back in when ready for backend testing
+    /* const res = await fetch(`${BACKEND_URL}/authenticate`, {
+        headers: new Headers({ "Content-Type": "application/json" }),
+        method: "POST",
+        body: JSON.stringify(credentials)
+    })
+
+    return await res.json() as UserAuthenticationResponse */ 
 
     // Using setTimeout for now to simulate async process
     // Replace isActionSuccess value to simulate success/error results

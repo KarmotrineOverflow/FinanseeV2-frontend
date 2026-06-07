@@ -80,8 +80,7 @@ export default function SignUp() {
                 break
         }
     }
-
-    // TODO: Refactor code to rely on ref to check if result is success or error. This is to achieve cleaner code and allow modal content to be dynamic
+    
     const modalContent = {
         success: {
             icon: <CheckCircle2 size={78} color='#2EC4B6' className='m-auto mb-2' />,

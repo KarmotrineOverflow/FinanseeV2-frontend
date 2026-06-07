@@ -65,5 +65,8 @@ export type User = {
     UserId: string,
     FirstName: string,
     LastName: string,
+    DateOfBirth: string,
+    PhoneNumber: string,
+    EmailAddress: string,
     MonthlyReports: MonthlyReport[]
 }
