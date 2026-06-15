@@ -1,15 +1,19 @@
-import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { useRef, useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, RectangleEllipsis } from 'lucide-react'
 import InputField from "../../components/forms/InputField";
 import InputSubmit from "../../components/forms/InputSubmit";
 import Card from '../../components/composites/Card';
 
 import { validateField } from '../../utils/form-utils';
+import { authenticate } from '../../utils/auth-utils';
 
 import type { SignInFormData } from '../../types/FormDataTypes';
+import { userContext } from '../../contexts/UserContext';
 
 export default function SignIn() {
+
+    const { setUser } = useContext(userContext)
 
     const formData = useRef({ email: "", password: "" } as SignInFormData)
     const emailErrorMessage = useRef("")
@@ -17,6 +21,7 @@ export default function SignIn() {
 
     const [isEmailValid, setIsEmailValid] = useState(true)
     const [isPasswordValid, setIsPasswordValid] = useState(true)
+    const [isProcessing, setIsProcessing] = useState(false)
 
     const onChange = (e?: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -33,7 +38,9 @@ export default function SignIn() {
         }
     }
 
-    const onSubmit = (e: React.SubmitEvent) => {
+    const navigate = useNavigate()
+
+    const onSubmit = async (e: React.SubmitEvent) => {
 
         e.preventDefault()
 
@@ -51,6 +58,26 @@ export default function SignIn() {
         }
 
         // API call here to authenticate user and retrieve user data once initial checks pass
+        if (emailValid && passwordValid) {
+
+            setIsProcessing(true)
+
+            const result = await authenticate(formData.current)
+
+            if (result.statusCode === 302) {
+
+                console.log("Result success")
+                // Set user details in the context and store in session storage
+                setUser(result.userData!)
+                // Navigate to /dashboard
+                navigate("/dashboard")                
+            } else if (result.statusCode === 400) {
+
+                emailErrorMessage.current = "Account was not found or a wrong password was provided."
+                setIsEmailValid(false)    
+                setIsProcessing(false)
+            }
+        }
     }
 
     return (
@@ -111,7 +138,7 @@ export default function SignIn() {
                                 />
 
                                 <span>
-                                    <InputSubmit label={"Login"} />
+                                    <InputSubmit label={"Login"} disabled={isProcessing} />
                                 </span>                                
                             </form>
 

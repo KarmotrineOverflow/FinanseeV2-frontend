@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
-import { Asterisk, Calendar, CheckCircle2, Mail, Phone, User } from "lucide-react";
+import { Asterisk, Calendar, CheckCircle2, Mail, Phone, User, XCircle } from "lucide-react";
 import Card from "../../components/composites/Card";
 import InputField from "../../components/forms/InputField";
 import InputSubmit from "../../components/forms/InputSubmit";
@@ -11,9 +11,6 @@ import { validateField } from '../../utils/form-utils';
 import { createUser } from '../../utils/auth-utils';
 
 import type { SignUpFormData } from '../../types/FormDataTypes';
-
-// NEXT STEPS:
-// - Simulate an async process with setTimeout then design the loading visuals for SignIn/SignUp pages
 
 export default function SignUp() {
 
@@ -37,10 +34,8 @@ export default function SignUp() {
     const confirmPasswordErrMsg = useRef("")
     
     // Modal content refs
-    const modalHeader = useRef<string | null>(null)
+    const modalResult = useRef("")
     const modalMessage = useRef("")
-    const modalIcon = useRef<React.ReactNode | null>(null)
-    const modalAction = useRef(() => { setIsModalShown(false) })
 
     const [isFirstNameValid, setIsFirstNameValid] = useState(true)
     const [isLastNameValid, setIsLastNameValid] = useState(true)
@@ -85,6 +80,17 @@ export default function SignUp() {
                 break
         }
     }
+    
+    const modalContent = {
+        success: {
+            icon: <CheckCircle2 size={78} color='#2EC4B6' className='m-auto mb-2' />,
+            action: () => navigate('/sign-in')
+        },
+        error: {
+            icon: <XCircle size={78} color='#A30000' className='m-auto mb-2' />,
+            action: () => setIsModalShown(false)
+        }
+    }
 
     const onSubmit = async (e: React.SubmitEvent) => {
     
@@ -97,7 +103,7 @@ export default function SignUp() {
         const phoneNumberValid = validateField("phone-number", formData.current.phoneNumber)
         const emailValid = validateField("email", formData.current.email)
         const passwordValid = validateField("password", formData.current.password)
-        const confirmPasswordValid = validateField("confirm-password", formData.current.confirmPassword)
+        let confirmPasswordValid = validateField("confirm-password", formData.current.confirmPassword)
 
         if (!firstNameValid) {
             firstNameErrMsg.current = "This field cannot be empty."
@@ -137,6 +143,7 @@ export default function SignUp() {
 
         if (formData.current.password != formData.current.confirmPassword || formData.current.confirmPassword === "") {
             confirmPasswordErrMsg.current = "Your password must match the one above."
+            confirmPasswordValid = false
             setIsConfirmPasswordValid(false)
         }
 
@@ -152,17 +159,20 @@ export default function SignUp() {
             setIsProcessing(true)
             setIsModalShown(true)
 
-            const result = await createUser(formData.current)
+            const result = await createUser(formData.current)   
+            
+            console.log("result receieved")
+            console.log(result)
 
-            if (result.statusCode === 201) {
-
-                modalIcon.current = <CheckCircle2 size={78} color='#2EC4B6' className='m-auto mb-2' />
-                modalMessage.current = "Your account has been created successfully! Please enter your credentials in the login page."
+            if (result.status === 201) {
+                
+                modalResult.current = "success"
+                modalMessage.current = result.statusText
                 setIsProcessing(false)
-            } else if (result.statusCode === 500) {
+            } else if (result.status != 201) {
 
-                console.log("Result has arrived")
-                modalMessage.current = "Something went wrong. Please try again."
+                modalResult.current = "error"
+                modalMessage.current = result.statusText
                 setIsProcessing(false)
             }            
         }
@@ -299,15 +309,18 @@ export default function SignUp() {
                                 <Loading />
                             </div>
                         :   <div className='px-8 py-4 flex flex-col'>
-                                {modalIcon.current}
-                                <h1 className='text-center'>{modalHeader.current}</h1>
+                                {modalResult.current === "success" && (modalContent.success.icon)}
+                                {modalResult.current === "error" && (modalContent.error.icon)}                            
                                 <p className='text-center text-[16px]'>{modalMessage.current}</p>
 
                                 <button 
-                                    onClick={() => navigate("/sign-in")}
+                                    onClick={(modalResult.current === "success")
+                                                ? modalContent.success.action
+                                                : modalContent.error.action
+                                            }
                                     className='w-fit m-auto mt-8 px-6 py-1 text-[14px] text-white bg-[#FF9F1C] rounded-md cursor-pointer'
                                 >
-                                    Back to Login
+                                    {(modalResult.current === "success") ? "Back to Login" : "I understand"}
                                 </button>
                             </div>  
                     }
