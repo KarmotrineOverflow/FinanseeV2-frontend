@@ -70,9 +70,7 @@ export default function SignIn() {
                 // Set user details in the context and store in session storage
                 setUser(result.userData!)
                 // Navigate to /dashboard
-                navigate("/dashboard")
-
-                // Next step - Create RequireAuth component to ensure auth is checked in selected pages before rendering
+                navigate("/dashboard")                
             } else if (result.statusCode === 400) {
 
                 emailErrorMessage.current = "Account was not found or a wrong password was provided."

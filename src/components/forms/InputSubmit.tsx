@@ -1,5 +1,3 @@
-import type { HTMLAttributes } from "react"
-
 type InputSubmitProps = {
     label: string,    
 } & React.InputHTMLAttributes<HTMLInputElement>

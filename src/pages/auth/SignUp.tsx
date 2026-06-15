@@ -159,17 +159,20 @@ export default function SignUp() {
             setIsProcessing(true)
             setIsModalShown(true)
 
-            const result = await createUser(formData.current)            
+            const result = await createUser(formData.current)   
+            
+            console.log("result receieved")
+            console.log(result)
 
-            if (result.statusCode === 201) {
+            if (result.status === 201) {
                 
                 modalResult.current = "success"
-                modalMessage.current = result.message
+                modalMessage.current = result.statusText
                 setIsProcessing(false)
-            } else if (result.statusCode === 500) {
+            } else if (result.status != 201) {
 
                 modalResult.current = "error"
-                modalMessage.current = result.message
+                modalMessage.current = result.statusText
                 setIsProcessing(false)
             }            
         }
@@ -307,8 +310,7 @@ export default function SignUp() {
                             </div>
                         :   <div className='px-8 py-4 flex flex-col'>
                                 {modalResult.current === "success" && (modalContent.success.icon)}
-                                {modalResult.current === "error" && (modalContent.error.icon)}
-                                <h1 className='text-center'>{modalMessage.current}</h1>
+                                {modalResult.current === "error" && (modalContent.error.icon)}                            
                                 <p className='text-center text-[16px]'>{modalMessage.current}</p>
 
                                 <button 
