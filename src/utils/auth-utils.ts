@@ -10,6 +10,7 @@ type UserCreationResponse = {
 
 type UserAuthenticationResponse = {
     statusCode: number,
+    statusText: string,
     userData?: User
 }
 
@@ -51,21 +52,20 @@ export async function createUser(userData: SignUpFormData) {
     }) */
 }
 
-export async function authenticate(credentials: SignInFormData) {
+export async function loginUser(credentials: SignInFormData) {
 
-    // TODO: Update authentication process to use JWT
     // Add this code block back in when ready for backend testing
-    /* const res = await fetch(`${BACKEND_URL}/authenticate`, {
+    const res = await fetch(`${BACKEND_URL}/sign-in`, {
         headers: new Headers({ "Content-Type": "application/json" }),
         method: "POST",
         body: JSON.stringify(credentials)
     })
 
-    return await res.json() as UserAuthenticationResponse */ 
+    return await res.json() as UserAuthenticationResponse 
 
     // Using setTimeout for now to simulate async process
     // Replace isActionSuccess value to simulate success/error results
-    const isActionSuccess = false
+   /*  const isActionSuccess = false
     const result: UserAuthenticationResponse = (isActionSuccess)
         ? { statusCode: 302}
         : { statusCode: 400}
@@ -73,5 +73,10 @@ export async function authenticate(credentials: SignInFormData) {
     return new Promise((resolve: (value: UserAuthenticationResponse) => void) => {
 
         setTimeout(() => { resolve(result) }, 5000)
-    })
+    }) */
+}
+
+export async function authenticate() {
+
+
 }

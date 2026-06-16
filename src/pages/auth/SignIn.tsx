@@ -6,7 +6,7 @@ import InputSubmit from "../../components/forms/InputSubmit";
 import Card from '../../components/composites/Card';
 
 import { validateField } from '../../utils/form-utils';
-import { authenticate } from '../../utils/auth-utils';
+import { loginUser } from '../../utils/auth-utils';
 
 import type { SignInFormData } from '../../types/FormDataTypes';
 import { userContext } from '../../contexts/UserContext';
@@ -62,9 +62,10 @@ export default function SignIn() {
 
             setIsProcessing(true)
 
-            const result = await authenticate(formData.current)
+            const result = await loginUser(formData.current)
 
-            if (result.statusCode === 302) {
+            // 301 status code should automatically redirect the FE to dashboard
+            /* if (result.statusCode === 302) {
 
                 console.log("Result success")
                 // Set user details in the context and store in session storage
@@ -72,6 +73,13 @@ export default function SignIn() {
                 // Navigate to /dashboard
                 navigate("/dashboard")                
             } else if (result.statusCode === 400) {
+
+                emailErrorMessage.current = "Account was not found or a wrong password was provided."
+                setIsEmailValid(false)    
+                setIsProcessing(false)
+            } */
+
+            if (result.statusCode != 301) {
 
                 emailErrorMessage.current = "Account was not found or a wrong password was provided."
                 setIsEmailValid(false)    
