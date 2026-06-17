@@ -1,72 +1,72 @@
-export type Income = {
+export type User = {
 
-    Type: string
-    Description: string | undefined
-    Amount: number
-    DateReceived: string
-    Allocation: "Savings" | "Pocket Money" | "Emergency Fund"
+    _id: string,
+    firstName: string,
+    lastName: string,
+    dateOfBirth: string,
+    phoneNumber: string,
+    email: string,
+    reports: ReportRef[]
 }
 
-export type Expense = {
+export type ReportRef = {
 
-    Type: string,
-    Description: string,
-    Amount: number,
-    DateSpent: string
-    Allocation: "Savings" | "Pocket Money" | "Emergency Fund"
+    _id: string,
+    reportId: string,
+    monthDate: string
+}
+
+export type Report = {
+
+    _id: string,
+    ownerId: string,
+    monthDate: string,
+    startingMoney: number,
+    currentMoney: number,
+    allocation: Allocation,
+    income: Income[],
+    expense: Expense[],
+    debt: Debt[],
+    monthlyDue: MonthlyDue[]
+}
+
+export type Income = {
+    type: "Income" | "Debt"
+    description: string | undefined
+    amount: number
+    date: string
+    allocation: "Savings" | "Pocket Money" | "Emergency Fund"
+}
+
+export type Expense = { 
+    type: "Expense" | "Debt"
+    description: string | undefined
+    amount: number
+    date: string
+    allocation: "Savings" | "Pocket Money" | "Emergency Fund"
 }
 
 export type Debt = {
 
     isDebtor: boolean
     isPaid: boolean
-    To: string
-    Amount: number
-    Description: string
-    Date: string
-    Allocation: "Savings" | "Pocket Money" | "Emergency Fund"
+    to: string
+    amount: number
+    description: string
+    date: string
+    allocation: "Savings" | "Pocket Money" | "Emergency Fund"   
 }
 
 export type MonthlyDue = {
 
-    BillName: string,
+    billName: string,
     isPaid: boolean
-    Amount: number
-    Date: string
+    amount: number
+    date: string
 }
 
-export type ReportSheet = {
-    
-    Income: Array<Income>
-    Expense: Array<Expense>
-    Debt: Array<Debt>
-    MonthlyDue: Array<MonthlyDue>
-}
-
-export type MonthlyReport = {
-
-    OwnerId: string,
-    MonthYear: string
-    StartingMoney: number
-    CurrentMoney: number
-    MoneyAllocation: MoneyAllocation
-    MonthSheet: ReportSheet
-}
-
-export type MoneyAllocation = {
-    
-    Savings: number
-    PocketMoney: number
-    EmergencyFund: number
-}
-
-export type User = {
-
-    UserId: string,
-    FirstName: string,
-    LastName: string,
-    DateOfBirth: string,
-    PhoneNumber: string,
-    EmailAddress: string,
-    MonthlyReports: MonthlyReport[]
+export type Allocation = {
+    savings: number,
+    pocketMoney: number,
+    emergencyFund: number
 }
