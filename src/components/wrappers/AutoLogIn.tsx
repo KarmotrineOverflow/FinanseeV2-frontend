@@ -1,14 +1,30 @@
-export default async function AutoLogIn({ children } : { children: React.ReactNode }) {
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { authenticate } from "../../utils/auth-utils"
+import Loading from "../reusables/Loading"
 
-    const cookie = document.cookie
+export default function AutoLogIn({ children } : { children: React.ReactNode }) {
 
-    if (cookie && cookie != "") {
+    const [isVerifying, setIsVerifying] = useState(true)
+    const navigate = useNavigate()
 
-        // TODO: Backend has API ready for authenticating, just pass the whole document cookie.
-        // Await backend response before displaying children or navigating to /dashboard
-        const accessToken = cookie.split("=")[1]
+    useEffect(() => {
 
-        // Verify validity of retrieved access token
-        // If still valid, redirect to /dashboard
-    }
+        const cookie = document.cookie
+
+        const verify = async () => {
+
+            const token = cookie.split('=')[1]
+            const res = await authenticate(token)
+
+            if (res.status === 200) navigate('/dashboard')
+            else setIsVerifying(false)
+        }
+
+        if (cookie && cookie != "") verify()
+        else setIsVerifying(false)
+    })
+
+    if (isVerifying) return <Loading />
+    return children
 }

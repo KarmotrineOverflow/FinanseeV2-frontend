@@ -78,8 +78,8 @@ export async function loginUser(credentials: SignInFormData) {
 }
 
 export async function authenticate(accessToken: string) {
-
-    const res = await fetch(`${BACKEND_URL}/authenticate`, {
+ 
+    return await fetch(`${BACKEND_URL}/authenticate`, {
         headers: { 'Authorization': `Bearer ${accessToken}` },
         method: 'GET'
     })
