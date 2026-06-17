@@ -1,9 +1,10 @@
 import { useEffect, useContext } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
-import SignIn from './pages/auth/SignIn'
 import { userContext } from './contexts/UserContext'
 import './App.css'
+import SignIn from './pages/auth/SignIn'
 import SignUp from './pages/auth/SignUp'
+import Dashboard from './pages/Dashboard'
 
 const routes = [
   {
@@ -17,6 +18,10 @@ const routes = [
   {
     path: "/sign-up",
     element: <SignUp />
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />
   }
 ]
 

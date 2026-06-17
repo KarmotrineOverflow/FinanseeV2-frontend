@@ -56,7 +56,8 @@ export async function loginUser(credentials: SignInFormData) {
 
     // Add this code block back in when ready for backend testing
     const res = await fetch(`${BACKEND_URL}/sign-in`, {
-        headers: new Headers({ "Content-Type": "application/json" }),
+        headers: new Headers({ "Content-Type": "application/json", "Access-Control-Allow-Origin": "http://localhost:8080" }),
+        credentials: "include",
         method: "POST",
         body: JSON.stringify(credentials)
     })

@@ -64,22 +64,11 @@ export default function SignIn() {
 
             const result = await loginUser(formData.current)
 
-            // 301 status code should automatically redirect the FE to dashboard
-            /* if (result.statusCode === 302) {
-
-                console.log("Result success")
-                // Set user details in the context and store in session storage
-                setUser(result.userData!)
-                // Navigate to /dashboard
+            // TODO: Refactor this to use useNavigate for redirecting upon successful login
+            if (result.statusCode === 200) {
+                
                 navigate("/dashboard")                
             } else if (result.statusCode === 400) {
-
-                emailErrorMessage.current = "Account was not found or a wrong password was provided."
-                setIsEmailValid(false)    
-                setIsProcessing(false)
-            } */
-
-            if (result.statusCode != 301) {
 
                 emailErrorMessage.current = "Account was not found or a wrong password was provided."
                 setIsEmailValid(false)    
