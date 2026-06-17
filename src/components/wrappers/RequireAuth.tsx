@@ -42,11 +42,7 @@ export default function RequireAuth({ children } : { children: React.ReactNode }
 
                         // Check user report ref first if it's not empty so we can use the latest report's values
                         const lastReportRef = (user!.reports.length > 0) ? user?.reports[-1] : null
-                        let lastReport = null
-
-                        if (lastReportRef) lastReport = await retrieveReport(userId, lastReportRef.monthDate)
-
-                        const newReport = await generateReport(userId, lastReport)
+                        const newReport = await generateReport(userId, lastReportRef?._id)
 
                         setReport(newReport)
                     } else setReport(currentReport)
