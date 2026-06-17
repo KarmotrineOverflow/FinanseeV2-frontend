@@ -1,4 +1,4 @@
-import { useRef, useState, useContext } from 'react'
+import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, RectangleEllipsis } from 'lucide-react'
 import InputField from "../../components/forms/InputField";
@@ -9,11 +9,9 @@ import { validateField } from '../../utils/form-utils';
 import { loginUser } from '../../utils/auth-utils';
 
 import type { SignInFormData } from '../../types/FormDataTypes';
-import { userContext } from '../../contexts/UserContext';
 
+// TODO: Wrap the signin page in AutoLogIn component for auto login if token is detected and validated
 export default function SignIn() {
-
-    const { setUser } = useContext(userContext)
 
     const formData = useRef({ email: "", password: "" } as SignInFormData)
     const emailErrorMessage = useRef("")
@@ -63,8 +61,7 @@ export default function SignIn() {
             setIsProcessing(true)
 
             const result = await loginUser(formData.current)
-
-            // TODO: Refactor this to use useNavigate for redirecting upon successful login
+            
             if (result.statusCode === 200) {
                 
                 navigate("/dashboard")                
