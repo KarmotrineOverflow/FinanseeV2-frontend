@@ -26,7 +26,7 @@ export async function retrieveReport(userId: string, date?: string) {
     else return null
 }
 
-function getAccessToken() {
+export function getAccessToken() {
 
     const cookie = document.cookie
     

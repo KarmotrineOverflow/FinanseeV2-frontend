@@ -5,6 +5,7 @@ import { userContext } from "../../contexts/UserContext"
 import { reportContext } from "../../contexts/ReportContext"
 import { authenticate } from "../../utils/auth-utils"
 import { retrieveReport } from "../../utils/api-utils"
+import { generateReport } from "../../utils/report-utils"
 
 export default function RequireAuth({ children } : { children: React.ReactNode }) {
 
@@ -39,7 +40,15 @@ export default function RequireAuth({ children } : { children: React.ReactNode }
                     // If currentReport is null, it means the user does not have an existing report for the current month. Generate a new one if so
                     if (!currentReport) {
 
-                        // TODO: Create generate report logic in report-utils script
+                        // Check user report ref first if it's not empty so we can use the latest report's values
+                        const lastReportRef = (user!.reports.length > 0) ? user?.reports[-1] : null
+                        let lastReport = null
+
+                        if (lastReportRef) lastReport = await retrieveReport(userId, lastReportRef.monthDate)
+
+                        const newReport = await generateReport(userId, lastReport)
+
+                        setReport(newReport)
                     } else setReport(currentReport)
                 }                
 
