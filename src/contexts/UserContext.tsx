@@ -5,12 +5,12 @@ import type { User } from "../types/UserTypes";
 interface UserContextInterface {
 
     user: User | null,
-    setUser: Dispatch<SetStateAction<User>>
+    setUser: Dispatch<SetStateAction<User | null>>
 }
 
 export const userContext = createContext({
     user: null,
-    setUser: (user: User) => {}
+    setUser: (user: User | null) => {}
 } as UserContextInterface)
 
 export default function UserContext({ children } : { children: React.ReactNode }) {
