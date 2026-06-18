@@ -11,10 +11,10 @@ export async function retrieveReport(userId: string, date?: string) {
     const reportDate = date ?? (() => {
         
         const currentDate = new Date()
-        return currentDate.toISOString().substring(0, 6)
+        return currentDate.toISOString().substring(0, 7)
     })()
 
-    const res = await fetch(`${BACKEND_URL}/retrieve-report?${new URLSearchParams({ report_date: reportDate, user_id: userId })}`, {
+    const res = await fetch(`${BACKEND_URL}/retrieve-report?${new URLSearchParams({ reportDate: reportDate, userId: userId })}`, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getAccessToken()}`
