@@ -22,6 +22,10 @@ export async function generateReport(userId: string, prevReportRef?: string | nu
         body: (prevReportRef) ? JSON.stringify({userId: userId, prevReportRef: prevReportRef}) : JSON.stringify({userId: userId})
     })
 
+    const resBody = await res.json()
+
+    console.log(resBody)
+
     if (res.ok) return await res.json()
     return null
 }

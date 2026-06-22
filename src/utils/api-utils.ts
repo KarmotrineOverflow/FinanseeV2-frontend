@@ -22,7 +22,11 @@ export async function retrieveReport(userId: string, date?: string) {
         method: 'GET',
     })
 
-    if (res.ok) return await res.json() as Report
+    const resBody = await res.json() as Report
+
+    console.log(resBody)
+
+    if (res.ok) return resBody
     else return null
 }
 

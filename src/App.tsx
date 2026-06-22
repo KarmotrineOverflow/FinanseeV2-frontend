@@ -1,6 +1,6 @@
-import { useEffect, useContext } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import { SquareChevronLeft, LayoutDashboardIcon, ClipboardListIcon, CalendarDaysIcon, CoinsIcon } from 'lucide-react'
+import { useEffect, useContext, useState } from 'react'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { LayoutDashboardIcon, ClipboardListIcon, CalendarDaysIcon, CoinsIcon } from 'lucide-react'
 import { userContext } from './contexts/UserContext'
 import { reportContext } from './contexts/ReportContext'
 import './App.css'
@@ -9,6 +9,9 @@ import SignUp from './pages/auth/SignUp'
 import Dashboard from './pages/Dashboard'
 import SideNav from './components/composites/SideNav'
 import SideNavItem from './components/composites/SideNavItem'
+import Tracker from './pages/Tracker'
+import MonthlyDue from './pages/MonthlyDue'
+import Debt from './pages/Debt'
 
 const authRoutes = [
   { path: "/", element: <LandingPicker /> }, 
@@ -18,9 +21,9 @@ const authRoutes = [
 
 const appRoutes = [
   { path: "/dashboard", label: "Dashboard", element: <Dashboard />, navIcon: <LayoutDashboardIcon /> },
-  { path: "/tracker", label: "Tracker", element: <Dashboard />, navIcon: <ClipboardListIcon /> },
-  { path: "/monthly-dues", label: "Monthly Dues", element: <Dashboard />, navIcon: <CalendarDaysIcon /> },
-  { path: "/debts", label: "Debts", element: <Dashboard />, navIcon: <CoinsIcon /> },
+  { path: "/tracker", label: "Tracker", element: <Tracker />, navIcon: <ClipboardListIcon /> },
+  { path: "/monthly-dues", label: "Monthly Dues", element: <MonthlyDue />, navIcon: <CalendarDaysIcon /> },
+  { path: "/debts", label: "Debts", element: <Debt />, navIcon: <CoinsIcon /> },
 ]
 
 function LandingPicker() {
@@ -42,20 +45,30 @@ function LandingPicker() {
 
 export default function App() {
 
+  const [isSideNavOpen, setIsSideNavOpen] = useState(true)
   const { user } = useContext(userContext)
   const { report } = useContext(reportContext)
+  const location = useLocation()
+
+  const toggleSideNav = () => {
+
+    setIsSideNavOpen(open => !open)
+  }
+
+  console.log(isSideNavOpen)
 
   return (
     <div className='w-full h-full flex'>  
       {(user && report) && 
-      (window.location.href.includes('sign-in') && window.location.href.includes('sign-up')) &&
+      (!['/sign-in', '/sign-up'].includes(location.pathname)) &&
       (
-        <SideNav>
-          { appRoutes.map((r) => <SideNavItem label={r.label} path={r.path} icon={r.navIcon}/>) }
+        <SideNav isOpen={isSideNavOpen} toggleOpen={toggleSideNav}>
+          { appRoutes.map((r) => <SideNavItem label={r.label} path={r.path} icon={r.navIcon} isExpanded={isSideNavOpen} />) }
         </SideNav>   
       )}
       <Routes>        
         { authRoutes.map((r) => <Route key={r.path} path={r.path} element={r.element} />) }
+        { appRoutes.map((r) => <Route key={r.path} path={r.path} element={r.element} />) }
       </Routes>
     </div>
   )

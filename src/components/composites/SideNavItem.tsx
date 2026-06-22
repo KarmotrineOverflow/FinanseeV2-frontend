@@ -1,16 +1,16 @@
 import { Link, useLocation } from "react-router-dom"
 
-export default function SideNavItem({ label, path, icon } : { label: string, path: string, icon: React.ReactNode }) {
+export default function SideNavItem({ label, path, icon, isExpanded } : { label: string, path: string, icon: React.ReactNode, isExpanded: boolean }) {
 
     const location = useLocation()
 
     return (
         <li className="w-full">
             <Link to={path} 
-            className={`${(location.pathname.includes(path)) ? selectedItemStyle() : defaultItemStyle()}`}
+            className={`px-4 ${baseItemStyle()} ${(location.pathname.includes(path)) ? "side-nav-link active" : "side-nav-link"}`}
             >
                 {icon}
-                {label}
+                {isExpanded && <p className="font-semibold">{label}</p>}                
             </Link>
         </li>
     )
@@ -23,26 +23,7 @@ function baseItemStyle() {
         "p-2",
         "flex",
         "align-middle",
-        "gap-4"
+        "gap-4",
+        "text-white"
     ].join(" ")
-}
-
-function defaultItemStyle() {
-
-    return `${baseItemStyle()} ${
-        [
-            "bg-transparent",
-            "hover: bg-[#FFBF69]"
-        ].join(" ")
-    }`
-}
-
-function selectedItemStyle() {
-
-    return `${baseItemStyle()} ${
-        [
-            "bg-[#FFBF69]",
-            "hover: bg-transparent"
-        ].join(" ")
-    }`
 }

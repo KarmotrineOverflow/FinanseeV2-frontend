@@ -4,12 +4,15 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import UserContext from './contexts/UserContext.tsx'
+import ReportContext from './contexts/ReportContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <UserContext>
-        <App />
+        <ReportContext>
+          <App />
+        </ReportContext>        
       </UserContext>      
     </BrowserRouter>
   </StrictMode>,

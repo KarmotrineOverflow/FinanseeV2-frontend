@@ -25,28 +25,31 @@ export default function RequireAuth({ children } : { children: React.ReactNode }
 
             if (res.status === 200) {
                 
+                let userData = user
+                let reportData = report
+
                 // Check if user and report contexts are null. Retrieve from DB if so (latest report will be retrieved)
-                if (!user) {
+                if (!userData) {
 
-                    const userData = await res.json()
+                    userData = await res.json()
                     setUser(userData)
-                }
+                }                               
 
-                if (!report) {
+                if (userData && !reportData) {
 
-                    const userId = user!._id
-                    const currentReport = await retrieveReport(userId)
+                    const userId = userData!._id
+                    reportData = await retrieveReport(userId ?? "")                                          
 
                     // If currentReport is null, it means the user does not have an existing report for the current month. Generate a new one if so
-                    if (!currentReport) {
+                    if (!reportData) {
 
                         // Check user report ref first if it's not empty so we can use the latest report's values
-                        const lastReportRef = (user!.reports.length > 0) ? user?.reports[-1] : null
-                        const newReport = await generateReport(userId, lastReportRef?._id)
-
-                        setReport(newReport)
-                    } else setReport(currentReport)
-                }                              
+                        const lastReportRef = (userData!.reports.length > 0) ? userData?.reports[-1] : null
+                        reportData = await generateReport(userId, lastReportRef?._id)                        
+                    }
+                    
+                    setReport(reportData)
+                }                                            
             }
             
             setIsVerifying(false)
@@ -59,6 +62,8 @@ export default function RequireAuth({ children } : { children: React.ReactNode }
     if (isVerifying) return <Loading />
     if (!user && !report) {
         document.cookie = "" 
+        setReport(null)
+        setUser(null)
         navigate('/sign-in') 
     } else return children
 }
