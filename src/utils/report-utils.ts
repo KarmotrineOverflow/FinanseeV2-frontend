@@ -18,7 +18,7 @@ export async function generateReport(userId: string, prevReportRef?: string | nu
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getAccessToken()}`
         },
-        method: 'GET',
+        method: 'POST',
         body: (prevReportRef) ? JSON.stringify({userId: userId, prevReportRef: prevReportRef}) : JSON.stringify({userId: userId})
     })
 

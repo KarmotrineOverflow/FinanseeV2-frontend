@@ -55,13 +55,11 @@ export default function App() {
     setIsSideNavOpen(open => !open)
   }
 
-  console.log(isSideNavOpen)
-
   return (
     <div className='w-full h-full flex'>  
       {(user && report) && 
       (!['/sign-in', '/sign-up'].includes(location.pathname)) &&
-      (
+      (        
         <SideNav isOpen={isSideNavOpen} toggleOpen={toggleSideNav}>
           { appRoutes.map((r) => <SideNavItem label={r.label} path={r.path} icon={r.navIcon} isExpanded={isSideNavOpen} />) }
         </SideNav>   

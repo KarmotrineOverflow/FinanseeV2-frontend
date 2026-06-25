@@ -24,8 +24,6 @@ export async function retrieveReport(userId: string, date?: string) {
 
     const resBody = await res.json() as Report
 
-    console.log(resBody)
-
     if (res.ok) return resBody
     else return null
 }
