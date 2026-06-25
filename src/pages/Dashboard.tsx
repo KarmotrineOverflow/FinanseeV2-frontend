@@ -3,6 +3,7 @@ import { userContext } from "../contexts/UserContext"
 import { reportContext } from "../contexts/ReportContext"
 import QuotationOfTheDay from "../components/composites/QuotationOfTheDay"
 import NetComparisonBarChart from "../components/reusables/NetComparisonBarChart"
+import AllocationPieChart from "../components/reusables/AllocationPieChart"
 import PageHeading from "../components/reusables/PageHeading"
 import RequireAuth from "../components/wrappers/RequireAuth"
 
@@ -14,15 +15,16 @@ export default function Dashboard() {
 
     return (
         <RequireAuth>
-            <div className="p-6 w-full h-full flex-col">                
+            <main className="p-6 w-full h-full flex-col overflow-y-auto">                
                 <header className="w-full flex justify-between">
                     <PageHeading heading={`Welcome, ${user?.firstName}`} subtext={`Here is your financial report for the month of ${currentMonth}`}/>
                     <QuotationOfTheDay />
                 </header>    
-                <div className="w-full mt-8 flex">
+                <div className="w-full h-auto mt-8 flex justify-evenly">
                     <NetComparisonBarChart />
+                    <AllocationPieChart />
                 </div>     
-            </div>            
+            </main>            
         </RequireAuth> 
     )
 }

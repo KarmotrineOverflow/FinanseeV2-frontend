@@ -140,7 +140,7 @@ export default function NetComparisonBarChart({ numOfMonths = 3} : { numOfMonths
     return (
         <RequireAuth>
             <Card>
-                <div className="p-8 w-96 h-96 flex flex-col gap-4 justify-center">
+                <div className="p-8 w-[35vw] flex flex-col gap-4 justify-center">
                     {fetchState === FETCH_STATE.LOADING && <Loading />}
                     {fetchState === FETCH_STATE.ERROR && <Error />}
                     {fetchState === FETCH_STATE.SUCCESS && (

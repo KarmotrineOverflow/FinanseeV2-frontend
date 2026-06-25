@@ -10,7 +10,7 @@ export default function SideNavItem({ label, path, icon, isExpanded } : { label:
             className={`px-4 ${baseItemStyle()} ${(location.pathname.includes(path)) ? "side-nav-link active" : "side-nav-link"}`}
             >
                 {icon}
-                {isExpanded && <p className="font-semibold">{label}</p>}                
+                {isExpanded && <p className="font-semibold text-[16px]">{label}</p>}                
             </Link>
         </li>
     )
@@ -23,7 +23,7 @@ function baseItemStyle() {
         "p-2",
         "flex",
         "align-middle",
-        "gap-4",
+        "gap-2",
         "text-white"
     ].join(" ")
 }

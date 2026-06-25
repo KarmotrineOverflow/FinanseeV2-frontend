@@ -56,7 +56,7 @@ export default function App() {
   }
 
   return (
-    <div className='w-full h-full flex'>  
+    <div className='w-full h-screen flex'>  
       {(user && report) && 
       (!['/sign-in', '/sign-up'].includes(location.pathname)) &&
       (        
