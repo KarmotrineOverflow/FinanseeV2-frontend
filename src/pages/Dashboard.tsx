@@ -6,6 +6,7 @@ import NetComparisonBarChart from "../components/reusables/NetComparisonBarChart
 import AllocationPieChart from "../components/reusables/AllocationPieChart"
 import PageHeading from "../components/reusables/PageHeading"
 import RequireAuth from "../components/wrappers/RequireAuth"
+import MiniList from "../components/reusables/MiniList"
 
 export default function Dashboard() {
 
@@ -24,6 +25,12 @@ export default function Dashboard() {
                     <NetComparisonBarChart />
                     <AllocationPieChart />
                 </div>     
+
+                <h1 className="font-bold text-[24px] text-start mt-8">Quick View</h1>
+
+                <div className="mt-4 grid grid-cols-2">
+                    <MiniList label="Income" theme="positive" data={[]} />
+                </div>
             </main>            
         </RequireAuth> 
     )
