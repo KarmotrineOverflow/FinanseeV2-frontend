@@ -16,20 +16,21 @@ export default function Dashboard() {
 
     return (
         <RequireAuth>
-            <main className="p-6 w-full h-full flex-col overflow-y-auto">                
+            <main className="p-8 w-full h-full flex-col overflow-y-auto">                
                 <header className="w-full flex justify-between">
                     <PageHeading heading={`Welcome, ${user?.firstName}`} subtext={`Here is your financial report for the month of ${currentMonth}`}/>
                     <QuotationOfTheDay />
                 </header>    
-                <div className="w-full h-auto mt-8 flex justify-evenly">
+                <div className="w-full h-auto mt-8 flex justify-evenly gap-4">
                     <NetComparisonBarChart />
                     <AllocationPieChart />
                 </div>     
 
                 <h1 className="font-bold text-[24px] text-start mt-8">Quick View</h1>
 
-                <div className="mt-4 grid grid-cols-2">
+                <div className="mt-4 grid grid-cols-2 gap-8">
                     <MiniList label="Income" theme="positive" data={[]} />
+                    <MiniList label="Expense" theme="negative" data={[]} />
                 </div>
             </main>            
         </RequireAuth> 
