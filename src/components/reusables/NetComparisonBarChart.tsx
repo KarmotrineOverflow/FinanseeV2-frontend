@@ -140,13 +140,13 @@ export default function NetComparisonBarChart({ numOfMonths = 3} : { numOfMonths
     return (
         <RequireAuth>
             <Card>
-                <div className="p-8 w-[35vw] flex flex-col gap-4 justify-center">
+                <div className="p-8 w-[35vw] h-[80%] flex flex-col gap-4 justify-center">
                     {fetchState === FETCH_STATE.LOADING && <Loading />}
                     {fetchState === FETCH_STATE.ERROR && <Error />}
                     {fetchState === FETCH_STATE.SUCCESS && (
                             <>
-                                <h2>Net worth for the past {numOfMonths} months</h2>
-                                <canvas width={100} height={100} ref={chartCanvas}/>
+                                <h2 className="text-[16px]">Net worth for the past {numOfMonths} months</h2>
+                                <canvas width={100} height={50} ref={chartCanvas}/>
                             </>
                     )}
                 </div>

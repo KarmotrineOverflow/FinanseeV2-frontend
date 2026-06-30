@@ -59,7 +59,7 @@ export type Debt = {
 
 export type MonthlyDue = {
 
-    billName: string,
+    description: string,
     isPaid: boolean
     amount: number
     date: string
