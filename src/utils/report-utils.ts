@@ -29,3 +29,29 @@ export async function generateReport(userId: string, prevReportRef?: string | nu
     if (res.ok) return await res.json()
     return null
 }
+
+/**
+ * Retrieves a user's report sheet for the specified date
+ * @param {string} date - The date of the report to be retrieved. Must follow the ISO Date format `YYYY-MM`. Defaults to current date if not provided
+ */
+export async function retrieveReport(userId: string, date?: string) {
+
+    const reportDate = date ?? (() => {
+        
+        const currentDate = new Date()
+        return currentDate.toISOString().substring(0, 7)
+    })()
+
+    const res = await fetch(`${BACKEND_URL}/retrieve-report?${new URLSearchParams({ reportDate: reportDate, userId: userId })}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`
+        },
+        method: 'GET',
+    })
+
+    const resBody = await res.json() as Report
+
+    if (res.ok) return resBody
+    else return null
+}

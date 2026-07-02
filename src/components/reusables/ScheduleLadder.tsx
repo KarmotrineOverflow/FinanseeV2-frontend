@@ -1,17 +1,24 @@
-import Card from "../composites/Card";
-import RequireAuth from "../wrappers/RequireAuth";
+import type { Debt, MonthlyDue } from "../../types/UserTypes";
 
-export default function ScheduleLadder({ label, sortedData, numOfElementsDisplayed = 4 } : { label: string, sortedData: any[], numOfElementsDisplayed: number }) {
+export default function ScheduleLadder({ sortedData, numOfElementsDisplayed = 4 } : { sortedData: Debt[] | MonthlyDue[], numOfElementsDisplayed: number }) {
 
     // For now, ladder is able to display up to 4 elements 
-    // TODO: Need mock data for past three months
     const mappedData = sortedData.slice(0, 4)
         .map((el, index) => {
                         
-            const theme = (Number.parseFloat(el.amount) < 0) ? "negative" : "positive"
+            const theme = (() => {
+
+                const isDebtor = (el as any).isDebtor ?? false
+
+                if (isDebtor) return "positive"
+                return "negative"
+            })()
 
             return (
-                <li className={`${getStepWidth(index)} ${(index == 0) ? firstElementStyle(theme) : baseElementStyle(theme)}`}>
+                <li 
+                className={`${(index == 0) ? firstElementStyle(theme) : baseElementStyle(theme)}`}
+                style={{ width: `${getStepWidth(index)}` }}
+                >
                     <span>
                         <h3 className="font-semibold">{el.description}</h3>
                         <p className="text-[12px] text-start">Due on: {(new Date(el.date)).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}</p>
@@ -21,24 +28,20 @@ export default function ScheduleLadder({ label, sortedData, numOfElementsDisplay
             )
         })
 
-    return (
-        <Card>
-            <div className="p-4 w-full">
-                <h2 className="text-[16px] text-start font-semibold">{label}</h2>
-                <ul>
-                    {mappedData}
-                </ul>                
-            </div>
-        </Card>
+    return (        
+        <div className="w-full">            
+            <ul>
+                {mappedData}
+            </ul>                
+        </div>
     )
 }
 
 function getStepWidth(index: number) {
 
-    const elWidth = (index == 0) ? 100 : 100 - (index * 10)
-    console.log(`w-[${elWidth}%]`)
+    const elWidth = 100 - (index * 10)
 
-    return `w-[${elWidth}%]`
+    return `${elWidth}%`
 }
 
 function baseElementStyle(theme: string) {
