@@ -87,3 +87,18 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.side-nav-link {
+
+  background-color: transparent;
+  
+  &:hover {
+
+    background-color: #FFBF69;
+  }
+}
+
+.side-nav-link.active {
+
+  background-color: #FFBF69;
+}
