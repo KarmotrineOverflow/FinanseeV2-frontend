@@ -4,8 +4,7 @@ import Loading from "../reusables/Loading"
 import { userContext } from "../../contexts/UserContext" 
 import { reportContext } from "../../contexts/ReportContext"
 import { authenticate } from "../../utils/auth-utils"
-import { retrieveReport } from "../../utils/api-utils"
-import { generateReport } from "../../utils/report-utils"
+import { generateReport, retrieveReport } from "../../utils/report-utils"
 
 export default function RequireAuth({ children } : { children: React.ReactNode }) {
 

@@ -1,6 +1,6 @@
 import { useEffect, useContext, useState, useMemo, useRef } from "react"
 import { BarElement, BarController, CategoryScale, LinearScale, Chart } from "chart.js"
-import { retrieveReport } from "../../utils/api-utils"
+import { retrieveReport } from "../../utils/report-utils"
 import { userContext } from "../../contexts/UserContext"
 import { FETCH_STATE } from "../../enums/FetchState"
 import RequireAuth from "../wrappers/RequireAuth"

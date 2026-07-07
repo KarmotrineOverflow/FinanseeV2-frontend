@@ -15,9 +15,11 @@ export function getAccessToken() {
     return ""
 }
 
-export async function getQuote() {
+export async function getQuote(tag: string | null) {
 
-    const apiUrl = "https://thequoteshub.com/api/"
+    const quoteTag = (tag) ? `tags/${tag}` : ""
+
+    const apiUrl = `https://thequoteshub.com/api/${quoteTag}`
 
     const res = await fetch(apiUrl, {
         headers: { 'Content-Type': 'application/json' },
@@ -28,9 +30,20 @@ export async function getQuote() {
 
         const resBody = await res.json()
 
-        return {
-            quote: resBody.text,
-            author: resBody.author
+        if (tag) {
+
+            const initialQuoteListVal = resBody["quotes"][0]
+
+            return {
+                quote: initialQuoteListVal.text,
+                author: initialQuoteListVal.author
+            }
+        } else {
+
+            return {
+                quote: resBody.text,
+                author: resBody.author
+            }
         }
     }
 
