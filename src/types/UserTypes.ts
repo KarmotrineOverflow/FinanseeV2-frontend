@@ -24,22 +24,14 @@ export type Report = {
     startingMoney: number,
     currentMoney: number,
     allocation: Allocation,
-    income: Income[],
-    expense: Expense[],
+    income: TrackerEntry[],
+    expense: TrackerEntry[],
     debt: Debt[],
     monthlyDue: MonthlyDue[]
 }
 
-export type Income = {
-    type: "Income" | "Debt"
-    description: string | undefined
-    amount: number
-    date: string
-    allocation: "Savings" | "Pocket Money" | "Emergency Fund"
-}
-
-export type Expense = { 
-    type: "Expense" | "Debt"
+export type TrackerEntry = {
+    type: "Income" | "Expense" | "Debt" 
     description: string | undefined
     amount: number
     date: string

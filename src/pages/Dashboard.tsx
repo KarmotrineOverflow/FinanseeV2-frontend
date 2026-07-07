@@ -8,7 +8,7 @@ import AllocationPieChart from "../components/reusables/AllocationPieChart"
 import PageHeading from "../components/reusables/PageHeading"
 import RequireAuth from "../components/wrappers/RequireAuth"
 import MiniList from "../components/reusables/MiniList"
-import type { Debt, Income } from "../types/UserTypes"
+import type { Debt, TrackerEntry } from "../types/UserTypes"
 import ScheduleLadder from "../components/reusables/ScheduleLadder"
 import Card from "../components/composites/Card"
 import { ChevronRight } from "lucide-react"
@@ -54,7 +54,7 @@ export default function Dashboard() {
         }
     ]
 
-    const trackerTestData: Income[] = [
+    const trackerTestData: TrackerEntry[] = [
         {
             type: "Income",
             description: "Got money off the ground",

@@ -1,4 +1,4 @@
-import type { Expense, Income } from "../../types/UserTypes";
+import type { TrackerEntry } from "../../types/UserTypes";
 import RequireAuth from "../wrappers/RequireAuth";
 
 export default function MiniList(
@@ -7,7 +7,7 @@ export default function MiniList(
         data 
     } : {         
         theme: "positive" | "negative", 
-        data: Income[] | Expense[] 
+        data: TrackerEntry[]
     }) {
 
     // Set the amount of list items to display to 8 for now
