@@ -158,5 +158,5 @@ function determineGreeting() {
 
     if (currTime >= 4 && currTime <= 11) return "Good morning"
     else if (currTime >= 12 && currTime <= 16) return "Good afternoon"
-    else if (currTime >= 17 && currTime <= 3) return "Good evening"
+    else if (currTime >= 17 || currTime <= 3) return "Good evening"
 }
