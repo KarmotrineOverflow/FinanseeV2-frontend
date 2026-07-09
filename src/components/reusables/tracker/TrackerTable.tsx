@@ -1,3 +1,5 @@
+import { EllipsisVerticalIcon } from "lucide-react"
+import TrackerTableEntry from "./TrackerTableEntry"
 import type { TrackerEntry } from "../../../types/UserTypes"
 import Error from "../Error"
 
@@ -7,11 +9,6 @@ type TrackerTableProps = {
 }
 
 export default function TrackerTable({ data, theme } : TrackerTableProps) {
-
-    const parsedData = data.map((d, index) => {
-
-        return <td></td>
-    })
 
     return (
         <div className="w-full flex-col">
@@ -26,8 +23,8 @@ export default function TrackerTable({ data, theme } : TrackerTableProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {(parsedData.length > 0) 
-                        ? parsedData
+                    {(data.length > 0) 
+                        ? data.map((d, index) => <TrackerTableEntry key={`${theme}-entry-${index}`} entry={d} theme={theme} />)
                         : <Error message="No entry found." />
                     }                    
                 </tbody>
