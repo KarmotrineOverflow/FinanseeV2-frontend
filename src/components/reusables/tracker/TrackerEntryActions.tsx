@@ -4,30 +4,41 @@ import Card from "../../composites/Card";
 import type { TrackerEntry } from "../../../types/UserTypes";
 
 type TrackerEntryActionsProps = {
-    entry: TrackerEntry
+    entry: TrackerEntry,
+    onClose: () => void,
+    onActionChosen: (action: string) => void
 }
 
-export default function TrackerEntryActions({ entry } : TrackerEntryActionsProps) {
+export default function TrackerEntryActions({ onClose, onActionChosen } : TrackerEntryActionsProps) {
 
     return (
         <Card>
             <ul className="min-w-36 h-auto py-2">
                 <li className={listItemStyle()}>
-                    <button className={listItemButtonStyle()}>
+                    <button 
+                    className={listItemButtonStyle()}
+                    onClick={() => onActionChosen("view")}
+                    >
                         <EyeIcon size={14} />
                         <p>View</p>
                     </button>
                 </li>
 
                 <li className={listItemStyle()}>
-                    <button className={listItemButtonStyle()}>
+                    <button 
+                    className={listItemButtonStyle()}
+                    onClick={() => onActionChosen("edit")}
+                    >
                         <PencilIcon size={14} />
                         <p>Edit</p>
                     </button>
                 </li>
 
                 <li className={listItemStyle()}>
-                    <button className={listItemButtonStyle()}>
+                    <button 
+                    className={listItemButtonStyle()}
+                    onClick={() => onActionChosen("delete")}
+                    >
                         <TrashIcon size={14} />
                         <p>Delete</p>
                     </button>

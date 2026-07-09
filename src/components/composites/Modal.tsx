@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 
 export default function Modal({ children, onClose } : { children: React.ReactNode, onClose: () => void }) {
 
-    return createPortal(
+    return createPortal((
         /* Modal background to blur/disable page content while modal is open */
         <div className="absolute top-0 left-0 flex justify-center w-full h-full bg-black/50 z-50">
             {/* Actual modal content here */}
@@ -19,5 +19,5 @@ export default function Modal({ children, onClose } : { children: React.ReactNod
                 </Card>
             </div>   
         </div>             
-    , document.getElementById("modal")!)
+    ), document.getElementById("modal")!)
 }
