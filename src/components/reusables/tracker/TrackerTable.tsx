@@ -11,20 +11,20 @@ type TrackerTableProps = {
 export default function TrackerTable({ data, theme } : TrackerTableProps) {
 
     return (
-        <div className="w-full flex-col">
+        <div className="w-full min-h-[75vh] h-auto flex-col">
             <table className="w-full rounded-t-md">
                 <thead>
                     <tr className={`${(theme === "positive") ? positiveTableHeaderStyle() : negativeTableHeaderStyle()}`}>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Allocation</th>
-                        <th>Actions</th>
+                        <th className={`${baseHeaderStyle()} rounded-tl-md`}>Description</th>
+                        <th className={`${baseHeaderStyle()}`}>Amount</th>
+                        <th className={`${baseHeaderStyle()}`}>Date</th>
+                        <th className={`${baseHeaderStyle()}`}>Allocation</th>
+                        <th className={`${baseHeaderStyle()} rounded-tr-md`}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {(data.length > 0) 
-                        ? data.map((d, index) => <TrackerTableEntry key={`${theme}-entry-${index}`} entry={d} theme={theme} />)
+                        ? data.map((d, index) => <TrackerTableEntry key={`${theme}-entry-${index}`} index={index} entry={d} theme={theme} />)
                         : <Error message="No entry found." />
                     }                    
                 </tbody>
@@ -33,9 +33,19 @@ export default function TrackerTable({ data, theme } : TrackerTableProps) {
     )
 }
 
+function baseHeaderStyle() {
+
+    return [        
+        "px-2",
+        "text-[14px]",
+        "font-medium"
+    ].join(" ")
+}
+
 function positiveTableHeaderStyle() {
 
     return [
+        
         "bg-[#2EC4B6]",
         "text-black",
     ].join(" ")

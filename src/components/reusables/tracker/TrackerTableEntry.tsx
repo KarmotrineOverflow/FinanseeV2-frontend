@@ -9,6 +9,7 @@ import Card from "../../composites/Card"
 import Modal from "../../composites/Modal"
 
 type TrackerEntryProps = {
+    index: number,
     entry: TrackerEntry,
     theme: "positive" | "negative"
 }
@@ -31,7 +32,7 @@ function ViewEntryModal({ entry, onEditMode, onUpdate } : ViewEntryModalProps) {
     ), document.getElementById("modal")!)    
 }
 
-export default function TrackerTableEntry({ entry, theme } : TrackerEntryProps) {
+export default function TrackerTableEntry({ index, entry, theme } : TrackerEntryProps) {
     
     const [isActionsOpen, setIsActionsOpen] = useState(false)
     const [isViewEntryOpen, setIsViewEntryOpen] = useState(false)    
@@ -70,16 +71,15 @@ export default function TrackerTableEntry({ entry, theme } : TrackerEntryProps) 
 
     return (
         <>
-            <tr>
-                <td>{entry.description}</td>
-                <td>{entry.amount}</td>
-                <td>{entry.date}</td>
-                <td>{entry.allocation}</td>
+            <tr className={`${baseRowStyle()} ${index % 2 != 0 && coloredRowStyle(theme)}`}>
+                <td className={`${baseCellStlye()} text-start`}>{entry.description}</td>
+                <td className={`${baseCellStlye()}`}>PHP {entry.amount}</td>
+                <td className={`${baseCellStlye()}`}>{entry.date}</td>
+                <td className={`${baseCellStlye()}`}>{entry.allocation}</td>
                 <td className="relative">
                     <button 
                     onClick={() => setIsActionsOpen(prevState => !prevState)}
-                    className="w-fit"
-                    name="Open actions"
+                    className="w-fit cursor-pointer"                    
                     >
                         <EllipsisVerticalIcon size={14} />                    
                     </button>
@@ -91,8 +91,32 @@ export default function TrackerTableEntry({ entry, theme } : TrackerEntryProps) 
             </tr>
 
             {isViewEntryOpen && (                
-                <ViewEntryModal entry={entry} mode={isEditMode.current} onUpdate={handleEntryUpdate}/>                
+                <ViewEntryModal entry={entry} mode={entryAction.current} onUpdate={handleEntryUpdate}/>                
             )}
         </>
     )
+}
+
+function baseRowStyle() {
+
+    return [  
+        "relative",      
+        "text-middle",        
+        "text-[12px]",
+        "font-regular"
+    ].join(" ")
+}
+
+function coloredRowStyle(theme: "positive" | "negative") {
+
+    if (theme === "positive") return "bg-[#CBF3F0]"
+    else if (theme === "negative") return "bg-[#EBA49D] text-white" 
+}
+
+function baseCellStlye() {
+
+    return [
+        "px-2",
+        "py-0.5"
+    ].join(" ")
 }
