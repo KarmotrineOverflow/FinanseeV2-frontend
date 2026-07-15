@@ -1,4 +1,4 @@
-import { EllipsisVerticalIcon, PackageOpen } from "lucide-react"
+import { PackageOpen } from "lucide-react"
 import TrackerTableEntry from "./TrackerTableEntry"
 import IconMessage from "../../composites/IconMessage"
 
