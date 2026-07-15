@@ -2,33 +2,49 @@ import { cloneElement } from "react"
 
 type IconMessageProps = {
     icon: React.ReactElement<any>,
-    iconSize: "small" | "medium" | "large" | "extra-large",
+    size: "sm" | "md" | "lg" | "x-lg" | "xx-lg"
     message: string,
     paragraph?: string
 }
 
-const ICON_SIZE = {
-    "small": 14,
-    "medium": 24,
-    "large": 32,
-    "extra-large": 48
+const SIZE = {
+    "sm": {
+        icon: 48,
+        text: 16
+    },
+    "md": {
+        icon: 64,
+        text: 18
+    },
+    "lg": {
+        icon: 96,
+        text: 18
+    },
+    "x-lg": {
+        icon: 128,
+        text: 24
+    },
+    "xx-lg": {
+        icon: 156,
+        text: 28
+    }
 }
 
-export default function IconMessage({ icon, iconSize, message, paragraph } : IconMessageProps) {
+export default function IconMessage({ icon, size, message, paragraph } : IconMessageProps) {
     
     // Clone the passed icon so we can defined its size prop in here. It has to happen here since we have predefined sizes
     const styledIcon = cloneElement(
         icon,
         { 
-            size: ICON_SIZE[iconSize],
-            className: "mb-4"
+            size: SIZE[size].icon,
+            className: "mb-2 mx-auto"
         }
     )
 
     return (
-        <div className="w-full flex-col">
+        <div className="m-auto flex-col justify-center align-middle">
             { styledIcon }
-            <p className="text-[16px]">{ message }</p>
+            <p style={{ fontSize: SIZE[size].text }}>{ message }</p>
             { paragraph && (
                 <p className="text-[14px]">{ paragraph }</p>
             )}
