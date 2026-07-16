@@ -1,9 +1,11 @@
 import { useState, useRef } from "react"
-import { PenBoxIcon, XIcon } from "lucide-react"
+import { CalendarIcon, CoinsIcon, PenBoxIcon, WalletMinimalIcon, XIcon } from "lucide-react"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"
 
 import type { TrackerEntry } from "../../../types/UserTypes"
+import Card from "../../composites/Card"
+import InputTextArea from "../../forms/InputTextArea"
 
 type TrackerEntryModalProps = { 
     entry?: TrackerEntry, 
@@ -49,9 +51,10 @@ export default function TrackerEntryModal({ entry, mode, onSubmit, onClose } : T
                 )}
 
                 <form onSubmit={handleSubmit}>
-                    <div className="w-full mt-4 grid grid-cols-2">
+                    <div className="w-full mt-4 grid grid-cols-2 gap-4">
                         <InputField 
                         label="Amount"
+                        icon={ <CoinsIcon size={18} className="h-auto" /> }
                         isValid={isAmountValid}
                         errorMessage="Amount must be greater than 0."
                         type="number" 
@@ -59,26 +62,52 @@ export default function TrackerEntryModal({ entry, mode, onSubmit, onClose } : T
                         placeholder={(entry ? entry.amount.toString() : "0")}
                         onChange={(e) => amountValue.current = parseFloat(e.target.value)}
                         />
+
+                        <InputField 
+                        label="Allocation"
+                        icon={ <WalletMinimalIcon size={18} className="h-auto" /> }
+                        isValid={isAmountValid}
+                        errorMessage="Amount must be greater than 0."
+                        type="text" 
+                        readOnly={modalMode === "view"}
+                        placeholder={(entry ? entry.amount.toString() : "0")}
+                        onChange={(e) => amountValue.current = parseFloat(e.target.value)}
+                        />
+
+                        <InputField 
+                        label="Date"
+                        icon={ <CalendarIcon size={18} className="h-auto" /> }
+                        isValid={isAmountValid}
+                        errorMessage="Amount must be greater than 0."
+                        type="date" 
+                        readOnly={modalMode === "view"}
+                        placeholder={(entry ? entry.amount.toString() : "0")}
+                        onChange={(e) => amountValue.current = parseFloat(e.target.value)}
+                        />
+
+                        <span className="col-span-2">
+                            <InputTextArea label="Description" />
+                        </span>                                              
                     </div>
 
-                    <span className="w-full mt-4 inline-flex justify-end">
+                    <span className="w-full mt-4 inline-flex justify-end gap-2">
                         {modalMode === "view" && (
                             <button
                             onClick={() => setModalMode("update")} 
-                            className="inline-flex gap-1 px-1"
+                            className="inline-flex gap-1 px-1.5 rounded-sm bg-green-400"
                             >
-                                <PenBoxIcon size={14} />
-                                <p className="text-[14px]">Edit Entry</p>
+                                <PenBoxIcon size={14} color="#fff" className="h-auto" />
+                                <p className="text-[14px] text-white">Edit Entry</p>
                             </button>
                         )}
 
                         {modalMode === "update" && (
                             <button 
                             onClick={() => { amountValue.current = entry!.amount; setModalMode("view")  }}
-                            className="inline-flex gap-1 px-1"
+                            className="inline-flex gap-1 px-1.5 rounded-sm bg-orange-400"
                             >
-                                <XIcon size={14} />
-                                <p className="text-[14px]">Cancel</p>
+                                <XIcon size={14} color="#fff" className="h-auto" />
+                                <p className="text-[14px] text-white">Cancel</p>
                             </button>
                         )}
 
