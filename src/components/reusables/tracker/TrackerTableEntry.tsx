@@ -1,104 +1,16 @@
 import { useState, useRef } from "react"
 import { EllipsisVerticalIcon, PenBoxIcon, XIcon } from "lucide-react"
-
+import InputField from "../../forms/InputField"
 import TrackerEntryActions from "./TrackerEntryActions"
-import Card from "../../composites/Card"
+import TrackerEntryModal from "./TrackerEntryModal"
 import Modal from "../../composites/Modal"
 
 import type { TrackerEntry } from "../../../types/UserTypes"
-import InputField from "../../forms/InputField"
-import InputSubmit from "../../forms/InputSubmit"
 
 type TrackerEntryProps = {
     index: number,
     entry: TrackerEntry,
     theme: "positive" | "negative"
-}
-
-type TrackerEntryModalProps = { 
-    entry?: TrackerEntry, 
-    mode: "add" | "update" | "view", 
-    onSubmit: (entry: TrackerEntry) => void 
-    onClose: () => void
-}
-
-function TrackerEntryModal({ entry, mode, onSubmit, onClose } : TrackerEntryModalProps) {
-
-    const [modalMode, setModalMode] = useState(mode)
-
-    // TODO: Finish the logic of this modal component
-    // Extract this component to its own file so the main tracker page can use it to for adding new entries
-
-    const handleSubmit = (e: React.SubmitEvent) => {
-
-        e.preventDefault()
-
-
-    }
-
-    return (
-        <Modal onClose={onClose}>
-            <div className="p-2">
-                {modalMode === "add" && (
-                    <h2>Add New Entry</h2>
-                )}
-                
-                {modalMode === "update" && (
-                    <h2>Add New Entry</h2>
-                )}
-
-                {modalMode === "view" && (
-                    <h2>Add New Entry</h2>
-                )}
-
-                <form onSubmit={handleSubmit}>
-                    <div className="w-full mt-4 grid grid-cols-2">
-                        <InputField 
-                        label="Amount"
-                        isValid
-                        type="text" 
-                        readOnly={modalMode === "view"}
-                        placeholder={(entry ? entry.amount.toString() : "0")}
-                        />
-                    </div>
-
-                    <span className="w-full mt-4 inline-flex justify-end">
-                        {modalMode === "view" && (
-                            <button
-                            onClick={() => setModalMode("update")} 
-                            className="inline-flex gap-1 px-1"
-                            >
-                                <PenBoxIcon size={14} />
-                                <p className="text-[14px]">Edit Entry</p>
-                            </button>
-                        )}
-
-                        {modalMode === "update" && (
-                            <button 
-                            onClick={() => setModalMode("view")}
-                            className="inline-flex gap-1 px-1"
-                            >
-                                <XIcon size={14} />
-                                <p className="text-[14px]">Cancel</p>
-                            </button>
-                        )}
-
-                        {(modalMode === "update" || modalMode === "add") && (
-                            <input type="submit" />
-                        )}
-
-                        <button 
-                        onClick={() => onClose()}
-                        className="inline-flex gap-1 px-1.5 rounded-sm bg-red-800"
-                        >
-                            <XIcon size={14} color="#fff" className="h-auto" />
-                            <p className="text-[14px] text-white cursor-pointer">Close</p>
-                        </button>
-                    </span>                    
-                </form>
-            </div>
-        </Modal>
-    )
 }
 
 export default function TrackerTableEntry({ index, entry, theme } : TrackerEntryProps) {
