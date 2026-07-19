@@ -1,11 +1,13 @@
+import { useState } from "react";
+import { PlusIcon } from "lucide-react";
 import RequireAuth from "../components/wrappers/RequireAuth";
 import Card from "../components/composites/Card";
 import PageHeading from "../components/reusables/PageHeading";
 import QuotationOfTheDay from "../components/composites/QuotationOfTheDay";
 import TrackerTable from "../components/reusables/tracker/TrackerTable";
+import TrackerEntryModal from "../components/reusables/tracker/TrackerEntryModal";
 
 import type { TrackerEntry } from "../types/UserTypes";
-import { PlusIcon } from "lucide-react";
 
 export default function Tracker() {
 
@@ -33,7 +35,13 @@ export default function Tracker() {
             }
         ]
 
+    const [isEntryModalOpen, setIsEntryModalOpen] = useState(false)
     const currentMonth = (new Date).toLocaleDateString('en-US', { month: "long" })
+
+    const handleAddEntry = (entry: TrackerEntry) => {
+
+        
+    }
 
     return (
         <RequireAuth>
@@ -49,7 +57,10 @@ export default function Tracker() {
                     <div className="grow">
                         <span className="w-full mb-2 mt-4 inline-flex justify-between">
                             <h2 className="text-black font-medium">Income</h2>
-                            <button className="bg-[#2EC4B6] rounded-md px-1 flex justify-center align-middle gap-1 cursor-pointer">
+                            <button 
+                            onClick={() => setIsEntryModalOpen(prevState => !prevState)}
+                            className="bg-[#2EC4B6] rounded-md px-1 flex justify-center align-middle gap-1 cursor-pointer"
+                            >
                                 <PlusIcon size={12} color="#000" className="h-auto"/>
                                 <p className="text-[14px] text-black">Add Entry</p>
                             </button>
@@ -74,6 +85,14 @@ export default function Tracker() {
                     </div>
                 </span>
             </main>
+
+            {isEntryModalOpen && (                
+                <TrackerEntryModal 
+                mode="add"
+                onSubmit={handleAddEntry} 
+                onClose={() => setIsEntryModalOpen(prevState => !prevState)}
+                />                
+            )}
         </RequireAuth>
     )
 }

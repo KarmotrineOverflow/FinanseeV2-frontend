@@ -1,5 +1,5 @@
 import { useState, useRef } from "react"
-import { CalendarIcon, CoinsIcon, PenBoxIcon, WalletMinimalIcon, XIcon } from "lucide-react"
+import { BanIcon, CalendarIcon, CoinsIcon, PenBoxIcon, WalletMinimalIcon, XIcon } from "lucide-react"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"
 
@@ -43,11 +43,11 @@ export default function TrackerEntryModal({ entry, mode, onSubmit, onClose } : T
                 )}
                 
                 {modalMode === "update" && (
-                    <h2>Add New Entry</h2>
+                    <h2>Update Entry</h2>
                 )}
 
                 {modalMode === "view" && (
-                    <h2>Add New Entry</h2>
+                    <h2>View Entry</h2>
                 )}
 
                 <form onSubmit={handleSubmit}>
@@ -86,7 +86,7 @@ export default function TrackerEntryModal({ entry, mode, onSubmit, onClose } : T
                         />
 
                         <span className="col-span-2">
-                            <InputTextArea label="Description" />
+                            <InputTextArea label="Description" readOnly={modalMode === "view"} />
                         </span>                                              
                     </div>
 
@@ -94,7 +94,7 @@ export default function TrackerEntryModal({ entry, mode, onSubmit, onClose } : T
                         {modalMode === "view" && (
                             <button
                             onClick={() => setModalMode("update")} 
-                            className="inline-flex gap-1 px-1.5 rounded-sm bg-green-400"
+                            className="inline-flex gap-1 px-1.5 rounded-sm bg-green-400 cursor-pointer"
                             >
                                 <PenBoxIcon size={14} color="#fff" className="h-auto" />
                                 <p className="text-[14px] text-white">Edit Entry</p>
@@ -104,15 +104,15 @@ export default function TrackerEntryModal({ entry, mode, onSubmit, onClose } : T
                         {modalMode === "update" && (
                             <button 
                             onClick={() => { amountValue.current = entry!.amount; setModalMode("view")  }}
-                            className="inline-flex gap-1 px-1.5 rounded-sm bg-orange-400"
+                            className="inline-flex gap-1 px-1.5 rounded-sm bg-orange-400 cursor-pointer"
                             >
-                                <XIcon size={14} color="#fff" className="h-auto" />
+                                <BanIcon size={14} color="#fff" className="h-auto" />
                                 <p className="text-[14px] text-white">Cancel</p>
                             </button>
                         )}
 
                         {(modalMode === "update" || modalMode === "add") && (
-                            <input type="submit" />
+                            <input type="submit" className="text-[14px] text-white cursor-pointer inline-flex gap-1 px-1.5 rounded-sm bg-green-800" />
                         )}
 
                         <button 
