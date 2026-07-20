@@ -63,9 +63,11 @@ export default function ListFilters({ filters, onFilterSelect } : ListFiltersPro
 
     return (
         <Card hasBorders>
-            <ul className="min-w-[20vw] max-w-[25vw] p-3 flex gap-4 flex-wrap">
-                {filterItems}
-            </ul>
+            <div className="min-w-[20vw] min-h-[50vh] max-w-[25vw] ">
+                <ul className="p-3 flex gap-2 flex-wrap">
+                    {filterItems}
+                </ul>
+            </div>            
         </Card>
     )
 }

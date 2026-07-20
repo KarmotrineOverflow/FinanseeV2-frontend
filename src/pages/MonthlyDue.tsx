@@ -5,6 +5,7 @@ import PageHeading from "../components/reusables/PageHeading";
 import RequireAuth from "../components/wrappers/RequireAuth";
 import ListFilters from "../components/reusables/list/ListFilters";
 import List from "../components/reusables/list/List";
+import MonthlyDueModal from "../components/reusables/list/MonthlyDueModal";
 import { MONTHLY_DUE_FILTER_ICON_MAPPING } from "../mappings/iconMappings";
 
 import type { MonthlyDue } from "../types/UserTypes";
@@ -28,7 +29,8 @@ export default function MonthlyDue() {
             amount: 1234,
             date: "06/12/2026",
             description: "Test payment",
-            isPaid: false
+            isPaid: false,
+            category: ["Rent"]
         },
         {
             amount: 1234,
@@ -68,6 +70,7 @@ export default function MonthlyDue() {
         }
     ] as MonthlyDue[]
 
+    const [isModalVisible, setIsModalVisible] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState("All")
 
     const collectedFilters = useMemo(() => {
@@ -129,6 +132,11 @@ export default function MonthlyDue() {
         }        
     }, [selectedFilter])
 
+    const handleAddEntry = (entry: MonthlyDue) => {
+
+
+    }
+
     return (
         <RequireAuth>
             <main className="p-8 w-full h-full flex-col overflow-y-auto">                
@@ -146,7 +154,7 @@ export default function MonthlyDue() {
                         <span className="w-full inline-flex justify-between">
                             <p>Showing {entries.length} results for <b>{selectedFilter}</b></p>
                             <button 
-                            onClick={() => {}}
+                            onClick={() => setIsModalVisible(true)}
                             className="bg-[#2EC4B6] rounded-md px-1 flex justify-center align-middle gap-1 cursor-pointer"
                             >
                                 <PlusIcon size={12} color="#fff" className="h-auto"/>
@@ -160,6 +168,8 @@ export default function MonthlyDue() {
                     </div>
                 </span>
             </main>
+
+            {isModalVisible && <MonthlyDueModal mode="add" onSubmit={(entry) => handleAddEntry(entry)} onClose={() => setIsModalVisible(false)}/>}
         </RequireAuth>
     )
 }

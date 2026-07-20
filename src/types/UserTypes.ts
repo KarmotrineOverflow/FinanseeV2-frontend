@@ -44,6 +44,7 @@ export type Debt = {
     isPaid: boolean
     to: string
     amount: number
+    name: string
     description: string
     date: string
     allocation: "Savings" | "Pocket Money" | "Emergency Fund"   
@@ -51,6 +52,7 @@ export type Debt = {
 
 export type MonthlyDue = {
 
+    name: string
     description: string,
     isPaid: boolean
     amount: number

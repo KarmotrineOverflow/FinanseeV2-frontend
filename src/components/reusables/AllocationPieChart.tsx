@@ -34,7 +34,8 @@ export default function AllocationPieChart() {
                         '#2EC4B6',
                         '#AB3131',
                         '#FF9F1C'
-                    ]
+                    ],
+                    clip: -10
                 }]
             }
         })
@@ -45,7 +46,7 @@ export default function AllocationPieChart() {
     return (
         <RequireAuth>
             <Card>
-                <div className='p-8 w-[35vw] h-[80%] flex flex-col justify-center'>
+                <div className='p-8 w-[35vw] h-[52vh] flex flex-col justify-center'>
                     <h2 className='text-[16px]'>Current net worth allocation</h2>
                     <p className='text-[14px] font-bold italic'>Total net worth: PHP {
                         (report?.allocation.savings ?? 0) + 
@@ -67,7 +68,7 @@ export default function AllocationPieChart() {
                         </span>
                     </div>
                     
-                    <canvas width={100} height={50} ref={chartRef} className='self-center'/>
+                    <canvas ref={chartRef} className='self-center'/>
                 </div>
             </Card>
         </RequireAuth>
