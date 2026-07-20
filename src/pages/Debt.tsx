@@ -12,74 +12,52 @@ import DebtModal from "../components/reusables/list/DebtModal";
 
 export default function Debt() {
 
-    const DEBT_TEST_DATA = [
+    const DEBT_TEST_DATA: Debt[] = [
         {
+            name: "Money Borrowed",
+            to:[ "Adam"],
             allocation: "Savings",
-            amount: 5600,
             category: ["As Debtor"],
-            dateCreated: "07/15/2026",
-            dateExpiry: "08/20/2026",
-            description: "Loan for buying meds",
-            isPaid: false,
-            name: "Meds Loan",
-            to: ["Jerome"]
+            amount: 1200,
+            dateCreated: "06/22/2026",
+            dateExpiry: "07/12/2026",
+            description: "Borrowed money from my friend Adamn",
+            isPaid: false
         },
         {
-            allocation: "Savings",
-            amount: 5600,
-            category: ["As Debtor"],
-            dateCreated: "07/15/2026",
-            dateExpiry: "08/20/2026",
-            description: "Loan for buying meds",
-            isPaid: false,
-            name: "Meds Loan",
-            to: ["Jerome"]
+            name: "Snack Money",
+            to:[ "Casey"],
+            allocation: "Pocket Money",
+            category: ["As Creditor"],
+            amount: 500,
+            dateCreated: "07/19/2026",
+            dateExpiry: "07/22/2026",
+            description: "Casey got hungry after breaktime and wanted some chips. Unfortunately, the office pantry's cashless accounts were down and she had no cash.",
+            isPaid: false
         },
         {
-            allocation: "Savings",
-            amount: 5600,
+            name: "Emergency checkup",
+            to:[ "Blake"],
+            allocation: "Emergency Fund",
             category: ["As Debtor"],
+            amount: 20000,
             dateCreated: "07/15/2026",
-            dateExpiry: "08/20/2026",
-            description: "Loan for buying meds",
-            isPaid: false,
-            name: "Meds Loan",
-            to: ["Jerome"]
+            dateExpiry: "07/20/2026",
+            description: "My sibling caught the flu and has been sick for almost a week. We've got no money at the moment, but she has to get to the doctor now.",
+            isPaid: false
         },
         {
-            allocation: "Savings",
-            amount: 5600,
+            name: "Physical game to pay later",
+            to:[ "Blake"],
+            allocation: "Pocket Money",
             category: ["As Debtor"],
-            dateCreated: "07/15/2026",
-            dateExpiry: "08/20/2026",
-            description: "Loan for buying meds",
-            isPaid: false,
-            name: "Meds Loan",
-            to: ["Jerome"]
-        },
-        {
-            allocation: "Savings",
-            amount: 5600,
-            category: ["As Debtor"],
-            dateCreated: "07/15/2026",
-            dateExpiry: "08/20/2026",
-            description: "Loan for buying meds",
-            isPaid: false,
-            name: "Meds Loan",
-            to: ["Jerome"]
-        },
-        {
-            allocation: "Savings",
-            amount: 5600,
-            category: ["As Debtor"],
-            dateCreated: "07/15/2026",
-            dateExpiry: "08/20/2026",
-            description: "Loan for buying meds",
-            isPaid: false,
-            name: "Meds Loan",
-            to: ["Jerome"]
-        },
-    ] as Debt[]
+            amount: 800,
+            dateCreated: "06/02/2026",
+            dateExpiry: "07/05/2026",
+            description: "Borrowed money from my friend Adamn",
+            isPaid: false
+        }
+    ]
 
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState("All")

@@ -12,28 +12,28 @@ import type { TrackerEntry } from "../types/UserTypes";
 export default function Tracker() {
 
     const INCOME_TEST_DATA: TrackerEntry[] = [
-            {
-                type: "Income",
-                description: "Got money off the ground",
-                date: "07-12-2026",
-                amount: 10000,
-                allocation: "Savings"
-            },
-            {
-                type: "Income",
-                description: "Shat gold",
-                date: "07-14-2026",
-                amount: 15000,
-                allocation: "Pocket Money"
-            },
-            {
-                type: "Income",
-                description: "Stole it from an old crone",
-                date: "07-20-2026",
-                amount: 23456,
-                allocation: "Emergency Fund"
-            }
-        ]
+        {
+            type: "Income",
+            description: "Received salary from XYZ",
+            date: "07/12/2026",
+            amount: 10000,
+            allocation: "Savings"
+        },
+        {
+            type: "Income",
+            description: "Allowance from Dolores",
+            date: "07/14/2026",
+            amount: 15000,
+            allocation: "Pocket Money"
+        },
+        {
+            type: "Income",
+            description: "Monthly salary allocation to EF",
+            date: "07/20/2026",
+            amount: 23456,
+            allocation: "Emergency Fund"
+        }
+    ]
 
     const [isEntryModalOpen, setIsEntryModalOpen] = useState(false)
     const currentMonth = (new Date).toLocaleDateString('en-US', { month: "long" })
