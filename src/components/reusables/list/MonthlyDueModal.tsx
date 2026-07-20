@@ -6,7 +6,7 @@ import Modal from "../../composites/Modal"
 import type { MonthlyDue } from "../../../types/UserTypes"
 import InputTextArea from "../../forms/InputTextArea"
 
-type TrackerEntryModalProps = { 
+type MonthlyDueModalProps = { 
     entry?: MonthlyDue, 
     mode: "add" | "update" | "view", 
     onSubmit: (entry: MonthlyDue) => void 
@@ -14,7 +14,7 @@ type TrackerEntryModalProps = {
 }
 
 
-export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : TrackerEntryModalProps) {
+export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : MonthlyDueModalProps) {
 
     const [modalMode, setModalMode] = useState(mode)
 

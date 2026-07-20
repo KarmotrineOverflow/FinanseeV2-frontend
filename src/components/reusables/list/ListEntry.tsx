@@ -4,16 +4,19 @@ import MonthlyDueModal from "./MonthlyDueModal"
 import { MONTHLY_DUE_FILTER_ICON_MAPPING, DEBT_FILTER_ICON_MAPPING } from "../../../mappings/iconMappings"
 
 import type { MonthlyDue, Debt } from "../../../types/UserTypes"
+import DebtModal from "./DebtModal"
 
 type ListEntryProps = {
 
     type: "monthly-due" | "debt"
+    entryKey: string
     entry: MonthlyDue | Debt
 }
 
-export default function ListEntry({ type, entry } : ListEntryProps) {
+export default function ListEntry({ type, entryKey, entry } : ListEntryProps) {
 
     const [isModalVisible, setIsModalVisible] = useState(false)
+    console.log(entryKey)
 
     const handleToggle = (e: ChangeEvent<HTMLInputElement>) => {
 
@@ -110,7 +113,7 @@ export default function ListEntry({ type, entry } : ListEntryProps) {
                     <MonthlyDueModal 
                     entry={castedEntry}
                     mode="update" 
-                    onSubmit={(castedEntry) => handleUpdateEntry(entry)} 
+                    onSubmit={(castedEntry) => handleUpdateEntry(castedEntry)} 
                     onClose={() => setIsModalVisible(false)} 
                     />
                 )}
@@ -159,8 +162,8 @@ export default function ListEntry({ type, entry } : ListEntryProps) {
 
                     {/* --- castedEntry Toggle --- */}
                     <span className="w-full inline-flex gap-2 mt-2 align-middle justify-start">
-                        <input type="checkbox" id="is-paid-checkbox" onChange={(e) => handleToggle} className="h-auto scale-110"/>
-                        <label htmlFor="is-paid-checkbox" className="text-[14px] font-medium">Is Paid for Current Month</label>
+                        <input type="checkbox" id={entryKey} onChange={(e) => handleToggle} className="h-auto scale-110"/>
+                        <label htmlFor={entryKey} className="text-[14px] font-medium">Is Paid</label>
                     </span>
 
                     {/* Extra Detail Chips */}
@@ -175,7 +178,7 @@ export default function ListEntry({ type, entry } : ListEntryProps) {
 
                         <span className="inline-flex gap-2">
                             <p className="text-[14px] font-medium">Due Date: </p>
-                            <DetailChip label={castedEntry.date} />
+                            <DetailChip label={castedEntry.dateExpiry} />
                         </span>
 
                         <span className="inline-flex gap-2">
@@ -185,14 +188,13 @@ export default function ListEntry({ type, entry } : ListEntryProps) {
 
                         <span className="inline-flex gap-2 flex-wrap">
                             <p className="text-[14px] font-medium">Involvements: </p>
-                            { S }
-                            <DetailChip label={`PHP ${castedEntry.amount}`} />
+                            { castedEntry.to.map(item => <DetailChip label={item} />) }                            
                         </span>
                     </div>
                 </div>
                 
                 {isModalVisible && (
-                    <MonthlyDueModal 
+                    <DebtModal 
                     entry={castedEntry}
                     mode="update" 
                     onSubmit={(castedEntry) => handleUpdateEntry(castedEntry)} 

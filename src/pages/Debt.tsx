@@ -14,60 +14,71 @@ export default function Debt() {
 
     const DEBT_TEST_DATA = [
         {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
-        },
-        {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
-        },
-        {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
+            allocation: "Savings",
+            amount: 5600,
+            category: ["As Debtor"],
+            dateCreated: "07/15/2026",
+            dateExpiry: "08/20/2026",
+            description: "Loan for buying meds",
             isPaid: false,
-            category: ["Rent"]
+            name: "Meds Loan",
+            to: ["Jerome"]
         },
         {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
+            allocation: "Savings",
+            amount: 5600,
+            category: ["As Debtor"],
+            dateCreated: "07/15/2026",
+            dateExpiry: "08/20/2026",
+            description: "Loan for buying meds",
+            isPaid: false,
+            name: "Meds Loan",
+            to: ["Jerome"]
         },
         {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
+            allocation: "Savings",
+            amount: 5600,
+            category: ["As Debtor"],
+            dateCreated: "07/15/2026",
+            dateExpiry: "08/20/2026",
+            description: "Loan for buying meds",
+            isPaid: false,
+            name: "Meds Loan",
+            to: ["Jerome"]
         },
         {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
+            allocation: "Savings",
+            amount: 5600,
+            category: ["As Debtor"],
+            dateCreated: "07/15/2026",
+            dateExpiry: "08/20/2026",
+            description: "Loan for buying meds",
+            isPaid: false,
+            name: "Meds Loan",
+            to: ["Jerome"]
         },
         {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
+            allocation: "Savings",
+            amount: 5600,
+            category: ["As Debtor"],
+            dateCreated: "07/15/2026",
+            dateExpiry: "08/20/2026",
+            description: "Loan for buying meds",
+            isPaid: false,
+            name: "Meds Loan",
+            to: ["Jerome"]
         },
         {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
+            allocation: "Savings",
+            amount: 5600,
+            category: ["As Debtor"],
+            dateCreated: "07/15/2026",
+            dateExpiry: "08/20/2026",
+            description: "Loan for buying meds",
+            isPaid: false,
+            name: "Meds Loan",
+            to: ["Jerome"]
         },
-        {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
-        }
     ] as Debt[]
 
     const [isModalVisible, setIsModalVisible] = useState(false)

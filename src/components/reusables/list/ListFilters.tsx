@@ -39,7 +39,7 @@ export default function ListFilters({ filters, onFilterSelect } : ListFiltersPro
                         {styledIcon}
                     </span>
                     <span className="h-min my-auto">
-                        <p className="h-min m-auto my-auto">{item.name}</p>
+                        <p className="h-min m-auto my-auto text-nowrap">{item.name}</p>
                     </span>       
                     <span className="px-1.5 py-1 m-auto leading-none rounded-full bg-white text-[10px] text-black">
                         {item.count}

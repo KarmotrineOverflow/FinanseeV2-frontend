@@ -42,11 +42,12 @@ export type Debt = {
 
     category: string[]
     isPaid: boolean
-    to: string
+    to: string[]
     amount: number
     name: string
     description: string
-    date: string
+    dateCreated: string,
+    dateExpiry: string,
     allocation: "Savings" | "Pocket Money" | "Emergency Fund"   
 }
 
