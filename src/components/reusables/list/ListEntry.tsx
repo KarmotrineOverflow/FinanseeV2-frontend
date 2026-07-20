@@ -56,7 +56,7 @@ export default function ListEntry({ type, entry } : ListEntryProps) {
                                     : <CircleQuestionMarkIcon size={18} color="#2EC4B6" className="h-auto"/>
                                 }
                             </span>                            
-                            <h3 className="text-[#2EC4B6] font-bold text-[24px] text-start">{entry.description}</h3>
+                            <h3 className="text-[#2EC4B6] font-bold text-[24px] text-start">{entry.name}</h3>
                         </span>      
 
                         <span className="inline-flex gap-2">
