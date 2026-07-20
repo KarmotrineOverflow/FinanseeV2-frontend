@@ -1,9 +1,7 @@
 import { useState, useRef } from "react"
-import { EllipsisVerticalIcon, PenBoxIcon, XIcon } from "lucide-react"
-import InputField from "../../forms/InputField"
+import { EllipsisVerticalIcon } from "lucide-react"
 import TrackerEntryActions from "./TrackerEntryActions"
 import TrackerEntryModal from "./TrackerEntryModal"
-import Modal from "../../composites/Modal"
 
 import type { TrackerEntry } from "../../../types/UserTypes"
 
@@ -69,7 +67,7 @@ export default function TrackerTableEntry({ index, entry, theme } : TrackerEntry
                     </button>
 
                     {isActionsOpen && (
-                        <TrackerEntryActions entry={entry} onClose={() => setIsActionsOpen(false)} onActionChosen={handleActionClick} />
+                        <TrackerEntryActions onClose={() => setIsActionsOpen(false)} onActionChosen={handleActionClick} />
                     )}
                 </td>
             </tr>

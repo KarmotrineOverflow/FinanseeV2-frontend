@@ -40,10 +40,11 @@ export type TrackerEntry = {
 
 export type Debt = {
 
-    isDebtor: boolean
+    category: string[]
     isPaid: boolean
     to: string
     amount: number
+    name: string
     description: string
     date: string
     allocation: "Savings" | "Pocket Money" | "Emergency Fund"   
@@ -51,10 +52,12 @@ export type Debt = {
 
 export type MonthlyDue = {
 
+    name: string
     description: string,
     isPaid: boolean
     amount: number
     date: string
+    category?: string[]
 }
 
 export type Allocation = {
