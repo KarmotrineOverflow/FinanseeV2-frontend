@@ -14,18 +14,6 @@ type ListFiltersProps = {
     onFilterSelect: (selectedFilter: string) => void
 }
 
-const MONTHLY_DUE_LIST_FILTERS = [
-    "Utilities",
-    "Electricity",
-    "Internet",
-    "Rent"
-]
-const DEBT_LIST_FILTERS = [
-    "Overdue",
-    "Creditor",
-    "Debtor"
-]
-
 export default function ListFilters({ filters, onFilterSelect } : ListFiltersProps) {
 
     const [selectedFilter, setSelectedFilter] = useState("All")

@@ -51,8 +51,9 @@ export default function List({ items, listItemType }: ListProps) {
 
         } else if (listItemType === "debt") {
 
-           return (items as Debt[]).map((item, index) => 
-                <li></li>
+           return (displayedEntries as Debt[]).map((item, index) => 
+                
+                <ListEntry type="debt" entry={item} />
             )
         }
     }, [items, listItemType, displayedEntries])    
