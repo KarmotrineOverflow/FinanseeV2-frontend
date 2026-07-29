@@ -35,7 +35,7 @@ export default function ListEntry({ type, entryKey, entry } : ListEntryProps) {
         }
     }
 
-    const handleUpdateEntry = (entry: MonthlyDue) => {
+    const handleUpdateEntry = (entry: MonthlyDue | Debt) => {
 
 
     }

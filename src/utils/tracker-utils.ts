@@ -34,7 +34,12 @@ export async function addEntry(entry: TrackerEntry, type: "income" | "expense") 
             })
         })
 
-        if (res.ok) return 0
+        if (res.ok) {
+            
+            // Once backend is updated, update the cached copy in the FE to render the changes
+            
+            return 0
+        }
         return 1
     } catch (err) {
 

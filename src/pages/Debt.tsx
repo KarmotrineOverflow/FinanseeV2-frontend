@@ -123,7 +123,7 @@ export default function Debt() {
 
     const handleAddEntry = (entry: Debt) => {
 
-
+        
     }
 
     return (
