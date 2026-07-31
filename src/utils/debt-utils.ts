@@ -6,6 +6,8 @@ import type { Debt, Report } from "../types/UserTypes";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
+// TODO: Update the return values to include messages to display error message to user
+
 export async function addEntry(entry: Debt) {
 
     const { user } = useContext(userContext)
