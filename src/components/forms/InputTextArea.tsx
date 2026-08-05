@@ -11,9 +11,9 @@ export default function InputTextArea({label, defaultText = "", ...props} : Inpu
 
     return (
         <>
-            <label>{label}</label>
+            <label className="mb-1 text-start font-regular text-gray-700 text-[14px]">{label}</label>
             <Card>
-                <textarea {...props} placeholder={defaultText} className="w-full min-h-[35vh] p-2 bg-gray-50 resize-none text-[14px] focus:outline-0"/>
+                <textarea {...props} placeholder={defaultText} className="w-full min-h-[35vh] p-2 border-l border-gray-300 px-2 text-[12px] bg-white focus:outline-0"/>
             </Card>
         </>        
     )

@@ -1,6 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import { LogOut, Settings, SquareChevronLeftIcon, SquareChevronRightIcon } from "lucide-react";
 
 export default function SideNav({ children, isOpen, toggleOpen } : { children: React.ReactNode, isOpen: boolean, toggleOpen: () => void }) {    
+
+    const navigate = useNavigate()
+
+    const handleLogOut = () => {
+
+        const cookies = document.cookie.split(";")
+
+        for (const cookie of cookies) {
+
+            document.cookie = cookie + "=;expires=" + new Date(0).toUTCString();
+            navigate('/sign-in')
+        }
+    }   
 
     return (
         <aside className={(isOpen) ? openSideNavStyle() : closedSideNavStyle()}>
@@ -36,6 +50,7 @@ export default function SideNav({ children, isOpen, toggleOpen } : { children: R
                     </li>
                     <li className="w-full">
                         <button
+                        onClick={() => handleLogOut()}
                         className={`px-4 w-full p-2 flex align-middle gap-2 text-white cursor-pointer hover:bg-[#FFBF69]`}
                         >
                             <LogOut />
