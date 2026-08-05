@@ -4,7 +4,8 @@ import Loading from '../reusables/Loading'
 
 type Quote = {
     quote: string,
-    author: string
+    author: string,
+    expirationTimestamp: number
 }
 
 const QUOTE_TAGS = [
@@ -35,22 +36,34 @@ export default function QuotationOfTheDay() {
 
             if (res) {
 
-                localStorage.setItem("finansee_quote", JSON.stringify(res))
-                setQuote(res)
+                // Set to expire after 24 hours by adding a day in milliseconds to current timestamp
+                const expirationDate = Date.now() + 86400000
+                const newQuote = {...res, expirationTimestamp: expirationDate}
+
+                localStorage.setItem("finansee_quote", JSON.stringify(newQuote))
+                setQuote(newQuote)
             }
         }
 
         let existingQuote = localStorage.getItem("finansee_quote")
 
-        if (existingQuote) setQuote(JSON.parse(existingQuote) as Quote)
-        else getNewQuote()
+        if (existingQuote) {
+            const parsedQuoteData = JSON.parse(existingQuote) as Quote
+            const expirationTimestamp = parsedQuoteData.expirationTimestamp ?? 0
+            
+            if (Date.now() > expirationTimestamp) {
+                getNewQuote()
+
+            } else setQuote(JSON.parse(existingQuote) as Quote)            
+
+        } else getNewQuote()
     }, [])
 
     if (!quote) return <Loading message='Retrieving quote..' />
 
     return (
-        <span className="flex flex-col justify-end">
-            <q className="text-[16px] text-end"><cite>{quote.quote}</cite></q>
+        <span className="flex h-auto max-w-[50%] flex-col justify-end">
+            <q className="text-[16px] text-end wrap"><cite>{quote.quote}</cite></q>
             <p className="italic text-[14px] text-end">- {quote.author}</p>
         </span>
     )
