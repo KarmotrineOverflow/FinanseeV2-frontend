@@ -24,8 +24,7 @@ const QUOTE_TAGS = [
 export default function QuotationOfTheDay() {
 
     const [quote, setQuote] = useState<Quote | null>(null)
-
-    // TODO: Implement an expiration feature to the stored quote that will be valid for only 1 day.
+    
     useEffect(() => {
 
         const getNewQuote = async () => {

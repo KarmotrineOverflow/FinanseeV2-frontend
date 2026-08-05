@@ -18,26 +18,40 @@ export default function ListEntry({ type, entryKey, entry } : ListEntryProps) {
     const [isModalVisible, setIsModalVisible] = useState(false)
     console.log(entryKey)
 
-    const handleToggle = (e: ChangeEvent<HTMLInputElement>) => {
-
-        if (type === "monthly-due") {
-
-            if (e.target.checked) {
-
-                // Add a new entry to the tracker that subtracts that entry's amount from the user's Savings allocation
-            } else {
-
-                // Remove the generated entry from the tracker
-            }
-        } else if (type === "debt") {
-
-
-        }
-    }
-
     const handleUpdateEntry = (entry: MonthlyDue | Debt) => {
 
 
+    }
+
+    const handlePaymentToggle = (e: ChangeEvent<HTMLInputElement>) => {
+
+        e.preventDefault()
+
+        const isToggled = e.target.checked
+
+        if (type === "monthly-due") {
+
+            // Check if an entry exists first before doing anything
+
+            if (isToggled) {
+
+                // If an tracker entry does not exist yet, create one
+            } else {
+                
+                // If a tracker does exist, delete it
+            }
+        } else if (type === "debt") {
+
+            // Check if an entry exists first before doing anything
+
+            if (isToggled) {
+
+                // If an tracker entry does not exist yet, create one
+            } else {
+                
+                // If a tracker does exist, delete it
+            }
+        }        
     }
 
     if (type === "monthly-due") {
@@ -84,7 +98,9 @@ export default function ListEntry({ type, entryKey, entry } : ListEntryProps) {
                     {/* --- castedEntry Toggle --- */}
                     <span className="w-full inline-flex gap-2 mt-2 align-middle justify-start">
                         <input type="checkbox" id="is-paid-checkbox" onChange={(e) => handleToggle} className="h-auto scale-110"/>
-                        <label htmlFor="is-paid-checkbox" className="text-[14px] font-medium">Is Paid for Current Month</label>
+
+                        {/* TODO: Add functionality to this where a tracker entry gets added/deleted based on its toggle state */}
+                        <label htmlFor="is-paid-checkbox" className="text-[14px] font-medium" onChange={(e) => handlePaymentToggle}>Is Paid for Current Month</label>
                     </span>
 
                     {/* Extra Detail Chips */}
@@ -162,13 +178,13 @@ export default function ListEntry({ type, entryKey, entry } : ListEntryProps) {
 
                     {/* --- castedEntry Toggle --- */}
                     <span className="w-full inline-flex gap-2 mt-2 align-middle justify-start">
-                        <input type="checkbox" id={entryKey} onChange={(e) => handleToggle} className="h-auto scale-110"/>
+                        <input type="checkbox" id={entryKey} onChange={(e) => handlePaymentToggle} className="h-auto scale-110"/>
                         <label htmlFor={entryKey} className="text-[14px] font-medium">Is Paid</label>
                     </span>
 
                     {/* Extra Detail Chips */}
                     <div className="grid grid-cols-2 gap-3 mt-6">
-                        <span className="inline-flex gap-2">
+                        <span className="inline-flex gap-2 justify-center align-middle">
                             <p className="text-[14px] font-medium">Categories: </p>
                             {(castedEntry.category)
                                 ? castedEntry.category.map(i => <DetailChip label={i} />)
@@ -212,8 +228,8 @@ export default function ListEntry({ type, entryKey, entry } : ListEntryProps) {
 function DetailChip({ label } : { label: string }) {
 
     return (
-        <span className="bg-[#FFBF69] px-2 rounded-full text-[12px] text-white">
-            {label}
+        <span className="h-min self-center bg-[#FFBF69] px-2 py-2 rounded-full text-[12px] text-white">
+            <p className="leading-0 font-medium">{label}</p>
         </span>
     )
 }
