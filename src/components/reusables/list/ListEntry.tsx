@@ -97,10 +97,10 @@ export default function ListEntry({ type, entryKey, entry } : ListEntryProps) {
 
                     {/* --- castedEntry Toggle --- */}
                     <span className="w-full inline-flex gap-2 mt-2 align-middle justify-start">
-                        <input type="checkbox" id="is-paid-checkbox" onChange={(e) => handleToggle} className="h-auto scale-110"/>
+                        <input type="checkbox" id="is-paid-checkbox" onChange={(e) => handlePaymentToggle} className="h-auto scale-110"/>
 
                         {/* TODO: Add functionality to this where a tracker entry gets added/deleted based on its toggle state */}
-                        <label htmlFor="is-paid-checkbox" className="text-[14px] font-medium" onChange={(e) => handlePaymentToggle}>Is Paid for Current Month</label>
+                        <label htmlFor="is-paid-checkbox" className="text-[14px] font-medium">Is Paid for Current Month</label>
                     </span>
 
                     {/* Extra Detail Chips */}
