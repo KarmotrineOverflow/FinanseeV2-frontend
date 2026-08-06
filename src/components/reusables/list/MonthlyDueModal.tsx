@@ -2,9 +2,11 @@ import { useState, useRef } from "react"
 import { BanIcon, MenuIcon, CalendarCheck2Icon, CoinsIcon, PenBoxIcon, WalletMinimalIcon, XIcon, CaptionsIcon } from "lucide-react"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"
+import InputTextArea from "../../forms/InputTextArea"
+import Taxonomy from "../../forms/Taxonomy"
+import { MONTHLY_DUE_FILTERS } from "../../../constants/filter_constants"
 
 import type { MonthlyDue } from "../../../types/UserTypes"
-import InputTextArea from "../../forms/InputTextArea"
 
 type MonthlyDueModalProps = { 
     entry?: MonthlyDue, 
@@ -13,12 +15,35 @@ type MonthlyDueModalProps = {
     onClose: () => void
 }
 
-
 export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : MonthlyDueModalProps) {
 
+    const initialData = entry ?? {
+        _id: "",
+        name: "",
+        amount: 0,
+        isPaid: false,
+        date: "",
+        categories: [],
+        description: ""
+    } as MonthlyDue
+
     const [modalMode, setModalMode] = useState(mode)
+    const [capturedData, setCapturedData] = useState(initialData)
 
     const amountValue = useRef(1)
+
+    const handleDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+        const inputType = e.target.name
+        const newValue = e.target.value
+
+        setCapturedData((prevState) => { return {...prevState, [inputType]: newValue} })
+    }
+
+    const handleTaxonomyChange = (selectedOptions: string[])  => {
+
+
+    }
 
     const handleSubmit = (e: React.SubmitEvent) => {
 
@@ -50,15 +75,18 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
                     <div className="w-full mt-4 grid grid-cols-2 gap-4">
                         <InputField 
                         label="Name"
+                        name="name"
                         icon={ <CaptionsIcon size={18} className="h-auto" /> }
                         isValid={true}                        
                         type="text"
                         readOnly={modalMode === "view"}
-                        placeholder={(entry ? entry.name : "")}                        
+                        placeholder={(entry ? entry.name : "")}     
+                        onChange={() => handleDataChange}                   
                         />
 
                         <InputField 
                         label="Amount"
+                        name="amount"
                         icon={ <CoinsIcon size={18} className="h-auto" /> }
                         isValid={true}
                         errorMessage="Amount must be greater than 0."
@@ -70,6 +98,7 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
 
                         <InputField 
                         label="Due Date"
+                        name="date"
                         icon={ <CalendarCheck2Icon size={18} className="h-auto" /> }
                         isValid={true}
                         errorMessage=""
@@ -77,19 +106,17 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
                         readOnly={modalMode === "view"}
                         placeholder={(entry ? entry.date : "0")}                        
                         />
-
-                        {/* TODO: Have to replace this with a taxonomy component */}
-                        <InputField 
+                        
+                        <Taxonomy 
                         label="Categories"
+                        values={MONTHLY_DUE_FILTERS}
                         icon={ <MenuIcon size={18} className="h-auto" /> }
-                        isValid={true}
-                        errorMessage=""
-                        type="text" 
-                        readOnly={modalMode === "view"}                                   
+                        readOnly={modalMode === "view"}      
+                        onChange={handleTaxonomyChange}             
                         />
 
                         <span className="col-span-2">
-                            <InputTextArea label="Description" readOnly={modalMode === "view"} />
+                            <InputTextArea label="Description" name="description" readOnly={modalMode === "view"} />
                         </span>                                              
                     </div>
 

@@ -16,7 +16,6 @@ type ListEntryProps = {
 export default function ListEntry({ type, entryKey, entry } : ListEntryProps) {
 
     const [isModalVisible, setIsModalVisible] = useState(false)
-    console.log(entryKey)
 
     const handleUpdateEntry = (entry: MonthlyDue | Debt) => {
 
