@@ -5,8 +5,10 @@ import Modal from "../../composites/Modal"
 import InputTextArea from "../../forms/InputTextArea"
 import Taxonomy from "../../forms/Taxonomy"
 import { MONTHLY_DUE_FILTERS } from "../../../constants/filter_constants"
+import { addEntry, updateEntry } from "../../../utils/monthly-due-utils"
 
 import type { MonthlyDue } from "../../../types/UserTypes"
+import Toast from "../../composites/Toast"
 
 type MonthlyDueModalProps = { 
     entry?: MonthlyDue, 
@@ -28,9 +30,14 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
     } as MonthlyDue
 
     const [modalMode, setModalMode] = useState(mode)
-    const [capturedData, setCapturedData] = useState(initialData)
+    const [capturedData, setCapturedData] = useState(initialData)    
+
+    const [isToastOpen, setIsToastOpen] = useState(false)
 
     const amountValue = useRef(1)
+    const toastType = useRef<"success" | "warning" | "error">("success")
+    const toastHeader = useRef("")
+    const toastMessage = useRef("")
 
     const handleDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 
@@ -42,19 +49,38 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
 
     const handleTaxonomyChange = (selectedOptions: string[])  => {
 
-
+        setCapturedData((prevState) => { return {...prevState, category: selectedOptions} })
     }
 
-    const handleSubmit = (e: React.SubmitEvent) => {
+    const handleSubmit = async (e: React.SubmitEvent) => {
 
         e.preventDefault() 
         
-        // TODO: Finish the definition of this func
-        // Collect the field values and store in a MonthlyDue obj
+        switch (modalMode) {
 
+            case "add": {
+                const res = await addEntry(capturedData)
+                
+                if (res === "success") {
 
-        // Call onSubmit with field vals as arg
+                    toastType.current = "success"
+                    toastHeader.current = "Success"
+                    toastMessage.current = "Your new monthly due entry has been added."
+                    setIsToastOpen(true)
+                    
+//                    onClose()
+                } else {
+
+                    toastType.current = "error"
+                    toastHeader.current = "An error has occured"
+                    toastMessage.current = res
+                    setIsToastOpen(true)
+                }
+            }                
+        }
     }
+
+    const onToastClose = () => setIsToastOpen(false)
 
     return (
         <Modal onClose={onClose}>
@@ -161,6 +187,15 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
                     </span>                    
                 </form>
             </div>
+
+            {isToastOpen && (
+                <Toast 
+                type={toastType.current}
+                header={toastHeader.current} 
+                message={toastMessage.current}
+                onClose={() => onToastClose()}
+                />
+            )}
         </Modal>
     )
 }

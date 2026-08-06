@@ -12,8 +12,6 @@ type TaxonomyProps = {
 
 export default function Taxonomy({ label, values, icon, onChange, readOnly } : TaxonomyProps) {
 
-    console.log(values)
-
     const [selectedValues, setSelectedValues] = useState<string[]>([])
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
@@ -65,6 +63,7 @@ export default function Taxonomy({ label, values, icon, onChange, readOnly } : T
                 )}
 
                 <button 
+                disabled={readOnly}
                 onClick={() => setIsDropdownOpen(prevState => !prevState)}
                 className='w-full flex justify-end cursor-pointer'
                 >
@@ -80,12 +79,13 @@ export default function Taxonomy({ label, values, icon, onChange, readOnly } : T
     )
 }
 
-function FilterChip({ label, onRemove } : { label: string, onRemove: (removedFilter: string, e: React.MouseEvent<HTMLButtonElement>) => void }) {
+function FilterChip({ label, readOnly, onRemove } : { label: string, readOnly?: boolean, onRemove: (removedFilter: string, e: React.MouseEvent<HTMLButtonElement>) => void }) {
 
     return (
         <span className='inline-flex gap-1 justify-center align-middle rounded-full bg-green-800 text-[12px] text-white leading-0 px-2 py-1'>
             <p className='m-auto pt-1'>{label}</p>
             <button 
+            disabled={readOnly}
             onClick={(e) => onRemove(label, e)}
             className='bg-white rounded-full p-0.5 cursor-pointer'
             >
