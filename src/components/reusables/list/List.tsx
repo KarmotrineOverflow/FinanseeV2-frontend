@@ -46,13 +46,14 @@ export default function List({ items, listItemType }: ListProps) {
 
             return (displayedEntries as MonthlyDue[]).map((item, index) => 
                 
-                <ListEntry type="monthly-due" entry={item} />
+                <ListEntry type="monthly-due" entryKey={item + index.toString()} entry={item} />
             )
 
         } else if (listItemType === "debt") {
 
-           return (items as Debt[]).map((item, index) => 
-                <li></li>
+           return (displayedEntries as Debt[]).map((item, index) => 
+                
+                <ListEntry type="debt" entry={item} entryKey={item + index.toString()} />
             )
         }
     }, [items, listItemType, displayedEntries])    

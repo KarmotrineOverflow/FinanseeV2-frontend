@@ -8,7 +8,7 @@ import AllocationPieChart from "../components/reusables/AllocationPieChart"
 import PageHeading from "../components/reusables/PageHeading"
 import RequireAuth from "../components/wrappers/RequireAuth"
 import MiniList from "../components/reusables/MiniList"
-import type { Debt, TrackerEntry } from "../types/UserTypes"
+import type { Debt, MonthlyDue, TrackerEntry } from "../types/UserTypes"
 import ScheduleLadder from "../components/reusables/ScheduleLadder"
 import Card from "../components/composites/Card"
 import { ChevronRight } from "lucide-react"
@@ -17,39 +17,74 @@ export default function Dashboard() {
 
     const schedLdTestData: Debt[] = [
         {
-            to: "Adam",
+            name: "Money Borrowed",
+            to:[ "Adam"],
             allocation: "Savings",
-            isDebtor: false,
+            category: ["As Debtor"],
             amount: 1200,
-            date: "07-12-2026",
-            description: "Borrowed money",
+            dateCreated: "06/22/2026",
+            dateExpiry: "07/12/2026",
+            description: "Borrowed money from my friend Adamn",
             isPaid: false
         },
         {
-            to: "Casey",
-            allocation: "Savings",
-            isDebtor: true,
-            amount: 10200,
-            date: "07-14-2026",
-            description: "Needed to buy snack",
+            name: "Snack Money",
+            to:[ "Casey"],
+            allocation: "Pocket Money",
+            category: ["As Creditor"],
+            amount: 500,
+            dateCreated: "07/19/2026",
+            dateExpiry: "07/22/2026",
+            description: "Casey got hungry after breaktime and wanted some chips. Unfortunately, the office pantry's cashless accounts were down and she had no cash.",
             isPaid: false
         },
         {
-            to: "Casey",
-            allocation: "Savings",
-            isDebtor: true,
-            amount: 10200,
-            date: "07-14-2026",
-            description: "Needed to buy snack",
+            name: "Emergency checkup",
+            to:[ "Blake"],
+            allocation: "Emergency Fund",
+            category: ["As Debtor"],
+            amount: 20000,
+            dateCreated: "07/15/2026",
+            dateExpiry: "07/20/2026",
+            description: "My sibling caught the flu and has been sick for almost a week. We've got no money at the moment, but she has to get to the doctor now.",
             isPaid: false
         },
         {
-            to: "Casey",
-            allocation: "Savings",
-            isDebtor: true,
-            amount: 10200,
-            date: "07-14-2026",
-            description: "Needed to buy snack",
+            name: "Physical game to pay later",
+            to:[ "Blake"],
+            allocation: "Pocket Money",
+            category: ["As Debtor"],
+            amount: 800,
+            dateCreated: "06/02/2026",
+            dateExpiry: "07/05/2026",
+            description: "Borrowed money from my friend Adamn",
+            isPaid: false
+        }
+    ]
+
+    const MONTHLY_DUE_TEST_DATA: MonthlyDue[] = [
+        {
+            name: "House Rent",   
+            category: ["Rent"],
+            amount: 3500,
+            date: "07/12/2026",
+            description: "Payment for the apartment I'm renting. Can be paid at the end of the month",
+            isPaid: false
+        },
+        {
+            name: "WiFi Bill",   
+            category: ["Internet"],
+            amount: 1500,
+            date: "07/20/2026",
+            description: "WiFi provider asking for their monthly payment while providing lackluster services. Typical..",
+            isPaid: false
+        },
+        {
+            name: "Water Bill",   
+            category: ["Utilities"],
+            amount: 500,
+            date: "07/08/2026",
+            description: "Outstanding bill for the past month. Typically cheap so I wouldn't mind.",
             isPaid: false
         }
     ]
@@ -57,22 +92,22 @@ export default function Dashboard() {
     const trackerTestData: TrackerEntry[] = [
         {
             type: "Income",
-            description: "Got money off the ground",
-            date: "07-12-2026",
+            description: "Received salary from XYZ",
+            date: "07/12/2026",
             amount: 10000,
             allocation: "Savings"
         },
         {
             type: "Income",
-            description: "Shat gold",
-            date: "07-14-2026",
+            description: "Allowance from Dolores",
+            date: "07/14/2026",
             amount: 15000,
             allocation: "Pocket Money"
         },
         {
             type: "Income",
-            description: "Stole it from an old crone",
-            date: "07-20-2026",
+            description: "Monthly salary allocation to EF",
+            date: "07/20/2026",
             amount: 23456,
             allocation: "Emergency Fund"
         }
@@ -124,7 +159,7 @@ export default function Dashboard() {
                             <h1 className="text-start text-[18px] font-semibold">Monthly Expenses</h1>
                             <ScheduleLadder                    
                             numOfElementsDisplayed={4}
-                            sortedData={schedLdTestData}
+                            sortedData={MONTHLY_DUE_TEST_DATA}
                             />
                             <Link to="/monthly-dues" className="mt-2 w-fit flex align-middle gap-1 self-end cursor-pointer">
                                 <p className="text-[14px]">View Monthly Dues</p>

@@ -31,6 +31,7 @@ export type Report = {
 }
 
 export type TrackerEntry = {
+    _id: string,
     type: "Income" | "Expense" | "Debt" 
     description: string | undefined
     amount: number
@@ -40,18 +41,21 @@ export type TrackerEntry = {
 
 export type Debt = {
 
+    _id: string,
     category: string[]
     isPaid: boolean
-    to: string
+    to: string[]
     amount: number
     name: string
     description: string
-    date: string
+    dateCreated: string,
+    dateExpiry: string,
     allocation: "Savings" | "Pocket Money" | "Emergency Fund"   
 }
 
 export type MonthlyDue = {
 
+    _id: string,
     name: string
     description: string,
     isPaid: boolean

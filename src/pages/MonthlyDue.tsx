@@ -12,63 +12,32 @@ import type { MonthlyDue } from "../types/UserTypes";
 
 export default function MonthlyDue() {
 
-    const MONTHLY_DUES_TEST_DATA = [
+    const MONTHLY_DUES_TEST_DATA: MonthlyDue[] = [
         {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
+            name: "House Rent",   
+            category: ["Rent"],
+            amount: 3500,
+            date: "07/12/2026",
+            description: "Payment for the apartment I'm renting. Can be paid at the end of the month",
             isPaid: false
         },
         {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
+            name: "WiFi Bill",   
+            category: ["Internet"],
+            amount: 1500,
+            date: "07/20/2026",
+            description: "WiFi provider asking for their monthly payment while providing lackluster services. Typical..",
             isPaid: false
         },
         {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false,
-            category: ["Rent"]
-        },
-        {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
-        },
-        {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
-        },
-        {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
-        },
-        {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
-        },
-        {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
-            isPaid: false
-        },
-        {
-            amount: 1234,
-            date: "06/12/2026",
-            description: "Test payment",
+            name: "Water Bill",   
+            category: ["Utilities"],
+            amount: 500,
+            date: "07/08/2026",
+            description: "Outstanding bill for the past month. Typically cheap so I wouldn't mind.",
             isPaid: false
         }
-    ] as MonthlyDue[]
+    ]
 
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState("All")

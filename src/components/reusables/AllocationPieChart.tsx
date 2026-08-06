@@ -1,5 +1,5 @@
 import { useEffect, useContext, useRef } from 'react'
-import { PieController, ArcElement, Chart } from 'chart.js'
+import { PieController, ArcElement, Chart, Tooltip } from 'chart.js'
 import { userContext } from '../../contexts/UserContext'
 import { reportContext } from '../../contexts/ReportContext'
 import RequireAuth from '../wrappers/RequireAuth'
@@ -16,6 +16,7 @@ export default function AllocationPieChart() {
 
         Chart.register(
             PieController,
+            Tooltip,
             ArcElement
         )
 
@@ -23,21 +24,21 @@ export default function AllocationPieChart() {
             type: 'pie',
             data: {
                 labels: ["Savings", "Pocket Money", "Emergency Fund"],
-                datasets: [{
-                    label: '',
+                datasets: [{                    
                     data: [
-                        23,
-                        40,
-                        37
+                        500,
+                        200,
+                        300
                     ],
                     backgroundColor: [
                         '#2EC4B6',
                         '#AB3131',
                         '#FF9F1C'
                     ],
-                    clip: -10
+                    clip: -10,
+                    hoverOffset: 4
                 }]
-            }
+            },            
         })
 
         return () => chart.destroy()

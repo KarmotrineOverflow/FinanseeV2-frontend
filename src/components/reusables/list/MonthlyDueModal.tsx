@@ -6,7 +6,7 @@ import Modal from "../../composites/Modal"
 import type { MonthlyDue } from "../../../types/UserTypes"
 import InputTextArea from "../../forms/InputTextArea"
 
-type TrackerEntryModalProps = { 
+type MonthlyDueModalProps = { 
     entry?: MonthlyDue, 
     mode: "add" | "update" | "view", 
     onSubmit: (entry: MonthlyDue) => void 
@@ -14,7 +14,7 @@ type TrackerEntryModalProps = {
 }
 
 
-export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : TrackerEntryModalProps) {
+export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : MonthlyDueModalProps) {
 
     const [modalMode, setModalMode] = useState(mode)
 
@@ -22,7 +22,13 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Tra
 
     const handleSubmit = (e: React.SubmitEvent) => {
 
-        e.preventDefault()
+        e.preventDefault() 
+        
+        // TODO: Finish the definition of this func
+        // Collect the field values and store in a MonthlyDue obj
+
+
+        // Call onSubmit with field vals as arg
     }
 
     return (
@@ -72,7 +78,7 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Tra
                         placeholder={(entry ? entry.date : "0")}                        
                         />
 
-                        {/* TODO: Have to replace this with a multiple value dropdown selector component */}
+                        {/* TODO: Have to replace this with a taxonomy component */}
                         <InputField 
                         label="Categories"
                         icon={ <MenuIcon size={18} className="h-auto" /> }
@@ -86,6 +92,8 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Tra
                             <InputTextArea label="Description" readOnly={modalMode === "view"} />
                         </span>                                              
                     </div>
+
+                    {/* --- Form Buttons --- */}
 
                     <span className="w-full mt-4 inline-flex justify-end gap-2">
                         {modalMode === "view" && (
@@ -109,7 +117,11 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Tra
                         )}
 
                         {(modalMode === "update" || modalMode === "add") && (
-                            <input type="submit" className="text-[14px] text-white cursor-pointer inline-flex gap-1 px-1.5 rounded-sm bg-green-800" />
+                            <input 
+                            type="submit" 
+                            value="Submit"
+                            className="text-[14px] text-white cursor-pointer inline-flex gap-1 px-1.5 rounded-sm bg-green-800 focus:outline-0" 
+                            />
                         )}
 
                         <button 
