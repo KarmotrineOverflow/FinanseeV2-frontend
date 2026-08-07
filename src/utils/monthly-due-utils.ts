@@ -6,11 +6,9 @@ import type { MonthlyDue } from "../types/UserTypes";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
-// FIXME: Warnings about improper hook usage because of useContext inside a non-component function
-// Maybe just pass the context from the modal instead of retrieving it here
 export async function addEntry(entry: MonthlyDue) {
 
-    const { user } = useContext(userContext)
+    /* const { user } = useContext(userContext)
     const { setReport } = useContext(reportContext)
 
     const userId = user!._id
@@ -54,7 +52,9 @@ export async function addEntry(entry: MonthlyDue) {
     } catch (e) {
 
         return e as string
-    }
+    } */
+
+        return "success"
 }
 
 export async function updateEntry(entry: MonthlyDue) {

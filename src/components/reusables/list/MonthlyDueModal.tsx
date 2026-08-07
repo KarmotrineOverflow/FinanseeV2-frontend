@@ -1,5 +1,14 @@
-import { useState, useRef } from "react"
-import { BanIcon, MenuIcon, CalendarCheck2Icon, CoinsIcon, PenBoxIcon, WalletMinimalIcon, XIcon, CaptionsIcon } from "lucide-react"
+import { useState, useRef, useContext } from "react"
+import { 
+    BanIcon, 
+    MenuIcon, 
+    CalendarCheck2Icon, 
+    CoinsIcon, 
+    PenBoxIcon, 
+    XIcon, 
+    CaptionsIcon 
+} from "lucide-react"
+import { toastContext } from "../../../contexts/ToastContext"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"
 import InputTextArea from "../../forms/InputTextArea"
@@ -29,15 +38,13 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
         description: ""
     } as MonthlyDue
 
-    const [modalMode, setModalMode] = useState(mode)
-    const [capturedData, setCapturedData] = useState(initialData)    
+    const toast = useContext(toastContext)
+    const { setIsToastOpen, setToastProps } = toast
 
-    const [isToastOpen, setIsToastOpen] = useState(false)
+    const [modalMode, setModalMode] = useState(mode)
+    const [capturedData, setCapturedData] = useState(initialData)        
 
     const amountValue = useRef(1)
-    const toastType = useRef<"success" | "warning" | "error">("success")
-    const toastHeader = useRef("")
-    const toastMessage = useRef("")
 
     const handleDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 
@@ -60,20 +67,32 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
 
             case "add": {
                 const res = await addEntry(capturedData)
+
+                console.log(res)
                 
                 if (res === "success") {
 
-                    toastType.current = "success"
-                    toastHeader.current = "Success"
-                    toastMessage.current = "Your new monthly due entry has been added."
+                    setToastProps((prevState) => {
+                        return {
+                            ...prevState,
+                            type: "success",
+                            header: "Success",
+                            message: "Your new monthly due entry has been added."
+                        }
+                    })                    
                     setIsToastOpen(true)
                     
-//                    onClose()
+                    onClose()
                 } else {
 
-                    toastType.current = "error"
-                    toastHeader.current = "An error has occured"
-                    toastMessage.current = res
+                    setToastProps((prevState) => {
+                        return {
+                            ...prevState,
+                            type: "error",
+                            header: "An error has occured",
+                            message: res
+                        }
+                    })                    
                     setIsToastOpen(true)
                 }
             }                
@@ -186,16 +205,7 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
                         </button>
                     </span>                    
                 </form>
-            </div>
-
-            {isToastOpen && (
-                <Toast 
-                type={toastType.current}
-                header={toastHeader.current} 
-                message={toastMessage.current}
-                onClose={() => onToastClose()}
-                />
-            )}
+            </div>           
         </Modal>
     )
 }

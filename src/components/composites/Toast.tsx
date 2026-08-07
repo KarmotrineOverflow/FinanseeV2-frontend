@@ -35,7 +35,7 @@ export default function Toast({ type, header, message, onClose } : ToastProps) {
 
         return (
             <button 
-            onClick={() => onClose}
+            onClick={() => onClose()}
             className="cursor-pointer"
             >
                 {cloneElement(<XIcon />, {...determineIconStyle(type), className: "ml-6"})}

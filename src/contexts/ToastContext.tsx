@@ -22,13 +22,13 @@ const initialVal = {
     } as ToastContextProps,
     isToastOpen: false,
     setIsToastOpen: () => {},
-    setToastProps: (props: ToastContextProps) => {}
+    setToastProps: () => {}
 } as IToastContext
 
-const toastContext = createContext(initialVal)
+export const toastContext = createContext(initialVal)
 
 export default function ToastContext({ children } : { children: React.ReactNode }) {
-
+    
     const [isToastOpen, setIsToastOpen] = useState(false)
     const [toastProps, setToastProps] = useState({
         type: "success",
@@ -37,11 +37,11 @@ export default function ToastContext({ children } : { children: React.ReactNode 
 
     const onToastClose = () => setIsToastOpen(false)
 
+    console.log(isToastOpen)
+
     return (
-        <>
-            <toastContext.Provider value={{ toastProps, isToastOpen, setIsToastOpen, setToastProps }}>
-                {children}
-            </toastContext.Provider>
+        <toastContext.Provider value={{ toastProps, isToastOpen, setIsToastOpen, setToastProps }}>
+            {children}
 
             {isToastOpen && (
                 <Toast 
@@ -51,6 +51,6 @@ export default function ToastContext({ children } : { children: React.ReactNode 
                 onClose={() => onToastClose()}
                 />
             )}
-        </>
+        </toastContext.Provider>
     )
 }
