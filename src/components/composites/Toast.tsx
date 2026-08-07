@@ -17,8 +17,6 @@ const TOAST_TYPE_ICON_MAPPING = {
     error: <XCircleIcon />
 }
 
-// FIXME: When modal closes, the toast closes along with it. It has to live in its own state apart from the modal
-// Maybe the solution is to create a context so its state lives globally?
 export default function Toast({ type, header, message, onClose } : ToastProps) {
 
     // Trigger the auto close timer immediately on mount
