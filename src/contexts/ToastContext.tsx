@@ -1,7 +1,7 @@
 import { useState, createContext, type SetStateAction } from "react"
 import Toast from "../components/composites/Toast"
 
-type ToastContextProps = {
+export type ToastContextProps = {
 
     type: "success" | "warning" | "error",
     header: string,

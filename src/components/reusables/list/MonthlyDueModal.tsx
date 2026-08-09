@@ -17,16 +17,14 @@ import { MONTHLY_DUE_FILTERS } from "../../../constants/filter_constants"
 import { addEntry, updateEntry } from "../../../utils/monthly-due-utils"
 
 import type { MonthlyDue } from "../../../types/UserTypes"
-import Toast from "../../composites/Toast"
 
 type MonthlyDueModalProps = { 
     entry?: MonthlyDue, 
     mode: "add" | "update" | "view", 
-    onSubmit: (entry: MonthlyDue) => void 
     onClose: () => void
 }
 
-export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : MonthlyDueModalProps) {
+export default function MonthlyDueModal({ entry, mode, onClose } : MonthlyDueModalProps) {
 
     const initialData = entry ?? {
         _id: "",
@@ -63,6 +61,7 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
 
         e.preventDefault() 
         
+        // TODO: Will need to add "update" case here
         switch (modalMode) {
 
             case "add": {
@@ -98,8 +97,6 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
             }                
         }
     }
-
-    const onToastClose = () => setIsToastOpen(false)
 
     return (
         <Modal onClose={onClose}>

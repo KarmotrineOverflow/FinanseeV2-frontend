@@ -8,7 +8,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 export async function addEntry(entry: MonthlyDue) {
 
-    /* const { user } = useContext(userContext)
+    const { user } = useContext(userContext)
     const { setReport } = useContext(reportContext)
 
     const userId = user!._id
@@ -52,9 +52,7 @@ export async function addEntry(entry: MonthlyDue) {
     } catch (e) {
 
         return e as string
-    } */
-
-        return "success"
+    }
 }
 
 export async function updateEntry(entry: MonthlyDue) {
