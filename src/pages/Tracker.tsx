@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { PlusIcon } from "lucide-react";
 import RequireAuth from "../components/wrappers/RequireAuth";
 import Card from "../components/composites/Card";
@@ -36,12 +36,10 @@ export default function Tracker() {
     ]
 
     const [isEntryModalOpen, setIsEntryModalOpen] = useState(false)
+
+    const entryType = useRef<"income" | "expense">("income")
+    
     const currentMonth = (new Date).toLocaleDateString('en-US', { month: "long" })
-
-    const handleAddEntry = (entry: TrackerEntry) => {
-
-        
-    }
 
     return (
         <RequireAuth>
@@ -61,8 +59,8 @@ export default function Tracker() {
                             onClick={() => setIsEntryModalOpen(prevState => !prevState)}
                             className="bg-[#2EC4B6] rounded-md px-1 flex justify-center align-middle gap-1 cursor-pointer"
                             >
-                                <PlusIcon size={12} color="#000" className="h-auto"/>
-                                <p className="text-[14px] text-black">Add Entry</p>
+                                <PlusIcon size={12} color="#fff" className="h-auto"/>
+                                <p className="text-[14px] text-white">Add Entry</p>
                             </button>
                         </span>
                         <Card>
@@ -89,7 +87,7 @@ export default function Tracker() {
             {isEntryModalOpen && (                
                 <TrackerEntryModal 
                 mode="add"
-                onSubmit={handleAddEntry} 
+                type={entryType.current}
                 onClose={() => setIsEntryModalOpen(prevState => !prevState)}
                 />                
             )}

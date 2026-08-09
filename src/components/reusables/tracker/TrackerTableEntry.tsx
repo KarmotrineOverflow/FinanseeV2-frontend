@@ -1,5 +1,7 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useContext } from "react"
 import { EllipsisVerticalIcon } from "lucide-react"
+import { toastContext } from "../../../contexts/ToastContext"
+import { deleteEntry } from "../../../utils/tracker-utils"
 import TrackerEntryActions from "./TrackerEntryActions"
 import TrackerEntryModal from "./TrackerEntryModal"
 
@@ -13,8 +15,11 @@ type TrackerEntryProps = {
 
 export default function TrackerTableEntry({ index, entry, theme } : TrackerEntryProps) {
     
+    const toast = useContext(toastContext)
     const [isActionsOpen, setIsActionsOpen] = useState(false)
     const [isViewEntryOpen, setIsViewEntryOpen] = useState(false)    
+
+    const { setIsToastOpen, setToastProps } = toast
 
     const entryAction = useRef<"update" | "view">("view")
 
@@ -41,14 +46,37 @@ export default function TrackerTableEntry({ index, entry, theme } : TrackerEntry
         }
     }
 
-    const handleEntryDeletion = () => {
+    const handleEntryDeletion = async () => {
 
+        const type = (theme === "positive") ? "income" : "expense"
 
-    }
+        const res = await deleteEntry(entry._id, type)
+                        
+        const isSuccess = res === "success"
 
-    const handleEntryUpdate = (updatedEntry: TrackerEntry) => {
+        if (isSuccess) {
+            
+            setToastProps(prevState => {
+                return {
+                    ...prevState,
+                    header: "Success",
+                    message: "Entry has been deleted successfully",
+                    type: "success"
+                }
+            })             
+        } else {
 
-
+            setToastProps(prevState => {
+                return {
+                    ...prevState,
+                    header: "An error has occured",
+                    message: res,
+                    type: "error"
+                }
+            })   
+        }
+        
+        setIsToastOpen(true)
     }
 
     return (
@@ -75,8 +103,8 @@ export default function TrackerTableEntry({ index, entry, theme } : TrackerEntry
             {isViewEntryOpen && (                
                 <TrackerEntryModal 
                 entry={entry} 
+                type={(theme === "positive") ? "income" : "expense"}
                 mode={entryAction.current} 
-                onSubmit={handleEntryUpdate} 
                 onClose={() => setIsViewEntryOpen(prevState => !prevState)}
                 />                
             )}
