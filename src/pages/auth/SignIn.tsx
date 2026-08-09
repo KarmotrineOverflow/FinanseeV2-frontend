@@ -11,7 +11,6 @@ import { loginUser } from '../../utils/auth-utils';
 import type { SignInFormData } from '../../types/FormDataTypes';
 import AutoLogIn from '../../components/wrappers/AutoLogIn';
 
-// TODO: Wrap the signin page in AutoLogIn component for auto login if token is detected and validated
 export default function SignIn() {
 
     const formData = useRef({ email: "", password: "" } as SignInFormData)

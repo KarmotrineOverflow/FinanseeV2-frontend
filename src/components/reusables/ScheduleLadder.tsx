@@ -8,7 +8,7 @@ export default function ScheduleLadder({ sortedData, numOfElementsDisplayed = 4 
                         
             const theme = (() => {
 
-                const isDebtor = (el as any).isDebtor ?? false
+                const isDebtor = (el as any).isDebtor ?? true
 
                 if (isDebtor) return "positive"
                 return "negative"
@@ -20,8 +20,8 @@ export default function ScheduleLadder({ sortedData, numOfElementsDisplayed = 4 
                 style={{ width: `${getStepWidth(index)}` }}
                 >
                     <span>
-                        <h3 className="font-semibold">{el.description}</h3>
-                        <p className="text-[12px] text-start">Due on: {(new Date(el.date)).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}</p>
+                        <h3 className="font-semibold">{el.name}</h3>
+                        <p className="text-[12px] text-start">Due on: {(new Date(el.dateExpiry)).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}</p>
                     </span>
                     <h3 className="font-semibold text-[16px]">PHP {el.amount}</h3>
                 </li>

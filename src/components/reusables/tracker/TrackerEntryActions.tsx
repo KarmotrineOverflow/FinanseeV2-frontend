@@ -1,10 +1,7 @@
 import { EyeIcon, PencilIcon, TrashIcon } from "lucide-react";
 import Card from "../../composites/Card";
 
-import type { TrackerEntry } from "../../../types/UserTypes";
-
-type TrackerEntryActionsProps = {
-    entry: TrackerEntry,
+type TrackerEntryActionsProps = {    
     onClose: () => void,
     onActionChosen: (action: string) => void
 }

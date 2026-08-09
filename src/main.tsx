@@ -5,15 +5,18 @@ import './index.css'
 import App from './App.tsx'
 import UserContext from './contexts/UserContext.tsx'
 import ReportContext from './contexts/ReportContext.tsx'
+import ToastContext from './contexts/ToastContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <UserContext>
-        <ReportContext>
-          <App />
-        </ReportContext>        
-      </UserContext>      
+      <ToastContext>
+        <UserContext>
+          <ReportContext>
+            <App />
+          </ReportContext>        
+        </UserContext>   
+      </ToastContext>         
     </BrowserRouter>
   </StrictMode>,
 )

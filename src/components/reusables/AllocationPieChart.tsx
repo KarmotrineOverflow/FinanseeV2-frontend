@@ -1,5 +1,5 @@
 import { useEffect, useContext, useRef } from 'react'
-import { PieController, ArcElement, Chart } from 'chart.js'
+import { PieController, ArcElement, Chart, Tooltip } from 'chart.js'
 import { userContext } from '../../contexts/UserContext'
 import { reportContext } from '../../contexts/ReportContext'
 import RequireAuth from '../wrappers/RequireAuth'
@@ -16,6 +16,7 @@ export default function AllocationPieChart() {
 
         Chart.register(
             PieController,
+            Tooltip,
             ArcElement
         )
 
@@ -23,20 +24,21 @@ export default function AllocationPieChart() {
             type: 'pie',
             data: {
                 labels: ["Savings", "Pocket Money", "Emergency Fund"],
-                datasets: [{
-                    label: '',
+                datasets: [{                    
                     data: [
-                        23,
-                        40,
-                        37
+                        500,
+                        200,
+                        300
                     ],
                     backgroundColor: [
                         '#2EC4B6',
                         '#AB3131',
                         '#FF9F1C'
-                    ]
+                    ],
+                    clip: -10,
+                    hoverOffset: 4
                 }]
-            }
+            },            
         })
 
         return () => chart.destroy()
@@ -45,7 +47,7 @@ export default function AllocationPieChart() {
     return (
         <RequireAuth>
             <Card>
-                <div className='p-8 w-[35vw] h-[80%] flex flex-col justify-center'>
+                <div className='p-8 w-[35vw] h-[52vh] flex flex-col justify-center'>
                     <h2 className='text-[16px]'>Current net worth allocation</h2>
                     <p className='text-[14px] font-bold italic'>Total net worth: PHP {
                         (report?.allocation.savings ?? 0) + 
@@ -67,7 +69,7 @@ export default function AllocationPieChart() {
                         </span>
                     </div>
                     
-                    <canvas width={100} height={50} ref={chartRef} className='self-center'/>
+                    <canvas ref={chartRef} className='self-center'/>
                 </div>
             </Card>
         </RequireAuth>

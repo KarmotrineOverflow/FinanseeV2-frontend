@@ -2,10 +2,9 @@ import { useState, useRef } from "react"
 import { BanIcon, CalendarIcon, CoinsIcon, PenBoxIcon, WalletMinimalIcon, XIcon } from "lucide-react"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"
+import InputTextArea from "../../forms/InputTextArea"
 
 import type { TrackerEntry } from "../../../types/UserTypes"
-import Card from "../../composites/Card"
-import InputTextArea from "../../forms/InputTextArea"
 
 type TrackerEntryModalProps = { 
     entry?: TrackerEntry, 
@@ -21,9 +20,6 @@ export default function TrackerEntryModal({ entry, mode, onSubmit, onClose } : T
     const [isAmountValid, setIsAmountValid] = useState(true)
 
     const amountValue = useRef(1)
-
-    // TODO: Finish the logic of this modal component
-    // Extract this component to its own file so the main tracker page can use it to for adding new entries
 
     const handleSubmit = (e: React.SubmitEvent) => {
 
@@ -90,6 +86,8 @@ export default function TrackerEntryModal({ entry, mode, onSubmit, onClose } : T
                         </span>                                              
                     </div>
 
+                    {/* --- Form Buttons --- */}
+
                     <span className="w-full mt-4 inline-flex justify-end gap-2">
                         {modalMode === "view" && (
                             <button
@@ -112,7 +110,10 @@ export default function TrackerEntryModal({ entry, mode, onSubmit, onClose } : T
                         )}
 
                         {(modalMode === "update" || modalMode === "add") && (
-                            <input type="submit" className="text-[14px] text-white cursor-pointer inline-flex gap-1 px-1.5 rounded-sm bg-green-800" />
+                            <input 
+                            type="submit"                                                       
+                            className="text-[14px] text-white cursor-pointer inline-flex gap-1 px-1.5 rounded-sm bg-green-800" 
+                            />
                         )}
 
                         <button 
