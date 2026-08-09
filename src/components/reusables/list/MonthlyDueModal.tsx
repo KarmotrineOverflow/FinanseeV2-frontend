@@ -1,10 +1,23 @@
-import { useState, useRef } from "react"
-import { BanIcon, MenuIcon, CalendarCheck2Icon, CoinsIcon, PenBoxIcon, WalletMinimalIcon, XIcon, CaptionsIcon } from "lucide-react"
+import { useState, useRef, useContext } from "react"
+import { 
+    BanIcon, 
+    MenuIcon, 
+    CalendarCheck2Icon, 
+    CoinsIcon, 
+    PenBoxIcon, 
+    XIcon, 
+    CaptionsIcon 
+} from "lucide-react"
+import { toastContext } from "../../../contexts/ToastContext"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"
+import InputTextArea from "../../forms/InputTextArea"
+import Taxonomy from "../../forms/Taxonomy"
+import { MONTHLY_DUE_FILTERS } from "../../../constants/filter_constants"
+import { addEntry, updateEntry } from "../../../utils/monthly-due-utils"
 
 import type { MonthlyDue } from "../../../types/UserTypes"
-import InputTextArea from "../../forms/InputTextArea"
+import Toast from "../../composites/Toast"
 
 type MonthlyDueModalProps = { 
     entry?: MonthlyDue, 
@@ -13,23 +26,80 @@ type MonthlyDueModalProps = {
     onClose: () => void
 }
 
-
 export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : MonthlyDueModalProps) {
 
+    const initialData = entry ?? {
+        _id: "",
+        name: "",
+        amount: 0,
+        isPaid: false,
+        date: "",
+        categories: [],
+        description: ""
+    } as MonthlyDue
+
+    const toast = useContext(toastContext)
+    const { setIsToastOpen, setToastProps } = toast
+
     const [modalMode, setModalMode] = useState(mode)
+    const [capturedData, setCapturedData] = useState(initialData)        
 
     const amountValue = useRef(1)
 
-    const handleSubmit = (e: React.SubmitEvent) => {
+    const handleDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+        const inputType = e.target.name
+        const newValue = e.target.value
+
+        setCapturedData((prevState) => { return {...prevState, [inputType]: newValue} })
+    }
+
+    const handleTaxonomyChange = (selectedOptions: string[])  => {
+
+        setCapturedData((prevState) => { return {...prevState, category: selectedOptions} })
+    }
+
+    const handleSubmit = async (e: React.SubmitEvent) => {
 
         e.preventDefault() 
         
-        // TODO: Finish the definition of this func
-        // Collect the field values and store in a MonthlyDue obj
+        switch (modalMode) {
 
+            case "add": {
+                const res = await addEntry(capturedData)
 
-        // Call onSubmit with field vals as arg
+                console.log(res)
+                
+                if (res === "success") {
+
+                    setToastProps((prevState) => {
+                        return {
+                            ...prevState,
+                            type: "success",
+                            header: "Success",
+                            message: "Your new monthly due entry has been added."
+                        }
+                    })                    
+                    setIsToastOpen(true)
+                    
+                    onClose()
+                } else {
+
+                    setToastProps((prevState) => {
+                        return {
+                            ...prevState,
+                            type: "error",
+                            header: "An error has occured",
+                            message: res
+                        }
+                    })                    
+                    setIsToastOpen(true)
+                }
+            }                
+        }
     }
+
+    const onToastClose = () => setIsToastOpen(false)
 
     return (
         <Modal onClose={onClose}>
@@ -50,15 +120,18 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
                     <div className="w-full mt-4 grid grid-cols-2 gap-4">
                         <InputField 
                         label="Name"
+                        name="name"
                         icon={ <CaptionsIcon size={18} className="h-auto" /> }
                         isValid={true}                        
                         type="text"
                         readOnly={modalMode === "view"}
-                        placeholder={(entry ? entry.name : "")}                        
+                        placeholder={(entry ? entry.name : "")}     
+                        onChange={() => handleDataChange}                   
                         />
 
                         <InputField 
                         label="Amount"
+                        name="amount"
                         icon={ <CoinsIcon size={18} className="h-auto" /> }
                         isValid={true}
                         errorMessage="Amount must be greater than 0."
@@ -70,6 +143,7 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
 
                         <InputField 
                         label="Due Date"
+                        name="date"
                         icon={ <CalendarCheck2Icon size={18} className="h-auto" /> }
                         isValid={true}
                         errorMessage=""
@@ -77,19 +151,17 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
                         readOnly={modalMode === "view"}
                         placeholder={(entry ? entry.date : "0")}                        
                         />
-
-                        {/* TODO: Have to replace this with a taxonomy component */}
-                        <InputField 
+                        
+                        <Taxonomy 
                         label="Categories"
+                        values={MONTHLY_DUE_FILTERS}
                         icon={ <MenuIcon size={18} className="h-auto" /> }
-                        isValid={true}
-                        errorMessage=""
-                        type="text" 
-                        readOnly={modalMode === "view"}                                   
+                        readOnly={modalMode === "view"}      
+                        onChange={handleTaxonomyChange}             
                         />
 
                         <span className="col-span-2">
-                            <InputTextArea label="Description" readOnly={modalMode === "view"} />
+                            <InputTextArea label="Description" name="description" readOnly={modalMode === "view"} />
                         </span>                                              
                     </div>
 
@@ -133,7 +205,7 @@ export default function MonthlyDueModal({ entry, mode, onSubmit, onClose } : Mon
                         </button>
                     </span>                    
                 </form>
-            </div>
+            </div>           
         </Modal>
     )
 }
