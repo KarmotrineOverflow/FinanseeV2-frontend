@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { PlusIcon } from "lucide-react";
 import RequireAuth from "../components/wrappers/RequireAuth";
 import Card from "../components/composites/Card";
@@ -35,16 +35,31 @@ export default function Tracker() {
         }
     ]
 
+    useEffect(() => {
+
+        const handleResize = () => {
+
+            if (window.outerWidth <= 640) console.log ("Mobile view")
+        }
+
+        window.addEventListener("resize", handleResize)
+
+        return () => {
+            window.removeEventListener("resize", handleResize)
+        }
+    })
+
     const [isEntryModalOpen, setIsEntryModalOpen] = useState(false)
 
     const entryType = useRef<"income" | "expense">("income")
     
     const currentMonth = (new Date).toLocaleDateString('en-US', { month: "long" })
 
+    /* --- DESKTOP VIEW --- */    
     return (
         <RequireAuth>
             <main className="p-8 w-full h-full flex-col overflow-y-auto">                
-                <header className="w-full flex justify-between">
+                <header className="w-full flex flex-col-reverse md:flex-row justify-between">
                     <PageHeading heading={"Monthly Tracker"} subtext={`Your income and expense for ${currentMonth}`}/>
                     <QuotationOfTheDay />
                 </header> 

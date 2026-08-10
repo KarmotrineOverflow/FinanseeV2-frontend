@@ -61,7 +61,7 @@ export default function QuotationOfTheDay() {
     if (!quote) return <Loading message='Retrieving quote..' />
 
     return (
-        <span className="flex h-auto max-w-[50%] flex-col justify-end">
+        <span className="flex h-auto lg:max-w-[50%] flex-col justify-end">
             <q className="text-[16px] text-end wrap"><cite>{quote.quote}</cite></q>
             <p className="italic text-[14px] text-end">- {quote.author}</p>
         </span>

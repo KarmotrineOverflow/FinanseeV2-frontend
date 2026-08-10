@@ -1,12 +1,30 @@
 import { Link, useLocation } from "react-router-dom"
 
-export default function SideNavItem({ label, path, icon, isExpanded } : { label: string, path: string, icon: React.ReactNode, isExpanded: boolean }) {
+export default function SideNavItem({ 
+    label, 
+    path, 
+    icon, 
+    isExpanded, 
+    isMobile,
+    onMobileEvent
+} : { 
+    label: string, 
+    path: string, 
+    icon: React.ReactNode, 
+    isExpanded: boolean, 
+    isMobile: boolean,
+    onMobileEvent: () => void
+}) {
 
     const location = useLocation()
 
     return (
         <li className="w-full">
-            <Link to={path} 
+            
+            {/* When on mobile view, we want to close the nav automatically when an item is selected */}
+            <Link 
+            to={path} 
+            onClick={() => onMobileEvent()}
             className={`px-4 ${baseItemStyle()} ${(location.pathname.includes(path)) ? "side-nav-link active" : "side-nav-link"}`}
             >
                 {icon}

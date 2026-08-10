@@ -127,8 +127,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                         placeholder={(entry ? entry.amount.toString() : "0")}                       
                         onChange={() => handleDataChange} 
                         />
-
-                        {/* TODO: Will have to replace this with a DropDownList component */}                        
+                                        
                         <DropdownList
                         label="Allocation"
                         defaultValue={capturedData.allocation}

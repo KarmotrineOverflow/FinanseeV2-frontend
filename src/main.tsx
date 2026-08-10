@@ -6,17 +6,20 @@ import App from './App.tsx'
 import UserContext from './contexts/UserContext.tsx'
 import ReportContext from './contexts/ReportContext.tsx'
 import ToastContext from './contexts/ToastContext.tsx'
+import WindowContext from './contexts/WindowContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ToastContext>
-        <UserContext>
-          <ReportContext>
-            <App />
-          </ReportContext>        
-        </UserContext>   
-      </ToastContext>         
+      <WindowContext>
+        <ToastContext>
+          <UserContext>
+            <ReportContext>
+              <App />
+            </ReportContext>        
+          </UserContext>   
+        </ToastContext>  
+      </WindowContext>             
     </BrowserRouter>
   </StrictMode>,
 )
