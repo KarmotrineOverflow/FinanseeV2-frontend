@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useContext } from "react";
 import { PlusIcon } from "lucide-react";
+import { windowContext } from "../contexts/WindowContext";
 import RequireAuth from "../components/wrappers/RequireAuth";
 import Card from "../components/composites/Card";
 import PageHeading from "../components/reusables/PageHeading";
@@ -8,11 +9,14 @@ import TrackerTable from "../components/reusables/tracker/TrackerTable";
 import TrackerEntryModal from "../components/reusables/tracker/TrackerEntryModal";
 
 import type { TrackerEntry } from "../types/UserTypes";
+import TrackerAccordion from "../components/reusables/tracker/TrackerAccordion";
 
 export default function Tracker() {
 
     const INCOME_TEST_DATA: TrackerEntry[] = [
         {
+            _id: "1",
+            name: "Salary",
             type: "Income",
             description: "Received salary from XYZ",
             date: "07/12/2026",
@@ -20,6 +24,8 @@ export default function Tracker() {
             allocation: "Savings"
         },
         {
+            _id: "2",
+            name: "Received allowance",
             type: "Income",
             description: "Allowance from Dolores",
             date: "07/14/2026",
@@ -27,6 +33,8 @@ export default function Tracker() {
             allocation: "Pocket Money"
         },
         {
+            _id: "3",
+            name: "EF Allocation",
             type: "Income",
             description: "Monthly salary allocation to EF",
             date: "07/20/2026",
@@ -35,27 +43,19 @@ export default function Tracker() {
         }
     ]
 
-    useEffect(() => {
-
-        const handleResize = () => {
-
-            if (window.outerWidth <= 640) console.log ("Mobile view")
-        }
-
-        window.addEventListener("resize", handleResize)
-
-        return () => {
-            window.removeEventListener("resize", handleResize)
-        }
-    })
-
+    const isMobile = useContext(windowContext)
+    
     const [isEntryModalOpen, setIsEntryModalOpen] = useState(false)
 
     const entryType = useRef<"income" | "expense">("income")
+
+    // THE HOOK VALUES BELOW THIS COMMENT ARE ONLY TO BE USED IN MOBILE VIEW!!
+    const [activeTracker, setActiveTracker] = useState<"income" | "expense">("income")
     
     const currentMonth = (new Date).toLocaleDateString('en-US', { month: "long" })
 
     /* --- DESKTOP VIEW --- */    
+    if (!isMobile)
     return (
         <RequireAuth>
             <main className="p-8 w-full h-full flex-col overflow-y-auto">                
@@ -106,6 +106,65 @@ export default function Tracker() {
                 onClose={() => setIsEntryModalOpen(prevState => !prevState)}
                 />                
             )}
+        </RequireAuth>
+    )
+
+    /* --- MOBILE VIEW --- */
+    else
+    return (
+        <RequireAuth>
+            <main className="p-4 w-full h-full flex-col overflow-y-auto">                
+                <header className="w-full flex flex-col justify-left">
+                    <PageHeading heading={"Monthly Tracker"} subtext={`Your income and expense for ${currentMonth}`}/>
+                    <QuotationOfTheDay />
+                </header> 
+
+                <div className="mt-4">
+                    <h2 className="text-black font-medium text-start text-[18px]">
+                        {
+                            (activeTracker === "income")
+                                ? "Income"
+                                : "Expense"
+                        }
+                    </h2>
+                    <span className="flex mt-2 justify-between">
+                        <button 
+                        onClick={() => setIsEntryModalOpen(prevState => !prevState)}
+                        className="bg-[#2EC4B6] rounded-md px-1 flex justify-center align-middle gap-1 cursor-pointer"
+                        >
+                            <PlusIcon size={12} color="#fff" className="h-auto"/>
+                            <p className="text-[14px] text-white">Add Entry</p>
+                        </button>
+
+                        <button 
+                        onClick={() => setActiveTracker(prevState => {
+                            if (prevState === "income") return "expense"
+                            else return "income"
+                        })}
+                        className="bg-[#2EC4B6] rounded-md px-1 flex justify-center align-middle gap-1 cursor-pointer"
+                        >
+                            <PlusIcon size={12} color="#fff" className="h-auto"/>
+                            <p className="text-[14px] text-white">
+                                {
+                                    (activeTracker === "income")
+                                        ? "Switch to Expenses"
+                                        : "Switch to Income"
+                                }
+                            </p>
+                        </button>
+                    </span>
+
+                    <div className="mt-4">
+                        {activeTracker === "income" && (
+                            <TrackerAccordion data={INCOME_TEST_DATA} theme={"positive"} />
+                        )}
+
+                        {activeTracker === "expense" && (
+                            <TrackerAccordion data={INCOME_TEST_DATA} theme={"negative"} />
+                        )}
+                    </div>                    
+                </div>                
+            </main>
         </RequireAuth>
     )
 }

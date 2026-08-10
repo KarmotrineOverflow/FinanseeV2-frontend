@@ -5,7 +5,7 @@ import {
     TRACKER_ENTRY_TYPES,
     ALLOCATION_TYPES
 } from "../../../constants/filter_constants"
-import { addEntry, updateEntry, deleteEntry } from "../../../utils/tracker-utils"
+import { addEntry, updateEntry } from "../../../utils/tracker-utils"
 import DropdownList from "../../forms/DropdownList"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"

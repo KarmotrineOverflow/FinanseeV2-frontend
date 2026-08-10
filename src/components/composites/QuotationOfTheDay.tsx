@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { windowContext } from '../../contexts/WindowContext'
 import { getQuote } from '../../utils/api-utils'
 import Loading from '../reusables/Loading'
 
@@ -23,6 +24,7 @@ const QUOTE_TAGS = [
 
 export default function QuotationOfTheDay() {
 
+    const isMobile = useContext(windowContext)
     const [quote, setQuote] = useState<Quote | null>(null)
     
     useEffect(() => {
@@ -60,10 +62,21 @@ export default function QuotationOfTheDay() {
 
     if (!quote) return <Loading message='Retrieving quote..' />
 
+    // --- DESKTOP VIEW ---
+    if (!isMobile)
     return (
         <span className="flex h-auto lg:max-w-[50%] flex-col justify-end">
-            <q className="text-[16px] text-end wrap"><cite>{quote.quote}</cite></q>
-            <p className="italic text-[14px] text-end">- {quote.author}</p>
+            <q className="text-[16px] text-end wrap text-[#2EC4B6]"><cite>{quote.quote}</cite></q>
+            <p className="italic text-[14px] text-end text-[#2EC4B6]">- {quote.author}</p>
+        </span>
+    )
+
+    // --- MOBILE VIEW --- 
+    else
+    return (
+        <span className="mt-1 flex h-auto lg:max-w-[50%] flex-col justify-start">
+            <q className="text-[14px] text-start wrap text-[#2EC4B6]"><cite>{quote.quote}</cite></q>
+            <p className="italic text-[12px] text-start text-[#2EC4B6]">- {quote.author}</p>
         </span>
     )
 }

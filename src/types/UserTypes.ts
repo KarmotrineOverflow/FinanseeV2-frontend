@@ -32,7 +32,8 @@ export type Report = {
 
 export type TrackerEntry = {
     _id: string,
-    type: "Income" | "Expense" | "Debt" 
+    type: "Income" | "Expense" | "Debt",
+    name: string,
     description: string | undefined
     amount: number
     date: string
