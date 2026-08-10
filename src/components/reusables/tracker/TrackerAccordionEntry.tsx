@@ -35,6 +35,8 @@ export default function TrackerAccordionEntry({ entry, theme, isExpanded, onEntr
                 </span>
            </button>
 
+            {/* TODO: Finish the designs of the expanded entry view, then its functionalities */}
+            {/* Use the existing TrackerEntryActions for the action button functionalities */}
            {isExpanded && (
             <div className="pt-2">
                 <p className="px-2 text-start">{entry.description}</p>
