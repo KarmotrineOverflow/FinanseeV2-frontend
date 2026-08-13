@@ -19,7 +19,7 @@ export default function Modal({ children, onClose } : { children: React.ReactNod
             {/* Actual modal content here */}
             <div ref={modalRef} className="m-auto min-w-[80vw] sm:min-w-0 max-w-[80vw] z-50">
                 <Card hasBorders>
-                    <div className="w-full p-4 flex flex-col">
+                    <div className="w-full p-4 flex flex-col max-h-[80vh] overflow-y-auto">
                         <button onClick={() => onClose()} className="w-fit self-end cursor-pointer">
                             <X size={16} className="h-auto"/>
                         </button>

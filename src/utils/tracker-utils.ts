@@ -2,13 +2,14 @@ import { useContext } from "react";
 import { userContext } from "../contexts/UserContext";
 import { reportContext } from "../contexts/ReportContext";
 
-import type { TrackerEntry } from "../types/UserTypes";
+import type { Report, TrackerEntry, User } from "../types/UserTypes";
+import type useDataCache from "../hooks/useDataCache";
 
 // !! These functions expect a user data to be stored in UserContext !!
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
-/* TODO: Error handling for non-existent API is not handled.
+/* FIXME: Error handling for non-existent API is not handled.
     The current error handling for the APIs purely rely on an error message returned by the backend
     A situation where nothing is returned at all is not handled
 */
@@ -19,16 +20,12 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
  * @param {string} type - a string that specifies which tracker list this entry goes to. Can either be `"income"` or `"expense"`
  * @returns 'message' - "success" if the entry update is successful, otherwise returns an error reason message.
  */
-export async function addEntry(entry: TrackerEntry, type: "income" | "expense") {
+export async function addEntry(entry: TrackerEntry, type: "income" | "expense", cache: useDataCache) {
 
-    try {
-
-        const { user } = useContext(userContext)
-        const { setReport } = useContext(reportContext)
-
-        const userId = user!._id        
+    try {        
+        const userId = cache.user._id 
         const accessToken = await cookieStore.get("accessToken")        
-
+        console.log("Got here")
         const res = await fetch(`${BACKEND_URL}/add-tracker-entry`, {
             headers: { 
                 'Content-Type': 'application/json',
@@ -41,8 +38,10 @@ export async function addEntry(entry: TrackerEntry, type: "income" | "expense") 
                 entry: entry
             })
         })
-
+        console.log("Got here")
         const resBody = await res.json()
+
+        console.log(resBody)
 
         if (res.ok) {            
 
@@ -50,13 +49,9 @@ export async function addEntry(entry: TrackerEntry, type: "income" | "expense") 
             const updatedEntry = {...entry, _id: resBody._id}
 
             // Once backend is updated, update the cached data and render
-            setReport(prevReport => {
-
-                const oldEntries = (type === "income") ? prevReport!.income : prevReport!.expense                
-                const newEntries = [...oldEntries, updatedEntry]          
-                
-                return {...prevReport!, [(type === "income" ? "Income" : "Expense")]: newEntries }
-            })
+            const oldEntries = (type === "income") ? cache.report.income : cache.report.expense                
+            const newEntries = [...oldEntries, updatedEntry]   
+            cache.report = {...cache.report, [(type === "income" ? "Income" : "Expense")]: newEntries }
 
             return "success"
         }
@@ -66,6 +61,7 @@ export async function addEntry(entry: TrackerEntry, type: "income" | "expense") 
         
     } catch (e) {
 
+        //console.log(e)
         return e as string
     }
 }

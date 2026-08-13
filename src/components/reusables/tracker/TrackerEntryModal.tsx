@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from "react"
-import { BanIcon, CalendarIcon, CoinsIcon, PenBoxIcon, WalletMinimalIcon, XIcon } from "lucide-react"
+import { BanIcon, CalendarIcon, CoinsIcon, ListIcon, PenBoxIcon, WalletMinimalIcon, XIcon } from "lucide-react"
 import { toastContext, type ToastContextProps } from "../../../contexts/ToastContext"
 import { 
     TRACKER_ENTRY_TYPES,
@@ -10,6 +10,7 @@ import DropdownList from "../../forms/DropdownList"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"
 import InputTextArea from "../../forms/InputTextArea"
+import useDataCache from "../../../hooks/useDataCache"
 
 import type { TrackerEntry } from "../../../types/UserTypes"
 
@@ -34,11 +35,13 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
     } as TrackerEntry
 
     const toast = useContext(toastContext)
-    const { setIsToastOpen, setToastProps } = toast
+    const { setIsToastOpen, setToastProps } = toast     
 
     const [modalMode, setModalMode] = useState(mode)
     const [capturedData, setCapturedData] = useState(initialData) 
     const [isAmountValid, setIsAmountValid] = useState(true)
+
+    const cache = new useDataCache()   
 
     const handleDropdownChange = (value: string) => {
 
@@ -63,14 +66,16 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
 
     const handleSubmit = async (e: React.SubmitEvent) => {
 
-        e.preventDefault()
+        e.preventDefault()        
 
         switch (modalMode) {
         
             case "add": {
-                const res = await addEntry(capturedData, type)
-                
+                const res = await addEntry(capturedData, type, cache)
+                console.log("Await finished")
                 const isSuccess = res === "success"
+
+                console.log(res)
 
                 showResultToast(
                     isSuccess, 
@@ -118,6 +123,18 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                 <form onSubmit={handleSubmit}>
                     <div className="w-full mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <InputField 
+                        label="Name"
+                        name="name"
+                        icon={ <ListIcon size={18} className="h-auto" /> }
+                        isValid={true}
+                        errorMessage="Amount must be greater than 0."
+                        type="text" 
+                        readOnly={modalMode === "view"}
+                        placeholder={(entry ? entry.name : "")}                       
+                        onChange={() => handleDataChange} 
+                        />
+
+                        <InputField 
                         label="Amount"
                         name="amount"
                         icon={ <CoinsIcon size={18} className="h-auto" /> }
@@ -140,7 +157,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                         <InputField 
                         label="Date"
                         icon={ <CalendarIcon size={18} className="h-auto" /> }
-                        isValid={isAmountValid}
+                        isValid={true}
                         errorMessage="Amount must be greater than 0."
                         type="date" 
                         readOnly={modalMode === "view"}
