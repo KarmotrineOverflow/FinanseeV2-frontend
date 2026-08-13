@@ -13,7 +13,7 @@ type DropdownListProps = {
 
 export default function DropdownList({ label, choices, defaultValue, readOnly, icon, onChange } : DropdownListProps) {
 
-    const [chosenValue, setChosenValue] = useState(defaultValue ?? "")
+    const [chosenValue, setChosenValue] = useState(defaultValue as string ?? "")
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
     useEffect(() => onChange(chosenValue), [chosenValue])
@@ -31,7 +31,7 @@ export default function DropdownList({ label, choices, defaultValue, readOnly, i
 
                 <button 
                 disabled={readOnly}
-                onClick={() => setIsDropdownOpen(prevState => !prevState)}
+                onClick={(e) => {e.preventDefault(); setIsDropdownOpen(prevState => !prevState)}}
                 className='w-full flex justify-end cursor-pointer'
                 >                   
                     <p className="text-[14px] min-h-5 h-auto px-2">{chosenValue}</p>

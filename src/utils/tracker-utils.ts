@@ -8,6 +8,11 @@ import type { TrackerEntry } from "../types/UserTypes";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
+/* TODO: Error handling for non-existent API is not handled.
+    The current error handling for the APIs purely rely on an error message returned by the backend
+    A situation where nothing is returned at all is not handled
+*/
+
 /**
  * Adds a new entry to the user's income or expense tracker for the current month
  * @param {TrackerEntry} entry - an object holding the values for the new entry

@@ -17,7 +17,7 @@ export default function Modal({ children, onClose } : { children: React.ReactNod
         /* Modal background to blur/disable page content while modal is open */
         <div className="absolute top-0 left-0 flex justify-center w-full h-full bg-black/50 z-50">
             {/* Actual modal content here */}
-            <div ref={modalRef} className="m-auto max-w-[40vw] z-50">
+            <div ref={modalRef} className="m-auto min-w-[80vw] sm:min-w-0 max-w-[80vw] z-50">
                 <Card hasBorders>
                     <div className="w-full p-4 flex flex-col">
                         <button onClick={() => onClose()} className="w-fit self-end cursor-pointer">

@@ -39,30 +39,30 @@ export default function TrackerAccordionEntry({ entry, theme, isExpanded, onEntr
             {/* Use the existing TrackerEntryActions for the action button functionalities */}
            {isExpanded && (
             <div className="pt-2">
-                <p className="px-2 text-start">{entry.description}</p>
+                <p className="px-4 text-start">{entry.description}</p>
 
-                <span className="px-2 mt-4 w-full inline-flex gap-6">
+                <span className="px-4 mt-4 w-full inline-flex gap-6">
                     <span className="inline-flex gap-2">
-                        <CalendarIcon size={16} className="h-auto m-auto"/>
+                        <CalendarIcon size={16} color={(theme === "positive") ? "#2EC4B6" : "#A92E23"} className="h-auto m-auto"/>
                         <p>{entry.date}</p>
                     </span>
                     <span className="inline-flex gap-2">
-                        <PiggyBankIcon size={16} className="h-auto m-auto"/>
+                        <PiggyBankIcon size={16} color={(theme === "positive") ? "#2EC4B6" : "#A92E23"} className="h-auto m-auto"/>
                         <p>{entry.allocation}</p>
                     </span>
                 </span>
 
                 <span className="flex mt-4">
-                    <button className="inline-flex justify-center gap-2 grow">
-                        <EyeIcon />
+                    <button className={`${actionButtonStyle(theme)} border-r`}>
+                        <EyeIcon size={18} color="#fff" className="h-auto"/>
                         <p>View</p>
                     </button>
-                    <button className="inline-flex justify-center gap-2 grow">
-                        <PencilIcon />
+                    <button className={`${actionButtonStyle(theme)} border-r`}>
+                        <PencilIcon size={18} color="#fff" className="h-auto"/>
                         <p>Edit</p>
                     </button>
-                    <button className="inline-flex justify-center gap-2 grow">
-                        <TrashIcon />
+                    <button className={actionButtonStyle(theme)}>
+                        <TrashIcon size={18} color="#fff" className="h-auto"/>
                         <p>Delete</p>
                     </button>
                 </span>
@@ -93,7 +93,34 @@ function entryStyle(theme: "positive" | "negative") {
 
         return [
             ...baseStyle,
+            "bg-[#EBA49D]"
+        ].join(" ")
+    }
+}
 
+function actionButtonStyle(theme: "positive" | "negative") {
+
+    const baseStyle = [
+        "py-3",
+        "inline-flex",
+        "justify-center",
+        "gap-2",
+        "grow",
+        "text-white",
+        "text-[16px]"
+    ]
+
+    if (theme === "positive") {
+
+        return [
+            ...baseStyle,
+            "bg-[#2EC4B6]"
+        ].join(" ")
+    } else {
+
+        return [
+            ...baseStyle,
+            "bg-[#A92E23]"
         ].join(" ")
     }
 }

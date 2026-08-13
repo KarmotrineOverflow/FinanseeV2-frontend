@@ -24,6 +24,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
 
     const initialData = entry ?? {
         _id: "",
+        name: "",
         type: "Income",
         amount: 0,
         isPaid: false,
@@ -115,7 +116,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                 )}
 
                 <form onSubmit={handleSubmit}>
-                    <div className="w-full mt-4 grid grid-cols-2 gap-4">
+                    <div className="w-full mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <InputField 
                         label="Amount"
                         name="amount"
@@ -127,7 +128,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                         placeholder={(entry ? entry.amount.toString() : "0")}                       
                         onChange={() => handleDataChange} 
                         />
-                                        
+                                       
                         <DropdownList
                         label="Allocation"
                         defaultValue={capturedData.allocation}
@@ -147,7 +148,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                         onChange={() => handleDataChange}                       
                         />
 
-                        <span className="col-span-2">
+                        <span className="col-span-1 sm:col-span-2">
                             <InputTextArea label="Description" readOnly={modalMode === "view"} />
                         </span>                                              
                     </div>

@@ -36,7 +36,7 @@ function mobileHeaderStyle() {
 
     return [
         "text-start", 
-        "text-[18px]",
+        "text-[24px]",
         "font-bold",
         "text-nowrap"
     ].join(" ")
@@ -45,7 +45,7 @@ function mobileHeaderStyle() {
 function mobileMessageStyle() {
 
     return [
-        "text-[16px]",
+        "text-[18px]",
         "text-start",        
         "pt-1"
     ].join(" ")

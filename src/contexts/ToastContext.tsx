@@ -37,8 +37,6 @@ export default function ToastContext({ children } : { children: React.ReactNode 
 
     const onToastClose = () => setIsToastOpen(false)
 
-    console.log(isToastOpen)
-
     return (
         <toastContext.Provider value={{ toastProps, isToastOpen, setIsToastOpen, setToastProps }}>
             {children}

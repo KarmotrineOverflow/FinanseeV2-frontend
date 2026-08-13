@@ -113,26 +113,26 @@ export default function Tracker() {
     else
     return (
         <RequireAuth>
-            <main className="p-4 w-full h-full flex-col overflow-y-auto">                
-                <header className="w-full flex flex-col justify-left">
+            <main className="w-full h-full flex-col overflow-y-auto">                
+                <header className="w-full p-4 flex flex-col justify-left">
                     <PageHeading heading={"Monthly Tracker"} subtext={`Your income and expense for ${currentMonth}`}/>
                     <QuotationOfTheDay />
                 </header> 
 
-                <div className="mt-4">
-                    <h2 className="text-black font-medium text-start text-[18px]">
+                <div className="mt-3">
+                    <h2 className="px-4 text-black font-medium text-start text-[24px]">
                         {
                             (activeTracker === "income")
                                 ? "Income"
                                 : "Expense"
                         }
                     </h2>
-                    <span className="flex mt-2 justify-between">
+                    <span className="flex px-4 mt-3 justify-between">
                         <button 
                         onClick={() => setIsEntryModalOpen(prevState => !prevState)}
-                        className="bg-[#2EC4B6] rounded-md px-1 flex justify-center align-middle gap-1 cursor-pointer"
+                        className={buttonStyle(activeTracker)}
                         >
-                            <PlusIcon size={12} color="#fff" className="h-auto"/>
+                            <PlusIcon size={14} color="#fff" className="h-auto"/>
                             <p className="text-[14px] text-white">Add Entry</p>
                         </button>
 
@@ -141,9 +141,9 @@ export default function Tracker() {
                             if (prevState === "income") return "expense"
                             else return "income"
                         })}
-                        className="bg-[#2EC4B6] rounded-md px-1 flex justify-center align-middle gap-1 cursor-pointer"
+                        className={buttonStyle(activeTracker)}
                         >
-                            <PlusIcon size={12} color="#fff" className="h-auto"/>
+                            <PlusIcon size={14} color="#fff" className="h-auto"/>
                             <p className="text-[14px] text-white">
                                 {
                                     (activeTracker === "income")
@@ -154,7 +154,7 @@ export default function Tracker() {
                         </button>
                     </span>
 
-                    <div className="mt-4">
+                    <div className="mt-3">
                         {activeTracker === "income" && (
                             <TrackerAccordion data={INCOME_TEST_DATA} theme={"positive"} />
                         )}
@@ -165,6 +165,41 @@ export default function Tracker() {
                     </div>                    
                 </div>                
             </main>
+
+            {isEntryModalOpen && (                
+                <TrackerEntryModal 
+                mode="add"
+                type={entryType.current}
+                onClose={() => setIsEntryModalOpen(prevState => !prevState)}
+                />                
+            )}
         </RequireAuth>
     )
+}
+
+function buttonStyle(type: "income" | "expense") {
+
+    const baseStyle = [
+        "rounded-md",
+        "p-1",
+        "flex",
+        "justify-center",
+        "align-middle",
+        "gap-1",
+        "cursor-pointer"
+    ]
+
+    if (type === "income") {
+
+        return [
+            ...baseStyle,
+            "bg-[#2EC4B6]"
+        ].join(" ")
+    } else {
+
+        return [
+            ...baseStyle,
+            "bg-[#A92E23]"
+        ].join(" ")
+    }
 }
