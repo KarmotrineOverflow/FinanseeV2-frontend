@@ -72,10 +72,8 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
         
             case "add": {
                 const res = await addEntry(capturedData, type, cache)
-                console.log("Await finished")
-                const isSuccess = res === "success"
-
-                console.log(res)
+                
+                const isSuccess = res === "success"                
 
                 showResultToast(
                     isSuccess, 
@@ -89,7 +87,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
             
             case "update": {
 
-                const res = await updateEntry(capturedData, type)
+                const res = await updateEntry(capturedData, type, cache)
                 
                 const isSuccess = res === "success"
 
