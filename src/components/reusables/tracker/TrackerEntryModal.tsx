@@ -1,15 +1,16 @@
 import { useState, useRef, useContext } from "react"
-import { BanIcon, CalendarIcon, CoinsIcon, PenBoxIcon, WalletMinimalIcon, XIcon } from "lucide-react"
+import { BanIcon, CalendarIcon, CoinsIcon, ListIcon, PenBoxIcon, WalletMinimalIcon, XIcon } from "lucide-react"
 import { toastContext, type ToastContextProps } from "../../../contexts/ToastContext"
 import { 
     TRACKER_ENTRY_TYPES,
     ALLOCATION_TYPES
 } from "../../../constants/filter_constants"
-import { addEntry, updateEntry, deleteEntry } from "../../../utils/tracker-utils"
+import { addEntry, updateEntry } from "../../../utils/tracker-utils"
 import DropdownList from "../../forms/DropdownList"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"
 import InputTextArea from "../../forms/InputTextArea"
+import useDataCache from "../../../hooks/useDataCache"
 
 import type { TrackerEntry } from "../../../types/UserTypes"
 
@@ -24,6 +25,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
 
     const initialData = entry ?? {
         _id: "",
+        name: "",
         type: "Income",
         amount: 0,
         isPaid: false,
@@ -33,11 +35,13 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
     } as TrackerEntry
 
     const toast = useContext(toastContext)
-    const { setIsToastOpen, setToastProps } = toast
+    const { setIsToastOpen, setToastProps } = toast     
 
     const [modalMode, setModalMode] = useState(mode)
     const [capturedData, setCapturedData] = useState(initialData) 
     const [isAmountValid, setIsAmountValid] = useState(true)
+
+    const cache = new useDataCache()   
 
     const handleDropdownChange = (value: string) => {
 
@@ -62,14 +66,14 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
 
     const handleSubmit = async (e: React.SubmitEvent) => {
 
-        e.preventDefault()
+        e.preventDefault()        
 
         switch (modalMode) {
         
             case "add": {
-                const res = await addEntry(capturedData, type)
+                const res = await addEntry(capturedData, type, cache)
                 
-                const isSuccess = res === "success"
+                const isSuccess = res === "success"                
 
                 showResultToast(
                     isSuccess, 
@@ -83,7 +87,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
             
             case "update": {
 
-                const res = await updateEntry(capturedData, type)
+                const res = await updateEntry(capturedData, type, cache)
                 
                 const isSuccess = res === "success"
 
@@ -115,7 +119,19 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                 )}
 
                 <form onSubmit={handleSubmit}>
-                    <div className="w-full mt-4 grid grid-cols-2 gap-4">
+                    <div className="w-full mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <InputField 
+                        label="Name"
+                        name="name"
+                        icon={ <ListIcon size={18} className="h-auto" /> }
+                        isValid={true}
+                        errorMessage="Amount must be greater than 0."
+                        type="text" 
+                        readOnly={modalMode === "view"}
+                        placeholder={(entry ? entry.name : "")}                       
+                        onChange={() => handleDataChange} 
+                        />
+
                         <InputField 
                         label="Amount"
                         name="amount"
@@ -127,8 +143,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                         placeholder={(entry ? entry.amount.toString() : "0")}                       
                         onChange={() => handleDataChange} 
                         />
-
-                        {/* TODO: Will have to replace this with a DropDownList component */}                        
+                                       
                         <DropdownList
                         label="Allocation"
                         defaultValue={capturedData.allocation}
@@ -140,7 +155,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                         <InputField 
                         label="Date"
                         icon={ <CalendarIcon size={18} className="h-auto" /> }
-                        isValid={isAmountValid}
+                        isValid={true}
                         errorMessage="Amount must be greater than 0."
                         type="date" 
                         readOnly={modalMode === "view"}
@@ -148,7 +163,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
                         onChange={() => handleDataChange}                       
                         />
 
-                        <span className="col-span-2">
+                        <span className="col-span-1 sm:col-span-2">
                             <InputTextArea label="Description" readOnly={modalMode === "view"} />
                         </span>                                              
                     </div>

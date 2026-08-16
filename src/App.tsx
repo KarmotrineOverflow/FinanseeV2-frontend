@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { LayoutDashboardIcon, ClipboardListIcon, CalendarDaysIcon, CoinsIcon } from 'lucide-react'
 import { userContext } from './contexts/UserContext'
 import { reportContext } from './contexts/ReportContext'
+import { windowContext } from './contexts/WindowContext'
 import './App.css'
 import SignIn from './pages/auth/SignIn'
 import SignUp from './pages/auth/SignUp'
@@ -35,7 +36,7 @@ function LandingPicker() {
 
     if (!user) navigator("/sign-in")
     else navigator("/dashboard")
-  })
+  }, [])
 
   return (
     <>      
@@ -48,6 +49,7 @@ export default function App() {
   const [isSideNavOpen, setIsSideNavOpen] = useState(true)
   const { user } = useContext(userContext)
   const { report } = useContext(reportContext)
+  const isMobile = useContext(windowContext)
   const location = useLocation()
 
   const toggleSideNav = () => {
@@ -56,12 +58,23 @@ export default function App() {
   }
 
   return (
-    <div className='w-full h-screen flex'>  
+    <div className='w-full h-screen flex flex-col sm:flex-row'>  
       {(user && report) && 
       (!['/sign-in', '/sign-up'].includes(location.pathname)) &&
       (        
-        <SideNav isOpen={isSideNavOpen} toggleOpen={toggleSideNav}>
-          { appRoutes.map((r) => <SideNavItem label={r.label} path={r.path} icon={r.navIcon} isExpanded={isSideNavOpen} />) }
+        <SideNav isOpen={isSideNavOpen} isMobile={isMobile} toggleOpen={toggleSideNav}>
+          {(!isMobile || (isSideNavOpen && isMobile)) && 
+            appRoutes.map((r) => 
+              <SideNavItem 
+              label={r.label} 
+              path={r.path} 
+              icon={r.navIcon} 
+              isExpanded={isSideNavOpen} 
+              isMobile={isMobile} 
+              onMobileEvent={() => toggleSideNav()}
+              />
+            )
+          }          
         </SideNav>   
       )}
       <Routes>        
