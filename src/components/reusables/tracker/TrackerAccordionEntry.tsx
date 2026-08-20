@@ -1,3 +1,4 @@
+import { useState, useRef } from "react"
 import { 
     CalendarIcon, 
     MinusSquareIcon, 
@@ -17,6 +18,30 @@ type TrackerAccordionEntryProps = {
 }
 
 export default function TrackerAccordionEntry({ entry, theme, isExpanded, onEntryClick } : TrackerAccordionEntryProps) {
+
+    const [isViewEntryOpen, setIsViewEntryOpen] = useState(false)  
+    const entryAction = useRef<"update" | "view">("view") 
+
+    const handleActionClick = (entry: TrackerEntry, action: "update" | "view") => {
+
+        switch (action) {
+            case "view":
+                entryAction.current = "view"
+                setIsViewEntryOpen(true)
+                break
+            case "update":
+                entryAction.current = "update"
+                setIsViewEntryOpen(true)
+                break            
+            default:
+                console.log("Unknown entry action.")
+        }
+    }
+
+    const handleDeleteEntry = (entry: TrackerEntry) => {
+
+        
+    }
 
     return (
         <li>
@@ -53,15 +78,23 @@ export default function TrackerAccordionEntry({ entry, theme, isExpanded, onEntr
                 </span>
 
                 <span className="flex mt-4">
-                    <button className={`${actionButtonStyle(theme)} border-r`}>
+                    <button 
+                    onClick={() => handleActionClick(entry, "view")}
+                    className={`${actionButtonStyle(theme)} border-r`}
+                    >
                         <EyeIcon size={18} color="#fff" className="h-auto"/>
                         <p>View</p>
                     </button>
-                    <button className={`${actionButtonStyle(theme)} border-r`}>
+                    <button 
+                    onClick={() => handleActionClick(entry, "update")}
+                    className={`${actionButtonStyle(theme)} border-r`}
+                    >
                         <PencilIcon size={18} color="#fff" className="h-auto"/>
                         <p>Edit</p>
                     </button>
-                    <button className={actionButtonStyle(theme)}>
+                    <button 
+                    onClick={() => handleDeleteEntry(entry)}
+                    className={actionButtonStyle(theme)}>
                         <TrashIcon size={18} color="#fff" className="h-auto"/>
                         <p>Delete</p>
                     </button>
