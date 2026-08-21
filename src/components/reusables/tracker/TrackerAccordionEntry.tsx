@@ -8,6 +8,7 @@ import {
     PencilIcon, 
     TrashIcon 
 } from "lucide-react"
+import { useModal } from "../../../hooks/useModal"
 import type { TrackerEntry } from "../../../types/UserTypes"
 
 type TrackerAccordionEntryProps = {
@@ -21,6 +22,8 @@ export default function TrackerAccordionEntry({ entry, theme, isExpanded, onEntr
 
     const [isViewEntryOpen, setIsViewEntryOpen] = useState(false)  
     const entryAction = useRef<"update" | "view">("view") 
+
+    const { setModalContent } = useModal()
 
     const handleActionClick = (entry: TrackerEntry, action: "update" | "view") => {
 
@@ -93,7 +96,23 @@ export default function TrackerAccordionEntry({ entry, theme, isExpanded, onEntr
                         <p>Edit</p>
                     </button>
                     <button 
-                    onClick={() => handleDeleteEntry(entry)}
+                    onClick={() => {
+                        setModalContent({
+                            content: (
+                                <div>
+                                    <p>Are you sure you want to delete this entry?</p>
+                                    <span>
+                                        <button onClick={() => handleDeleteEntry(entry)}>
+                                            <p>Yes</p>
+                                        </button>
+                                        <button onClick={() => setModalContent(null)}>
+                                            <p>No</p>
+                                        </button>
+                                    </span>
+                                </div>
+                            )
+                        })
+                    }}
                     className={actionButtonStyle(theme)}>
                         <TrashIcon size={18} color="#fff" className="h-auto"/>
                         <p>Delete</p>
