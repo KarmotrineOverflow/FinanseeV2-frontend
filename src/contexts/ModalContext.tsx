@@ -21,14 +21,6 @@ export default function ModalProvider({ children } : { children: ReactNode }) {
 
     const [modalContent, setModalContent] = useState<ModalContent | null>(null)    
 
-    // TODO: Turn the modal component into a context provider so it can be used
-    // anywhere with least boilerplate code
-
-    // I don't think there's a way to pass a callback function from a child component.
-    // Might fall back to executing the desired output/function in the given content component instead of 
-    // passing a callback function.    
-
-    // There is. Don't overthink it. Just pass the callback function as a prop to the content component.
     return (
         <modalContext.Provider value={{ modalContent, setModalContent}}>
             {children}

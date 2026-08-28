@@ -1,5 +1,5 @@
 import type { TrackerEntry } from "../types/UserTypes";
-import type useDataCache from "../hooks/useDataCache";
+import { type DataCache } from "../hooks/useDataCache";
 
 // !! These functions expect a user data to be stored in UserContext !!
 
@@ -95,7 +95,7 @@ export async function updateEntry(entry: TrackerEntry, type: "income" | "expense
             const indexToReplace = cache.report[type].findIndex((e) => e._id === entry._id)      
             
             newReport[type][indexToReplace] = { ...entry }
-            cache.report = newReport
+            cache.setReport(newReport)
             
             return "success"
         }
@@ -120,7 +120,7 @@ export async function updateEntry(entry: TrackerEntry, type: "income" | "expense
  * @param {string} type - a string that specifies which tracker list to do the operation in. Can either be `"income"` or `"expense"`
  * @returns 'message' - "success" if the entry update is successful, otherwise returns an error reason message.
  */
-export async function deleteEntry(entryId: string, type: "income" | "expense", cache: useDataCache) {
+export async function deleteEntry(entryId: string, type: "income" | "expense", cache: DataCache) {
 
     try {
 
@@ -161,7 +161,7 @@ export async function deleteEntry(entryId: string, type: "income" | "expense", c
                     break
             }                                
 
-            cache.report = {...cache.report, [type]: newTrackerList}
+            cache.setReport({...cache.report, [type]: newTrackerList})
             
             return "success"
         }

@@ -1,4 +1,3 @@
-import { useState, useRef } from "react"
 import { 
     CalendarIcon, 
     MinusSquareIcon, 
@@ -9,6 +8,11 @@ import {
     TrashIcon 
 } from "lucide-react"
 import { useModal } from "../../../hooks/useModal"
+import { useToast } from "../../../hooks/useToast"
+import { useDataCache } from "../../../hooks/useDataCache"
+import { deleteEntry } from "../../../utils/tracker-utils"
+import TrackerEntryModal from "./TrackerEntryModal"
+
 import type { TrackerEntry } from "../../../types/UserTypes"
 
 type TrackerAccordionEntryProps = {
@@ -18,23 +22,36 @@ type TrackerAccordionEntryProps = {
     onEntryClick: (entry: TrackerEntry) => void
 }
 
-export default function TrackerAccordionEntry({ entry, theme, isExpanded, onEntryClick } : TrackerAccordionEntryProps) {
-
-    const [isViewEntryOpen, setIsViewEntryOpen] = useState(false)  
-    const entryAction = useRef<"update" | "view">("view") 
+export default function TrackerAccordionEntry({ entry, theme, isExpanded, onEntryClick } : TrackerAccordionEntryProps) {    
 
     const { setModalContent } = useModal()
+    const { setToastProps, setIsToastOpen } = useToast()
+    const dataCache = useDataCache()
 
     const handleActionClick = (entry: TrackerEntry, action: "update" | "view") => {
 
         switch (action) {
-            case "view":
-                entryAction.current = "view"
-                setIsViewEntryOpen(true)
+            case "view":                
+                setModalContent({
+                    content: <TrackerEntryModal 
+                    mode="view" 
+                    type={(theme === "positive") ? "income" : "expense"}
+                    entry={entry}
+                    onClose={() => setModalContent(null)}
+                    />
+                })
+
                 break
             case "update":
-                entryAction.current = "update"
-                setIsViewEntryOpen(true)
+                setModalContent({
+                    content: <TrackerEntryModal 
+                    mode="update" 
+                    type={(theme === "positive") ? "income" : "expense"}
+                    entry={entry}
+                    onClose={() => setModalContent(null)}
+                    />
+                })
+
                 break            
             default:
                 console.log("Unknown entry action.")
@@ -43,7 +60,52 @@ export default function TrackerAccordionEntry({ entry, theme, isExpanded, onEntr
 
     const handleDeleteEntry = (entry: TrackerEntry) => {
 
-        
+        setModalContent({
+            content: (
+                <div>
+                    <p>Are you sure you want to delete this entry?</p>
+                    <span>
+                        <button onClick={() => setModalContent(null)}>
+                            No
+                        </button>
+
+                        <button onClick={() => confirmEntryDeletion(entry)}>
+                            Yes
+                        </button>
+                    </span>
+                </div>
+            )
+        })
+    }
+
+    const confirmEntryDeletion = async (entry: TrackerEntry) => {
+
+        const res = await deleteEntry(
+            entry._id, 
+            (theme === "positive") ? "income" : "expense", 
+            dataCache
+        )
+
+        if (res === "success") {
+
+            setToastProps({
+                type: "success",
+                header: "Entry deleted successfully."
+            })
+            
+            setIsToastOpen(true)
+        } else {
+
+            setToastProps({
+                type: "error",
+                header: "Failed to delete entry.",
+                message: res
+            })
+
+            setIsToastOpen(true)
+        }
+
+        setModalContent(null)
     }
 
     return (
