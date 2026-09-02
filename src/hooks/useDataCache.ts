@@ -4,54 +4,34 @@ import { reportContext } from "../contexts/ReportContext";
 
 import type { User, Report } from "../types/UserTypes";
 
-export default class useDataCache {
+export type DataCache = {
+    user: User,
+    report: Report,
+    setUser: (user: User) => void,
+    setReport: (report: Report) => void
+}
 
-    private userCache
-    private reportCache
+const dataCache = {
+    user: useContext(userContext).user!,
+    report: useContext(reportContext).report!,
+    setUser: (user: User) => { 
+        const { setUser } = useContext(userContext)
+        setUser(prevState => { return {...prevState!, ...user} }) 
+    },
+    setReport: (report: Report) => { 
+        const { setReport } = useContext(reportContext)
+        setReport(prevState => { return {...prevState!, ...report} }) 
+    }
+}
 
-    constructor() {
+export function useDataCache() {
 
-        this.userCache = useContext(userContext)
-        this.reportCache = useContext(reportContext)
+    const userCache = useContext(userContext)
+    const reportCache = useContext(reportContext)    
+
+    if (!userCache || !reportCache) {
+        throw new Error("useDataCache must be used within a UserProvider and ReportProvider")
     }
 
-    get user() {
-
-        const { user } = this.userCache
-
-        return user!
-    }
-
-    set user(value: User) {
-
-        const { setUser } = this.userCache
-
-        setUser(prevState => {
-
-            return {
-                ...prevState!,
-                ...value
-            }
-        })
-    }
-
-    get report() {
-
-        const { report } = this.reportCache
-
-        return report!
-    }
-
-    set report(value: Report) {
-
-        const { setReport } = this.reportCache
-
-        setReport(prevState => {
-
-            return {
-                ...prevState!,
-                ...value
-            }
-        })
-    }
+    return dataCache
 }

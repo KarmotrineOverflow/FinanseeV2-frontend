@@ -7,17 +7,20 @@ import UserContext from './contexts/UserContext.tsx'
 import ReportContext from './contexts/ReportContext.tsx'
 import ToastContext from './contexts/ToastContext.tsx'
 import WindowContext from './contexts/WindowContext.tsx'
+import ModalProvider from './contexts/ModalContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <WindowContext>
         <ToastContext>
-          <UserContext>
-            <ReportContext>
-              <App />
-            </ReportContext>        
-          </UserContext>   
+          <ModalProvider>
+            <UserContext>
+              <ReportContext>
+                <App />
+              </ReportContext>        
+            </UserContext>   
+          </ModalProvider>          
         </ToastContext>  
       </WindowContext>             
     </BrowserRouter>

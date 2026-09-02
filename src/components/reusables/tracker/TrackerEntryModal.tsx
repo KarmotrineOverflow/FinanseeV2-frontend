@@ -10,7 +10,7 @@ import DropdownList from "../../forms/DropdownList"
 import InputField from "../../forms/InputField"
 import Modal from "../../composites/Modal"
 import InputTextArea from "../../forms/InputTextArea"
-import useDataCache from "../../../hooks/useDataCache"
+import { useDataCache } from "../../../hooks/useDataCache"
 
 import type { TrackerEntry } from "../../../types/UserTypes"
 
@@ -41,7 +41,7 @@ export default function TrackerEntryModal({ entry, mode, type, onClose } : Track
     const [capturedData, setCapturedData] = useState(initialData) 
     const [isAmountValid, setIsAmountValid] = useState(true)
 
-    const cache = new useDataCache()   
+    const cache = useDataCache()   
 
     const handleDropdownChange = (value: string) => {
 

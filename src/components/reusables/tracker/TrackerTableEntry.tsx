@@ -1,6 +1,7 @@
 import { useState, useRef, useContext } from "react"
 import { EllipsisVerticalIcon } from "lucide-react"
 import { toastContext } from "../../../contexts/ToastContext"
+import useDataCache from "../../../hooks/useDataCache"
 import { deleteEntry } from "../../../utils/tracker-utils"
 import TrackerEntryActions from "./TrackerEntryActions"
 import TrackerEntryModal from "./TrackerEntryModal"
@@ -17,11 +18,13 @@ export default function TrackerTableEntry({ index, entry, theme } : TrackerEntry
     
     const toast = useContext(toastContext)
     const [isActionsOpen, setIsActionsOpen] = useState(false)
-    const [isViewEntryOpen, setIsViewEntryOpen] = useState(false)    
-
-    const { setIsToastOpen, setToastProps } = toast
+    const [isViewEntryOpen, setIsViewEntryOpen] = useState(false)        
 
     const entryAction = useRef<"update" | "view">("view")
+
+    const dataCache = new useDataCache()
+
+    const { setIsToastOpen, setToastProps } = toast
 
     const handleActionClick = (action: string) => {
 
@@ -50,7 +53,7 @@ export default function TrackerTableEntry({ index, entry, theme } : TrackerEntry
 
         const type = (theme === "positive") ? "income" : "expense"
 
-        const res = await deleteEntry(entry._id, type)
+        const res = await deleteEntry(entry._id, type, dataCache)
                         
         const isSuccess = res === "success"
 
