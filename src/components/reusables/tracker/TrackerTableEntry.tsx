@@ -1,7 +1,7 @@
 import { useState, useRef, useContext } from "react"
 import { EllipsisVerticalIcon } from "lucide-react"
 import { toastContext } from "../../../contexts/ToastContext"
-import useDataCache from "../../../hooks/useDataCache"
+import { useDataCache } from "../../../hooks/useDataCache"
 import { deleteEntry } from "../../../utils/tracker-utils"
 import TrackerEntryActions from "./TrackerEntryActions"
 import TrackerEntryModal from "./TrackerEntryModal"
